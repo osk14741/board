@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
-    <title>Member</title>
+    <title>Login Page</title>
     <link rel="shortcut icon" type="image/x-icon" href="${hContext}/resources/img/favicon.ico" > 
     <!-- 부트스트랩 -->
     <link href="${hContext}/resources/css/bootstrap.min.css" rel="stylesheet">
@@ -28,7 +28,7 @@
 </head>
 <body>
 	<div class="container">
-		<p>Hello World</p>
+		<h1>Login Page</h1>
 	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

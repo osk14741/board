@@ -37,6 +37,8 @@ public class MediaTest {
 		
 		mediaDao.doSelectOne(mediaVO);
 		
+		mediaDao.doSelectList(mediaVO);
+		
 		mediaVO.setImg("asdasd");
 		mediaDao.doUpdate(mediaVO);
 		

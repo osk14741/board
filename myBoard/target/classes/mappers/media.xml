@@ -17,6 +17,18 @@
 		)
 	</insert>
 	
+	<select id="doSelectList" parameterType="MediaVO" resultType="MediaVO">
+		Select
+			seq,
+			member_id as memberId,
+			img,
+			div
+		From
+			media
+		Where
+			member_id = #{memberId}		
+	</select>
+	
 	<select id="doSelectOne" parameterType="MediaVO" resultType="MediaVO">
 		SELECT
 		    seq,
