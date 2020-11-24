@@ -10,6 +10,7 @@ import com.kkj.board.member.MemberVO;
 
 @Repository
 public class MediaDao {
+	
 	final static Logger LOG = LoggerFactory.getLogger(MediaDao.class);
 	private final String NAMESPACE = "com.kkj.board.media.";
 	
@@ -22,7 +23,7 @@ public class MediaDao {
         String statement = NAMESPACE + "doUpdate";
         
         LOG.debug("==statement==" + statement);
-        LOG.debug("==memberVO==" + mediaVO);
+        LOG.debug("==mediaVO==" + mediaVO);
         
         int flag = sqlSessionTemplate.update(statement, mediaVO);
         
@@ -38,7 +39,7 @@ public class MediaDao {
         String statement = NAMESPACE + "doDelete";
         
         LOG.debug("==statement==" + statement);
-        LOG.debug("==memberVO==" + mediaVO);
+        LOG.debug("==mediaVO==" + mediaVO);
         
         int flag = sqlSessionTemplate.delete(statement, mediaVO);
         
