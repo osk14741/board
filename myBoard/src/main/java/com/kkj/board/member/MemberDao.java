@@ -81,6 +81,27 @@ public class MemberDao {
 	}
 	
 	/**
+	 * doInsertChk
+	 * @param memberVO
+	 * @return flag = 1(성공) : 0(중복)
+	 */
+	public int doInsertChk(MemberVO memberVO) {
+		LOG.debug("==================================================");
+        LOG.debug("==doInsertChk==");
+        String statement = NAMESPACE + "doInsertChk";
+        
+        LOG.debug("==statement==" + statement);
+        LOG.debug("==memberVO==" + memberVO);
+        
+        int flag = sqlSessionTemplate.insert(statement, memberVO);
+        
+        LOG.debug("==flag==" + flag);
+        LOG.debug("==================================================");
+        
+        return flag;
+	}
+	
+	/**
 	 * doSelectOne(id 값으로 유저 찾기)
 	 * @param memberVO(id)
 	 * @return MemberVO

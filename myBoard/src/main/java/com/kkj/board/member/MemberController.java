@@ -16,15 +16,9 @@ public class MemberController {
 	
 	final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
-	@Autowired MemberDao memberDao;
+	@Autowired MemberService memberService;
 	
-	@RequestMapping(value = "member/login.do", method = RequestMethod.GET)
-	public String doLoginView() {
-		LOG.debug("===================");
-		LOG.debug("==member/login.do==");
-		LOG.debug("===================");
-		return "member/loginPage";
-	}
+	
 
 	@RequestMapping(value = "member/doLogin.do", method = RequestMethod.POST)
 	public String doLogin(@RequestParam("inputMemberId") String memberId,
@@ -41,7 +35,7 @@ public class MemberController {
 		memberVO.setPassword(memberPassword);
 		
 		try {
-			MemberVO daoVO = memberDao.doSelectOne(memberVO);
+			MemberVO daoVO = memberService.doSelectOne(memberVO);
 			if(!daoVO.getPassword().equals(memberVO.getPassword())) {
 				LOG.debug("==login fail==");
 				LOG.debug("==비밀번호가 틀림==");
@@ -58,5 +52,22 @@ public class MemberController {
 		return "member/login_success";
 	}
 	
+	@RequestMapping(value = "member/registerView.do", method = RequestMethod.GET)
+	public String doRegisterView() {
+		LOG.debug("==========================");
+		LOG.debug("==member/registerView.do==");
+		LOG.debug("==========================");
+		
+		return "member/register";
+	}
+	
+	@RequestMapping(value = "member/loginView.do", method = RequestMethod.GET)
+	public String doLoginView() {
+		LOG.debug("=======================");
+		LOG.debug("==member/loginView.do==");
+		LOG.debug("=======================");
+		
+		return "member/loginPage";
+	}
 	
 }

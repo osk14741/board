@@ -42,7 +42,7 @@
 					<input type="text" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호">
 				</div>
 				<input class="btn btn-primary btn-lg btn-block" type="submit" value="로그인" id="doLoginBtn">
-				<input class="btn btn-default btn-lg btn-block" type="button" value="회원가입" id="doRegisterBtn">
+				<input class="btn btn-default btn-lg btn-block" type="button" value="회원가입" id="doRegisterBtn" onclick="moveToRegister()">
 			</form>
 		</div>	<!-- end contents -->
 		
@@ -53,7 +53,10 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
-		
+
+	function moveToRegister(){
+		window.location.href = "${hContext}/member/registerView.do";
+	}
 		
 
 	</script>

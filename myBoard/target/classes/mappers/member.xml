@@ -82,4 +82,30 @@
     		id = #{id}    
     </select>
     
+    <insert id="doInsertChk" parameterType="MemberVO">
+    INSERT INTO MEMBER
+	SELECT
+	  #{id},
+	  #{password},
+	  #{name},
+	  #{gender},
+	  #{email},
+	  #{authority},
+	  #{loginCount},
+	  #{recommendCount},
+	  #{grade},
+	  SYSDATE,
+	  SYSDATE
+	FROM DUAL
+	WHERE NOT EXISTS
+	(
+	  SELECT
+	  ID
+	  FROM
+	  MEMBER
+	  WHERE
+	  id = #{id}
+	)
+    </insert>
+    
 </mapper>

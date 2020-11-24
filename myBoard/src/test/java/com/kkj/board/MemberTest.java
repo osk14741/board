@@ -58,7 +58,7 @@ public class MemberTest {
 		memberVO.setRecommendCount(2);
 		memberVO.setPassword("1234");
 		memberDao.doInsert(memberVO);
-		
+		memberDao.doInsertChk(memberVO);
 		memberVO.setPassword("4321");
 		
 		memberDao.doUpdate(memberVO);
