@@ -1,6 +1,7 @@
 package com.kkj.board.member;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MemberController {
@@ -18,7 +20,24 @@ public class MemberController {
 	
 	@Autowired MemberService memberService;
 	
-	
+	@RequestMapping(value = "member/doRegister.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void doRegister(MemberVO memberVO, HttpServletResponse res) {
+		LOG.debug("========================");
+		LOG.debug("==member/doRegister.do==");
+		LOG.debug("========================");
+		
+		memberVO.setGrade("Bronze");
+		
+		LOG.debug("==memberVO==" + memberVO);
+		int flag = memberService.doInsertChk(memberVO);
+		
+		if(flag == 1) {
+			
+		} else {
+			res.setStatus(404);
+		}
+	}
 
 	@RequestMapping(value = "member/doLogin.do", method = RequestMethod.POST)
 	public String doLogin(@RequestParam("inputMemberId") String memberId,
