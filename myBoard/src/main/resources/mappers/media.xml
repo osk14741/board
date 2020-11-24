@@ -17,6 +17,33 @@
 		)
 	</insert>
 	
+	<select id="doSelectOne" parameterType="MediaVO" resultType="MediaVO">
+		SELECT
+		    seq,
+		    member_id as memberId,
+		    img,
+		    div
+		FROM
+   			media
+   		Where
+   			member_id = #{memberId} And
+   			div = #{div}
+	</select>
 	
+	<update id="doUpdate" parameterType="MediaVO">
+	UPDATE media
+	SET
+		img = #{img}
+	WHERE
+        member_id = #{memberId} And
+        div = #{div}
+	</update>
+	
+	<delete id="doDelete" parameterType="MediaVO">
+		DELETE FROM media
+		WHERE
+        	member_id = #{memberId} And
+        	div = #{div}
+	</delete>
 
 </mapper>

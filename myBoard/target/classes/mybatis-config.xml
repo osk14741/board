@@ -11,5 +11,9 @@
 		<!-- type별칭 VO이름을 간략히 사용 -->
 		<typeAlias type="com.kkj.board.member.MemberVO" alias="MemberVO" />
 		<typeAlias type="com.kkj.board.media.MediaVO" alias="MediaVO"/>
+		<typeAlias type="com.kkj.board.comment.CommentVO" alias="CommentVO"/>
+		<typeAlias type="com.kkj.board.board.BoardVO" alias="BoardVO"/>
+		<typeAlias type="com.kkj.board.file.FileVO" alias="FileVO"/>
+		<typeAlias type="com.kkj.board.workspace.WorkspaceVO" alias="workspaceVO"/>
 	</typeAliases>
 </configuration>

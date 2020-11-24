@@ -16,6 +16,38 @@ public class MediaDao {
 	@Autowired MediaVO mediaVO;
 	@Autowired SqlSessionTemplate sqlSessionTemplate;
 	
+	public int doUpdate(MediaVO mediaVO) {
+		LOG.debug("==================================================");
+        LOG.debug("==doUpdate==");
+        String statement = NAMESPACE + "doUpdate";
+        
+        LOG.debug("==statement==" + statement);
+        LOG.debug("==memberVO==" + mediaVO);
+        
+        int flag = sqlSessionTemplate.update(statement, mediaVO);
+        
+        LOG.debug("==flag==" + flag);
+        LOG.debug("==================================================");
+        
+        return flag;
+	}
+	
+	public int doDelete(MediaVO mediaVO) {
+		LOG.debug("==================================================");
+        LOG.debug("==doDelete==");
+        String statement = NAMESPACE + "doDelete";
+        
+        LOG.debug("==statement==" + statement);
+        LOG.debug("==memberVO==" + mediaVO);
+        
+        int flag = sqlSessionTemplate.delete(statement, mediaVO);
+        
+        LOG.debug("==flag==" + flag);
+        LOG.debug("==================================================");
+        
+        return flag;
+	}
+	
 	public int doInsert(MediaVO mediaVO) {
 		LOG.debug("==================================================");
         LOG.debug("==doInsert==");
@@ -30,5 +62,20 @@ public class MediaDao {
         LOG.debug("==================================================");
         
         return flag;
+	}
+	
+	public MediaVO doSelectOne(MediaVO mediaVO) {
+		LOG.debug("==================================================");
+        LOG.debug("==doSelectOne==");
+        String statement = NAMESPACE + "doSelectOne";
+
+        LOG.debug("==statement==" + statement);
+        LOG.debug("==mediaVO==" + mediaVO);
+
+        MediaVO outVO = sqlSessionTemplate.selectOne(statement, mediaVO);
+        LOG.debug("==outVO==" + outVO);
+        LOG.debug("==================================================");
+
+        return outVO;
 	}
 }

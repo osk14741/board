@@ -34,6 +34,15 @@ public class MediaTest {
 		mediaVO.setMemberId("1234");
 		
 		mediaDao.doInsert(mediaVO);
+		
+		mediaDao.doSelectOne(mediaVO);
+		
+		mediaVO.setImg("asdasd");
+		mediaDao.doUpdate(mediaVO);
+		
+		mediaDao.doSelectOne(mediaVO);
+		
+		mediaDao.doDelete(mediaVO);
 	}
 
 }

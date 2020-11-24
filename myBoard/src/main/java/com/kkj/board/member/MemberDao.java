@@ -36,7 +36,6 @@ public class MemberDao {
         LOG.debug("==================================================");
         
         return flag;
-        
 	}
 	
 	/**
