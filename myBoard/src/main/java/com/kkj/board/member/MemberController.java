@@ -1,11 +1,15 @@
 package com.kkj.board.member;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MemberController {
@@ -15,11 +19,43 @@ public class MemberController {
 	@Autowired MemberDao memberDao;
 	
 	@RequestMapping(value = "member/login.do", method = RequestMethod.GET)
-	public String doLogin() {
-		LOG.debug("==================================================");
-		LOG.debug("==doLogin==");
-		
+	public String doLoginView() {
+		LOG.debug("===================");
+		LOG.debug("==member/login.do==");
+		LOG.debug("===================");
 		return "member/loginPage";
+	}
+
+	@RequestMapping(value = "member/doLogin.do", method = RequestMethod.POST)
+	public String doLogin(@RequestParam("inputMemberId") String memberId,
+						  @RequestParam("inputPassword") String memberPassword,
+						  HttpServletRequest req) {
+		LOG.debug("=====================");
+		LOG.debug("==member/doLogin.do==");
+		LOG.debug("=====================");
+		
+		HttpSession httpSession = req.getSession();
+		
+		MemberVO memberVO = new MemberVO();
+		memberVO.setId(memberId);
+		memberVO.setPassword(memberPassword);
+		
+		try {
+			MemberVO daoVO = memberDao.doSelectOne(memberVO);
+			if(!daoVO.getPassword().equals(memberVO.getPassword())) {
+				LOG.debug("==login fail==");
+				LOG.debug("==비밀번호가 틀림==");
+				return "member/login_fail";
+			}
+			httpSession.setAttribute("sessionId", daoVO);
+		} catch (NullPointerException e) {
+			LOG.debug("==login fail==");
+			LOG.debug("==존재하지 않는 아이디==");
+			return "member/login_fail";
+		}
+		
+		LOG.debug("==login success==");
+		return "member/login_success";
 	}
 	
 	

@@ -29,11 +29,32 @@
 <body>
 	<div class="container">
 		<h1>Login Page</h1>
-	</div>
+		<hr>
+		
+		<div style="width: 40%" class="contents">
+			<form method="post" action="doLogin.do" class="" name="loginForm" id="loginForm">
+				<div class="form-group">
+					<label for="inputMemberId">아이디</label>
+					<input type="text" class="form-control" name="inputMemberId" id="inputMemberId" placeholder="아이디">
+				</div>
+				<div class="form-group">
+					<label for="inputPassword">비밀번호</label>
+					<input type="text" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호">
+				</div>
+				<input class="btn btn-primary btn-lg btn-block" type="submit" value="로그인" id="doLoginBtn">
+				<input class="btn btn-default btn-lg btn-block" type="button" value="회원가입" id="doRegisterBtn">
+			</form>
+		</div>	<!-- end contents -->
+		
+	</div>	<!-- end container -->
 	
+
+
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
-
+		
+		
 
 	</script>
 	
