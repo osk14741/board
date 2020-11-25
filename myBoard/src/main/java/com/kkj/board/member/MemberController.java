@@ -1,5 +1,7 @@
 package com.kkj.board.member;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,7 +24,7 @@ public class MemberController {
 	
 	@RequestMapping(value = "member/doRegister.do", method = RequestMethod.POST)
 	@ResponseBody
-	public void doRegister(MemberVO memberVO, HttpServletResponse res) {
+	public void doRegister(MemberVO memberVO, HttpServletResponse res) throws SQLIntegrityConstraintViolationException {
 		LOG.debug("========================");
 		LOG.debug("==member/doRegister.do==");
 		LOG.debug("========================");
@@ -31,10 +33,10 @@ public class MemberController {
 		
 		LOG.debug("==memberVO==" + memberVO);
 		int flag = memberService.doInsertChk(memberVO);
-		
 		if(flag == 1) {
-			
+			LOG.debug("==회원가입 성공==");
 		} else {
+			LOG.debug("==회원가입 실패==");
 			res.setStatus(404);
 		}
 	}
@@ -55,12 +57,15 @@ public class MemberController {
 		
 		try {
 			MemberVO daoVO = memberService.doSelectOne(memberVO);
+			
 			if(!daoVO.getPassword().equals(memberVO.getPassword())) {
 				LOG.debug("==login fail==");
 				LOG.debug("==비밀번호가 틀림==");
 				return "member/login_fail";
 			}
+			
 			httpSession.setAttribute("sessionId", daoVO);
+			
 		} catch (NullPointerException e) {
 			LOG.debug("==login fail==");
 			LOG.debug("==존재하지 않는 아이디==");

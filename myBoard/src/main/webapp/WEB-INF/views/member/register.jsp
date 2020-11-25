@@ -63,6 +63,18 @@
 						<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2"> 여성
 					</label>
 				</div>
+				<div class="form-group">
+					<label for="inputPassword">등급</label>
+					<label class="radio-inline">
+						<input type="radio" name="inlineAuthorityOptions" id="inlineRadio1" value="0"> 일반
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="inlineAuthorityOptions" id="inlineRadio1" value="1"> 중간관리자
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="inlineAuthorityOptions" id="inlineRadio2" value="2"> 관리자
+					</label>
+				</div>
 				
 				<input class="btn btn-primary btn-lg btn-block" type="button" value="회원가입" id="doRegisterBtn">
 				<input class="btn btn-default btn-lg btn-block" type="button" value="뒤로가기" id="doBackBtn">
@@ -95,10 +107,12 @@
 					"password":$("#inputPassword").val(),
 					"email":$("#inputEmail").val(),
 					"gender":$("input[name='inlineRadioOptions']:checked").val(),
-					"name":$("#inputName").val()
+					"name":$("#inputName").val(),
+					"authority":$("input[name='inlineAuthorityOptions']:checked").val()
 		            },
 		        success:function(data){
-			        		alert("가입 성공입니다!");
+			        		alert("가입 성공!");
+			        		window.location.href = "${hContext}/member/loginView.do";
 			        },
 			    error:function(data){
 							alert("존재하는 아이디입니다!");
