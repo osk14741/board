@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kkj.board.board">
+	<insert id="doInsert" parameterType="BoardVO">
+		INSERT INTO board (
+		    seq,
+		    header,
+		    title,
+		    content,
+		    read_count,
+		    recommend,
+		    div,
+		    reg_id,
+		    reg_dt,
+		    mod_dt,
+		    is_modded,
+		    workspace_seq
+		) VALUES (
+		    board_seq.nextVal,
+		    #{header},
+		    #{title},
+		    #{content},
+		    0,
+		    0,
+		    #{div},
+		    #{regId},
+		    SYSDATE,
+		    SYSDATE,
+		    0,
+		    #{workspaceSeq}
+		)
+	</insert>
+
+	<select id="doSelectOne" parameterType="BoardVO" resultType="BoardVO">
+		SELECT
+		    seq,
+		    header,
+		    title,
+		    content,
+		    read_count as readCount,
+		    recommend,
+		    div,
+		    reg_id as regId,
+		    reg_dt as regDt,
+		    mod_dt as modDt,
+		    is_modded as isModded,
+		    workspace_seq as workspaceSeq
+		FROM
+		    board
+		Where
+			seq = #{seq}
+	</select>
+	
+	<select id="doSelectList" parameterType="BoardVO" resultType="BoardVO">
+		SELECT
+		    seq,
+		    header,
+		    title,
+		    content,
+		    read_count as readCount,
+		    recommend,
+		    div,
+		    reg_id as regId,
+		    reg_dt as regDt,
+		    mod_dt as modDt,
+		    is_modded as isModded
+		FROM
+		    board
+		Where
+			workspace_seq = #{workspaceSeq}
+	</select>
+
+	<update id="doUpdate" parameterType="BoardVO">
+		UPDATE board
+		SET
+			header = #{header},
+			title = #{title},
+			content = #{content},
+			read_count = #{readCount},
+			recommend = #{recommend},
+			mod_dt = SYSDATE,
+			is_modded = 1
+		WHERE
+			seq = #{seq}
+	</update>
+
+	<delete id="doDelete" parameterType="BoardVO">
+		DELETE FROM board
+		WHERE
+			seq = #{seq} And
+			reg_id = #{regId}
+	</delete>
+
+
+
+
+
+</mapper>
