@@ -22,6 +22,16 @@ public class MemberController {
 	
 	@Autowired MemberService memberService;
 	
+	// 프로필 페이지 이동
+	@RequestMapping(value = "member/moveToProfile.do", method = RequestMethod.GET)
+	public String moveToProfile() {
+		LOG.debug("===========================");
+		LOG.debug("==member/moveToProfile.do==");
+		LOG.debug("===========================");
+		
+		return "member/memberModify";
+	}
+	
 	// 회원가입
 	@RequestMapping(value = "member/doRegister.do", method = RequestMethod.POST)
 	@ResponseBody
