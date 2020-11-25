@@ -10,6 +10,7 @@ public class BoardService {
 
 	@Autowired BoardDao boardDao;
 	
+	
 	public BoardVO doSelectOne(BoardVO boardVO) {
 		return boardDao.doSelectOne(boardVO);
 	}

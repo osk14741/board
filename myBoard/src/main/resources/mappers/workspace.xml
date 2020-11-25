@@ -83,7 +83,16 @@
 	  name = #{name}
 	)
     </insert>
-
+	
+	<select id="doSelectOneByName" parameterType="WorkspaceVO" resultType="WorkspaceVO">
+		Select
+			seq
+		From
+			workspace
+		Where
+			name = #{name}
+	</select>
+	
 	<select id="doSelectListTopic" resultType="WorkspaceVO">
 		Select
 			topic

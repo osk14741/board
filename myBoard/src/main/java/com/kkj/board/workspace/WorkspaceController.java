@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.kkj.board.board.BoardService;
 import com.kkj.board.member.MemberVO;
 
 @Controller
@@ -25,6 +27,28 @@ public class WorkspaceController {
 	final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired WorkspaceService workspaceService;
+	@Autowired BoardService boardService;
+	
+	// 게시판 페이지로 이동
+	@RequestMapping(value = "workspace/moveToBoardPage.do", method = RequestMethod.POST)
+	public ModelAndView moveToBoardPage(@RequestParam("whereToGo") String workspaceName) {
+		LOG.debug("================================");
+		LOG.debug("==workspace/moveToBoardPage.do==");
+		LOG.debug("================================");
+		
+		LOG.debug("==workspaceName==" + workspaceName);
+		WorkspaceVO workspaceVO = new WorkspaceVO();
+		workspaceVO.setName(workspaceName);
+		
+		workspaceVO = workspaceService.doSelectOneByName(workspaceVO);
+		LOG.debug("==workspaceVO==" + workspaceVO);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("board/board");
+		mav.addObject("workspaceSeq", workspaceVO.getSeq());
+		
+		return mav;
+	}
 	
 	// 채널 등록
 	@RequestMapping(value = "workspace/doRegister.do", method = RequestMethod.POST)

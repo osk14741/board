@@ -39,6 +39,7 @@ public class BoardDao {
         return outVO;
 	}
 
+	
 	public List<BoardVO> doSelectList(BoardVO boardVO) {
 		LOG.debug("==================================================");
         LOG.debug("==doSelectList==");

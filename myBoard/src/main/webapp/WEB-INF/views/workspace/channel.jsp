@@ -25,6 +25,15 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+    	dd:hover {
+    		text-decoration: underline;
+    	}
+    	
+    	dl{
+    		width:20%;
+    	}
+    </style>
 </head>
 <body>
 	<div class="container">
@@ -32,7 +41,9 @@
 		<hr>
 		<div class="form-group" id="channelList">
 		</div>
-		
+		<form method="post" name="moveToBoardPage" id="moveToBoardPage" action="/board/workspace/moveToBoardPage.do">
+			<input type="hidden" id="whereToGo" name="whereToGo">
+		</form>
 		<form action="/board/workspace/moveToRegisterPage.do">
 		
 			<input class="btn btn-primary" type="submit" value="채널 등록">
@@ -48,7 +59,7 @@
 	window.onload = function(){
 		onloadFunction();
 	}
-
+	
 	function onloadFunction(){
 		$.ajax({
 			type:'POST',
@@ -88,6 +99,14 @@
 			});
 	} 
 	// 채널 리스트 불러오기
+	
+	// 채널 클릭 시 게시판으로 이동
+	$("#channelList").on("click","dd",function(event){
+	    console.log($(event.target).text());
+	    document.getElementById('whereToGo').value = $(event.target).text();
+	    document.moveToBoardPage.submit();
+	})
+	// 채널 클릭 시 게시판으로 이동
 	
 	// 채널 등록 페이지로 이동
 	function moveToRegister(){
