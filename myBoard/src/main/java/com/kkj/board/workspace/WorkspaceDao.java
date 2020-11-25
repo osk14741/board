@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kkj.board.member.MemberDao;
-import com.kkj.board.member.MemberVO;
 
 @Repository
 public class WorkspaceDao {

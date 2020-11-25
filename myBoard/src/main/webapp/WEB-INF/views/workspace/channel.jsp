@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
-    <title>Login Page</title>
+    <title>Channel View</title>
     <link rel="shortcut icon" type="image/x-icon" href="${hContext}/resources/img/favicon.ico" > 
     <!-- 부트스트랩 -->
     <link href="${hContext}/resources/css/bootstrap.min.css" rel="stylesheet">
@@ -27,24 +27,11 @@
     <![endif]-->
 </head>
 <body>
-	<div class="container">
-		<h1>Login Page</h1>
+	<div class="container row">
+		<h1>Channel View</h1>
 		<hr>
-		
-		<div style="width: 40%" class="contents">
-			<form method="post" action="doLogin.do" class="" name="loginForm" id="loginForm">
-				<div class="form-group">
-					<label for="inputMemberId">아이디</label>
-					<input type="text" class="form-control" name="inputMemberId" id="inputMemberId" placeholder="아이디">
-				</div>
-				<div class="form-group">
-					<label for="inputPassword">비밀번호</label>
-					<input type="text" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호">
-				</div>
-				<input class="btn btn-primary btn-lg btn-block" type="submit" value="로그인" id="doLoginBtn">
-				<input class="btn btn-default btn-lg btn-block" type="button" value="회원가입" id="doRegisterBtn" onclick="moveToRegister()">
-			</form>
-		</div>	<!-- end contents -->
+		<div id="channelList">
+		</div>
 		
 	</div>	<!-- end container -->
 	
@@ -54,7 +41,47 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
-	
+	window.onload = function(){
+		onloadFunction();
+	}
+
+	function onloadFunction(){
+		$.ajax({
+			type:'POST',
+			url:'${hContext}/workspace/doListing.do',
+			dataType:"html",
+            async: true,
+            data:{
+				
+	            },
+	        success:function(data){
+		       		console.log("success!");
+		        	var parseData = JSON.parse(data);
+					$("#channelList").empty();
+					var html = "";
+					$.each(parseData, function(i, value) {
+						try{
+								if(parseData[i-1].topic == value.topic){
+									html += "<dd>"+value.name+"</dd>";
+								} else {
+									html += "</dl>";
+									html += "<dt>"+value.topic+"</dt>";
+									html += "<dd>"+value.name+"</dd>";
+								}
+							} catch (e) {
+								html += "<dl>";
+								html += "<dt>"+value.topic+"</dt>";
+								html += "<dd>"+value.name+"</dd>";
+							}
+					  });
+					html += "</dl>"
+					$("#channelList").after(html);
+		        },
+		    error:function(data){
+					alert("실패");
+			    }  
+			});
+	} 
 	
 	function moveToRegister(){
 		window.location.href = "${hContext}/member/registerView.do";

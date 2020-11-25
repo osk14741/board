@@ -73,7 +73,7 @@ public class MemberController {
 		}
 		
 		LOG.debug("==login success==");
-		return "member/login_success";
+		return "workspace/channel";
 	}
 	
 	@RequestMapping(value = "member/registerView.do", method = RequestMethod.GET)
