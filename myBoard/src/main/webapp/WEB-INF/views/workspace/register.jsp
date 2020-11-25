@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
-    <title>member register Page</title>
+    <title>channel register Page</title>
     <link rel="shortcut icon" type="image/x-icon" href="${hContext}/resources/img/favicon.ico" > 
     <!-- 부트스트랩 -->
     <link href="${hContext}/resources/css/bootstrap.min.css" rel="stylesheet">
@@ -30,53 +30,22 @@
 	
 	
 	<div class="container">
-		<h1>member register page</h1>
+		<h1>channel register page</h1>
 		<hr>
-		<div style="width: 40%" class="contents">
+		<div style="width: 60%" class="contents">
 			<form method="post" action="doLogin.do" class="" name="loginForm" id="loginForm">
 				<div class="form-group">
-					<label for="inputMemberId">아이디</label>
-					<input type="text" class="form-control" name="inputMemberId" id="inputMemberId" placeholder="아이디">
+					<label for="inputMemberId">채널 이름</label>
+					<input type="text" class="form-control" name="inputWorkspaceName" id="inputWorkspaceName" placeholder="채널 이름">
 				</div>
-				<div class="form-group">
-					<label for="inputPassword">비밀번호</label>
-					<input type="text" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호">
-				</div>
-				<div class="form-group">
-					<label for="inputPassword">비밀번호 확인</label>
-					<input type="text" class="form-control" name="inputPassword2" id="inputPassword2" placeholder="비밀번호">
-				</div>
-				<div class="form-group">
-					<label for="inputPassword">이름</label>
-					<input type="text" class="form-control" name="inputName" id="inputName" placeholder="이름">
-				</div>
-				<div class="form-group">
-					<label for="inputPassword">이메일</label>
-					<input type="text" class="form-control" name="inputEmail" id="inputEmail" placeholder="이메일">
-				</div>
-				<div class="form-group">
-					<label for="inputPassword">성별</label>
+				<label for="inputPassword">채널 주제</label>
+				<div class="form-group" id="topicList">
 					<label class="radio-inline">
 						<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1"> 남성
 					</label>
-					<label class="radio-inline">
-						<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2"> 여성
-					</label>
-				</div>
-				<div class="form-group">
-					<label for="inputPassword">등급</label>
-					<label class="radio-inline">
-						<input type="radio" name="inlineAuthorityOptions" id="inlineRadio1" value="0"> 일반
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="inlineAuthorityOptions" id="inlineRadio1" value="1"> 중간관리자
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="inlineAuthorityOptions" id="inlineRadio2" value="2"> 관리자
-					</label>
 				</div>
 				
-				<input class="btn btn-primary btn-lg btn-block" type="button" value="회원가입" id="doRegisterBtn">
+				<input class="btn btn-primary btn-lg btn-block" type="button" value="등록" id="doRegisterBtn">
 				<input class="btn btn-default btn-lg btn-block" type="button" value="뒤로가기" id="doBackBtn">
 			</form>
 		</div>	<!-- end contents -->
@@ -88,44 +57,71 @@
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
-		// 뒤로가기 버튼
+		window.onload = function(){
+			onloadFunction();
+		}
+
+		// 뒤로가기
 		$("#doBackBtn").on("click",function(){
-			window.location.href = "${hContext}/member/loginView.do";
+			window.location.href = "${hContext}/workspace/moveToChannel.do";
 		});
-		// 뒤로가기 버튼
+		// 뒤로가기
 		
-		// 회원가입 버튼
 		$("#doRegisterBtn").on("click", function(){
 			doRegister();
 		});
-		// 회원가입 버튼
-		
-		// 회원가입
-		function doRegister(){
+
+		// 채널 주제 불러오기
+		function onloadFunction(){
 			$.ajax({
 				type:'POST',
-				url:'${hContext}/member/doRegister.do',
+				url:'${hContext}/workspace/doListingTopic.do',
 				dataType:"html",
 	            async: true,
 	            data:{
-					"id":$("#inputMemberId").val(),
-					"password":$("#inputPassword").val(),
-					"email":$("#inputEmail").val(),
-					"gender":$("input[name='inlineRadioOptions']:checked").val(),
-					"name":$("#inputName").val(),
-					"authority":$("input[name='inlineAuthorityOptions']:checked").val()
 		            },
 		        success:function(data){
-			        		alert("가입 성공!");
-			        		window.location.href = "${hContext}/member/loginView.do";
+			       		console.log("success!");
+			        	var parseData = JSON.parse(data);
+						$("#topicList").empty();
+						var html = "";
+						$.each(parseData, function(i, value) {
+							html += "<label class='radio-inline'>";
+							html += "<input type='radio' name='inlineRadioOptions' value='"+value.topic+"'>"+value.topic;
+							html += "</label>"
+						  });
+						$("#topicList").append(html);
 			        },
 			    error:function(data){
-							alert("존재하는 아이디입니다!");
+						alert("실패");
+				    }  
+				});
+
+			}
+		// 채널 주제 불러오기
+		
+		// 채널 등록
+		function doRegister(){
+			$.ajax({
+				type:'POST',
+				url:'${hContext}/workspace/doRegister.do',
+				dataType:"html",
+	            async: true,
+	            data:{
+					"name":$("#inputWorkspaceName").val(),
+					"topic":$("input[name='inlineRadioOptions']:checked").val()
+		            },
+		        success:function(data){
+			        		alert("등록 성공!");
+			        		window.location.href = "${hContext}/workspace/moveToChannel.do";
+			        },
+			    error:function(data){
+							alert("존재하는 채널명입니다.");
 				    }  
 				});
 
 		}
-		// 회원가입
+		// 채널 등록
 	
 	</script>
 	

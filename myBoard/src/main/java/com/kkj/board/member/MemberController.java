@@ -22,6 +22,7 @@ public class MemberController {
 	
 	@Autowired MemberService memberService;
 	
+	// 회원가입
 	@RequestMapping(value = "member/doRegister.do", method = RequestMethod.POST)
 	@ResponseBody
 	public void doRegister(MemberVO memberVO, HttpServletResponse res) throws SQLIntegrityConstraintViolationException {
@@ -41,6 +42,7 @@ public class MemberController {
 		}
 	}
 
+	// 로그인
 	@RequestMapping(value = "member/doLogin.do", method = RequestMethod.POST)
 	public String doLogin(@RequestParam("inputMemberId") String memberId,
 						  @RequestParam("inputPassword") String memberPassword,
@@ -76,6 +78,7 @@ public class MemberController {
 		return "workspace/channel";
 	}
 	
+	// 회원가입 페이지로 이동
 	@RequestMapping(value = "member/registerView.do", method = RequestMethod.GET)
 	public String doRegisterView() {
 		LOG.debug("==========================");
@@ -85,6 +88,7 @@ public class MemberController {
 		return "member/register";
 	}
 	
+	// 로그인 페이지로 이동
 	@RequestMapping(value = "member/loginView.do", method = RequestMethod.GET)
 	public String doLoginView() {
 		LOG.debug("=======================");

@@ -45,6 +45,7 @@
 		    reg_dt as regDt
 		FROM
  	 	    workspace
+ 	 	Order By topic
 	</select>
 	
 	<update id="doUpdate" parameterType="WorkspaceVO">
@@ -62,8 +63,35 @@
        		seq = #{seq}
 	</delete>
 
+	<insert id="doInsertChk" parameterType="WorkspaceVO">
+    INSERT INTO workspace
+	SELECT
+	  WORKSPACE_SEQ.nextVal,
+      #{name},
+      #{topic},
+      #{div},
+      #{regId},
+      SYSDATE
+	FROM DUAL
+	WHERE NOT EXISTS
+	(
+	  SELECT
+	  name
+	  FROM
+	  workspace
+	  WHERE
+	  name = #{name}
+	)
+    </insert>
 
-
+	<select id="doSelectListTopic" resultType="WorkspaceVO">
+		Select
+			topic
+		From
+			workspace
+		Group By 
+			topic
+	</select>
 
 
 </mapper>

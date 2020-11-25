@@ -35,7 +35,9 @@ public class WorkspaceTest {
 		workspaceVO.setTopic("yo");
 		
 		workspaceDao.doInsert(workspaceVO);
+		workspaceDao.doInsertChk(workspaceVO);
 		
+		workspaceDao.doSelectListTopic();
 		
 		List<WorkspaceVO> outList = workspaceDao.doSelectList();
 		workspaceVO = outList.get(0);

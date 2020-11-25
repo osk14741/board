@@ -55,11 +55,11 @@
 	<script type="text/javascript">
 
 	
-	
+	// 회원 가입 페이지로 이동
 	function moveToRegister(){
 		window.location.href = "${hContext}/member/registerView.do";
 	}
-		
+	// 회원 가입 페이지로 이동	
 
 	</script>
 	

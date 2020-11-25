@@ -19,6 +19,41 @@ public class WorkspaceDao {
 	@Autowired WorkspaceVO workspaceVO;
 	@Autowired SqlSessionTemplate sqlSessionTemplate;
 	
+	public List<WorkspaceVO> doSelectListTopic(){
+		LOG.debug("==================================================");
+        LOG.debug("==doSelectListTopic==");
+        String statement = NAMESPACE + "doSelectListTopic";
+
+		LOG.debug("==statement==" + statement);
+
+		List<WorkspaceVO> outList = sqlSessionTemplate.selectList(statement);
+		for (WorkspaceVO vo : outList) {
+			LOG.debug("==outVO==" + vo);
+        }
+        
+        LOG.debug("==================================================");
+        
+        return outList;
+	}
+	
+	public int doInsertChk(WorkspaceVO workspaceVO) {
+		LOG.debug("==================================================");
+        LOG.debug("==doInsertChk==");
+
+		String statement = NAMESPACE + "doInsertChk";
+
+		LOG.debug("==statement==" + statement);
+		LOG.debug("==workspaceVO==" + workspaceVO);
+
+		int flag = sqlSessionTemplate.insert(statement, workspaceVO);
+
+		LOG.debug("==flag==" + flag);
+		LOG.debug("==================================================");
+
+		return flag;
+        
+	}
+	
 	public int doInsert(WorkspaceVO workspaceVO) {
 		LOG.debug("==================================================");
         LOG.debug("==doInsert==");

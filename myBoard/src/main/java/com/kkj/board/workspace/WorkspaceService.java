@@ -10,6 +10,14 @@ public class WorkspaceService {
 
 	@Autowired WorkspaceDao workspaceDao;
 
+	public List<WorkspaceVO> doSelectListTopic(){
+		return workspaceDao.doSelectListTopic();
+	}
+	
+	public int doInsertChk(WorkspaceVO workspaceVO) {
+		return workspaceDao.doInsertChk(workspaceVO);
+	}
+	
 	public int doInsert(WorkspaceVO workspaceVO) {
 		return workspaceDao.doInsert(workspaceVO);
 	}

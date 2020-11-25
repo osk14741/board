@@ -27,12 +27,16 @@
     <![endif]-->
 </head>
 <body>
-	<div class="container row">
+	<div class="container">
 		<h1>Channel View</h1>
 		<hr>
-		<div id="channelList">
+		<div class="form-group" id="channelList">
 		</div>
 		
+		<form action="/board/workspace/moveToRegisterPage.do">
+		
+			<input class="btn btn-primary" type="submit" value="채널 등록">
+		</form>
 	</div>	<!-- end container -->
 	
 
@@ -40,7 +44,7 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
-
+	// 채널 리스트 불러오기
 	window.onload = function(){
 		onloadFunction();
 	}
@@ -65,6 +69,7 @@
 									html += "<dd>"+value.name+"</dd>";
 								} else {
 									html += "</dl>";
+									html += "<dl>";
 									html += "<dt>"+value.topic+"</dt>";
 									html += "<dd>"+value.name+"</dd>";
 								}
@@ -74,19 +79,21 @@
 								html += "<dd>"+value.name+"</dd>";
 							}
 					  });
-					html += "</dl>"
-					$("#channelList").after(html);
+					html += "</dl>";
+					$("#channelList").append(html);
 		        },
 		    error:function(data){
 					alert("실패");
 			    }  
 			});
 	} 
+	// 채널 리스트 불러오기
 	
+	// 채널 등록 페이지로 이동
 	function moveToRegister(){
 		window.location.href = "${hContext}/member/registerView.do";
 	}
-		
+	// 채널 등록 페이지로 이동	
 
 	</script>
 	
