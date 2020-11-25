@@ -27,7 +27,7 @@
     <![endif]-->
 </head>
 <body>
-	
+	<%@ include file="/WEB-INF/views/main/nav.jsp" %>
 	
 	<div class="container">
 		<h1>channel register page</h1>
