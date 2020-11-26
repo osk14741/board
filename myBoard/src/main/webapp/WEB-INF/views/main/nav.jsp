@@ -13,9 +13,9 @@
 		</form>
 
 		<ul class="nav navbar-nav navbar-right">
-		<!-- 
+		
 			<li><a href="/board/member/moveToProfile.do">${sessionScope.sessionId.id }님</a></li>
-		 -->
+		 
 		 	<li><a href="/board/member/moveToProfile.do">Profile</a></li>
 			<li><a href="/board/member/logout.do">Logout</a></li>
 			

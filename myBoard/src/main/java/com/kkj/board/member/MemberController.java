@@ -1,6 +1,8 @@
 package com.kkj.board.member;
 
+import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.kkj.board.media.MediaService;
+import com.kkj.board.media.MediaVO;
 
 @Controller
 public class MemberController {
@@ -21,6 +27,46 @@ public class MemberController {
 	final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired MemberService memberService;
+	@Autowired MediaService mediaService;
+	
+	// profile 이미지 수정
+	@RequestMapping(value = "member/doUpdateProfileImg.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String doUpdateProfileImg(HttpServletRequest req, MultipartFile file) throws IOException {
+		LOG.debug("================================");
+		LOG.debug("==member/doUpdateProfileImg.do==");
+		LOG.debug("================================");
+				
+		MultipartFile profileImgResized = mediaService.doResizeProfile(file);
+		
+		HttpSession session = req.getSession();
+		
+		MemberVO sessionId = (MemberVO) session.getAttribute("sessionId");
+		
+		LOG.debug("==sessionId==" + sessionId.getId());
+		
+		String uuid = UUID.randomUUID().toString();
+		String keyNameProfile = "profileImg/" + sessionId.getId() + "/" + uuid + "_profile.jpg";
+		
+		LOG.debug("Profile image Upload to S3");
+		mediaService.doFileUpload(keyNameProfile, profileImgResized);
+		
+		String profileUrl = mediaService.doFileDownload(keyNameProfile).toString();
+		LOG.debug("==profileUrl==" + profileUrl);
+		
+		MediaVO mediaVO = new MediaVO();
+		mediaVO.setDiv("10");
+		mediaVO.setMemberId(sessionId.getId());
+		mediaVO.setImg(profileUrl);
+		
+		session.setAttribute("sessionProfile", profileUrl);
+		
+		mediaService.doDelete(mediaVO);
+		mediaService.doInsert(mediaVO);		
+		
+		return null;
+	}
+	
 	
 	// 회원 탈퇴
 	@RequestMapping(value = "member/doDeleteUser.do", method = RequestMethod.POST)
@@ -32,9 +78,9 @@ public class MemberController {
 		
 		int flag = memberService.doDelete(memberVO);
 		if(flag == 1) {
-			LOG.debug("==회원가입 성공==");
+			LOG.debug("==회원탈퇴 성공==");
 		} else {
-			LOG.debug("==회원가입 실패==");
+			LOG.debug("==회원탈퇴 실패==");
 			res.setStatus(404);
 		}
 		
@@ -130,8 +176,12 @@ public class MemberController {
 				LOG.debug("==비밀번호가 틀림==");
 				return "member/login_fail";
 			}
-			
+			MediaVO mediaVO = new MediaVO();
+			mediaVO.setMemberId(memberId);
+			mediaVO.setDiv("10");
+			mediaVO = mediaService.doSelectOne(mediaVO);
 			httpSession.setAttribute("sessionId", daoVO);
+			httpSession.setAttribute("sessionProfile", mediaVO.getImg());
 			
 		} catch (NullPointerException e) {
 			LOG.debug("==login fail==");
