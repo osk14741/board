@@ -13,22 +13,16 @@
 		</form>
 
 		<ul class="nav navbar-nav navbar-right">
-			<li><a href="/board/member/moveToProfile.do">Profile</a></li>
+		<!-- 
+			<li><a href="/board/member/moveToProfile.do">${sessionScope.sessionId.id }님</a></li>
+		 -->
+		 	<li><a href="/board/member/moveToProfile.do">Profile</a></li>
+			<li><a href="/board/member/logout.do">Logout</a></li>
 			
 			
 			
 			
 			
-			<li class="dropdown"><a href="/board/workspace/moveToChannel.do" class="dropdown-toggle">Dropdown
-					<span class="caret"></span>
-			</a>
-				<ul class="dropdown-menu" role="menu">
-					<li><a href="#">Action</a></li>
-					<li><a href="#">Another action</a></li>
-					<li><a href="#">Something else here</a></li>
-					<li class="divider"></li>
-					<li><a href="#">Separated link</a></li>
-				</ul></li>
 		</ul>
 	</div>
 	<!-- /.container-fluid -->

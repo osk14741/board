@@ -22,6 +22,59 @@ public class MemberController {
 	
 	@Autowired MemberService memberService;
 	
+	// 회원 탈퇴
+	@RequestMapping(value = "member/doDeleteUser.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void doDeleteUser(MemberVO memberVO, HttpServletResponse res, HttpServletRequest req) {
+		LOG.debug("==========================");
+		LOG.debug("==member/doDeleteUser.do==");
+		LOG.debug("==========================");
+		
+		int flag = memberService.doDelete(memberVO);
+		if(flag == 1) {
+			LOG.debug("==회원가입 성공==");
+		} else {
+			LOG.debug("==회원가입 실패==");
+			res.setStatus(404);
+		}
+		
+		req.getSession().invalidate();
+	}
+	
+	// 로그아웃
+	@RequestMapping(value = "member/logout.do", method = RequestMethod.GET)
+	public String logout(HttpServletRequest req) {
+		LOG.debug("====================");
+		LOG.debug("==member/logout.do==");
+		LOG.debug("====================");
+		
+		HttpSession session = req.getSession();
+		session.invalidate();
+		
+		return "member/loginPage";
+	}
+	
+	// 프로필 수정
+	@RequestMapping(value = "member/doUpdateProfile.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String doUpdateProfile(MemberVO memberVO, HttpServletRequest req) {
+		LOG.debug("=============================");
+		LOG.debug("==member/doUpdateProfile.do==");
+		LOG.debug("=============================");
+		
+		HttpSession session = req.getSession();
+		MemberVO sessionId = (MemberVO) session.getAttribute("sessionId");
+		
+		sessionId.setEmail(memberVO.getEmail());
+		sessionId.setPassword(memberVO.getPassword());
+		
+		memberService.doUpdate(sessionId);
+		
+		session.setAttribute("sessionId", sessionId);
+		
+		return null;
+	}
+	
 	// 프로필 페이지 이동
 	@RequestMapping(value = "member/moveToProfile.do", method = RequestMethod.GET)
 	public String moveToProfile() {
@@ -66,6 +119,8 @@ public class MemberController {
 		MemberVO memberVO = new MemberVO();
 		memberVO.setId(memberId);
 		memberVO.setPassword(memberPassword);
+		
+		LOG.debug("==memberVO==" + memberVO);
 		
 		try {
 			MemberVO daoVO = memberService.doSelectOne(memberVO);

@@ -28,7 +28,6 @@
 </head>
 <body>
 
-	<%@ include file="/WEB-INF/views/main/nav.jsp" %>
 	
 	
 	<div class="container">
@@ -98,6 +97,9 @@
 		
 		// 회원가입 버튼
 		$("#doRegisterBtn").on("click", function(){
+			if($("#inputPassword").val() != $("#inputPassword2").val()){
+				return;
+				}
 			doRegister();
 		});
 		// 회원가입 버튼

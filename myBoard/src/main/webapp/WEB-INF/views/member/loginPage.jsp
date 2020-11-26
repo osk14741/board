@@ -27,7 +27,6 @@
     <![endif]-->
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/main/nav.jsp" %>
 
 	<div class="container">
 		<h1>Login Page</h1>

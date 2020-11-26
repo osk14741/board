@@ -34,6 +34,35 @@
 	<div class="container">
 		<h1>member modify</h1>
 		<hr>
+		
+		<div style="width: 40%" class="contents">
+			<form method="post" action="doLogin.do" class="" name="loginForm" id="loginForm">
+				<div class="form-group">
+					<label for="inputMemberId">아이디</label>
+					<input type="text" class="form-control" name="inputMemberId" id="inputMemberId" placeholder="아이디" value="${sessionScope.sessionId.id }" readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label for="inputPassword">비밀번호</label>
+					<input type="text" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호">
+				</div>
+				<div class="form-group">
+					<label for="inputPassword">비밀번호 확인</label>
+					<input type="text" class="form-control" name="inputPassword2" id="inputPassword2" placeholder="비밀번호">
+				</div>
+				<div class="form-group">
+					<label for="inputPassword">이름</label>
+					<input type="text" class="form-control" name="inputName" id="inputName" placeholder="이름" value="${sessionScope.sessionId.name }" readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label for="inputPassword">이메일</label>
+					<input type="text" class="form-control" name="inputEmail" id="inputEmail" value="${sessionScope.sessionId.email }" placeholder="이메일">
+				</div>
+				
+				<input class="btn btn-primary btn-lg btn-block" type="button" value="프로필 변경" id="doUpdateBtn">
+				<input class="btn btn-default btn-lg btn-block" type="button" value="뒤로가기" id="doBackBtn">
+				<input class="btn btn-danger btn-lg btn-block" type="button" value="회원 탈퇴" id="doDeleteBtn">
+			</form>
+		</div>	<!-- end contents -->
 	</div>
 	
 
@@ -46,45 +75,72 @@
 	<script type="text/javascript">
 		// 뒤로가기 버튼
 		$("#doBackBtn").on("click", function() {
-			window.location.href = "${hContext}/member/loginView.do";
+			window.location.href = "${hContext}/workspace/moveToChannel.do";
 		});
 		// 뒤로가기 버튼
 
-		// 회원가입 버튼
-		$("#doRegisterBtn").on("click", function() {
-			doRegister();
+		// 회원수정 버튼
+		$("#doUpdateBtn").on("click", function() {
+			doUpdate();
 		});
-		// 회원가입 버튼
+		// 회원수정 버튼
+		
+		// 회원 탈퇴 버튼
+		$("#doDeleteBtn").on("click", function(){
+			if($("#inputPassword").val() != $("#inputPassword2").val()){
+				alert("비밀번호가 다릅니다!");
+				return;
+				}
+				doDeleteUser();
 
-		// 회원가입
-		function doRegister() {
+			})
+		// 회원 탈퇴 버튼
+
+		// 회원 탈퇴
+		function doDeleteUser(){
 			$.ajax({
 				type : 'POST',
-				url : '${hContext}/member/doRegister.do',
+				url : '${hContext}/member/doDeleteUser.do',
 				dataType : "html",
 				async : true,
 				data : {
-					"id" : $("#inputMemberId").val(),
 					"password" : $("#inputPassword").val(),
-					"email" : $("#inputEmail").val(),
-					"gender" : $("input[name='inlineRadioOptions']:checked")
-							.val(),
-					"name" : $("#inputName").val(),
-					"authority" : $(
-							"input[name='inlineAuthorityOptions']:checked")
-							.val()
+					"id" : $("#inputMemberId").val()
 				},
-				success : function(data) {
-					alert("가입 성공!");
+				success : function() {
+					alert("삭제 성공");
 					window.location.href = "${hContext}/member/loginView.do";
 				},
+				error : function() {
+					alert("비밀번호가 틀렸습니다!");
+				}
+			});
+
+			}
+		// 회원 탈퇴
+		
+		// 회원 수정
+		function doUpdate() {
+			$.ajax({
+				type : 'POST',
+				url : '${hContext}/member/doUpdateProfile.do',
+				dataType : "html",
+				async : true,
+				data : {
+					"password" : $("#inputPassword").val(),
+					"email" : $("#inputEmail").val()
+				},
+				success : function(data) {
+					alert("수정 성공!");
+					window.location.href = "${hContext}/workspace/moveToChannel.do";
+				},
 				error : function(data) {
-					alert("존재하는 아이디입니다!");
+					alert("수정에 실패");
 				}
 			});
 
 		}
-		// 회원가입
+		// 회원 수정
 	</script>
 
 </body>
