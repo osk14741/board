@@ -57,7 +57,7 @@ public class MemberController {
 		MediaVO mediaVO = new MediaVO();
 		mediaVO.setDiv("10");
 		mediaVO.setMemberId(sessionId.getId());
-		mediaVO.setImg(profileUrl);
+		mediaVO.setImg(keyNameProfile);
 		
 		session.setAttribute("sessionProfile", profileUrl);
 		
@@ -115,18 +115,30 @@ public class MemberController {
 		sessionId.setPassword(memberVO.getPassword());
 		
 		memberService.doUpdate(sessionId);
-		
 		session.setAttribute("sessionId", sessionId);
+		
 		
 		return null;
 	}
 	
 	// 프로필 페이지 이동
 	@RequestMapping(value = "member/moveToProfile.do", method = RequestMethod.GET)
-	public String moveToProfile() {
+	public String moveToProfile(HttpServletRequest req) {
 		LOG.debug("===========================");
 		LOG.debug("==member/moveToProfile.do==");
 		LOG.debug("===========================");
+		
+		HttpSession session = req.getSession();
+		MemberVO sessionId = (MemberVO) session.getAttribute("sessionId");
+		
+		MediaVO mediaVO = new MediaVO();
+		mediaVO.setMemberId(sessionId.getId());
+		mediaVO.setDiv("10");
+		
+		String img = mediaService.doSelectOne(mediaVO).getImg();
+		String url = mediaService.doFileDownload(img).toString();
+		
+		session.setAttribute("sessionProfile", url);
 		
 		return "member/memberModify";
 	}

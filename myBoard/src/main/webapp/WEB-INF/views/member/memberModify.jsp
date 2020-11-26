@@ -64,7 +64,15 @@
 		<div>
 			<div style="text-align: center;">
 				<label>프로필 사진</label><br>
-				<img height="300px" width="300px" src="${sessionScope.sessionProfile }" alt="" id="profileImgModify" onError="this.src='${hContext }/resources/img/default.jpg'">
+				
+				<c:choose>
+					<c:when test="${sessionScope.sessionProfile eq 'omg'}"> 
+						<img height="300px" width="300px" src="${hContext }/resources/img/default.jpg" id="profileImgModify"/>
+					</c:when>
+					<c:otherwise> 
+						<img height="300px" width="300px" src="${sessionScope.sessionProfile }" id="profileImgModify"/>
+					</c:otherwise>
+				</c:choose>
 				<br><br>
 				<input class="btn btn-primary" type="button" value="프로필 사진 변경(.jpg)" id="profileImgChange"/>
 			</div>
