@@ -143,8 +143,15 @@ public class MemberController {
 		
 		LOG.debug("==memberVO==" + memberVO);
 		int flag = memberService.doInsertChk(memberVO);
+		
 		if(flag == 1) {
 			LOG.debug("==회원가입 성공==");
+			MediaVO mediaVO = new MediaVO();
+			mediaVO.setMemberId(memberVO.getId());
+			mediaVO.setDiv("10");
+			mediaVO.setImg("omg");
+			mediaService.doInsert(mediaVO);
+			
 		} else {
 			LOG.debug("==회원가입 실패==");
 			res.setStatus(404);
