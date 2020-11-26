@@ -45,6 +45,20 @@
 
 
 	<dependencies>
+	<!-- https://mvnrepository.com/artifact/aspectj/aspectjrt -->
+		<dependency>
+			<groupId>aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.5.3</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>aspectj</groupId>
+			<artifactId>aspectjtools</artifactId>
+			<version>1.5.3</version>
+		</dependency>
+
+	
 			<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-api -->
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
@@ -131,6 +145,12 @@
 			<version>1.11.856</version>
 		</dependency>
 
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${org.springframework-version}</version>		
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
 		<dependency>

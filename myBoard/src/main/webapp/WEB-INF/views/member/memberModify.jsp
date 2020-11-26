@@ -171,7 +171,6 @@
 					"email" : $("#inputEmail").val()
 				},
 				success : function(data) {
-					alert("수정 성공!");
 					window.location.href = "${hContext}/workspace/moveToChannel.do";
 				},
 				error : function(data) {
