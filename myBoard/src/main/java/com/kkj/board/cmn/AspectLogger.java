@@ -15,7 +15,7 @@ public class AspectLogger {
 	@Around("execution(* com.kkj.board..*Service.*(..))")
 	public Object logPrint(ProceedingJoinPoint pjp) throws Throwable{
 		long startTime = System.currentTimeMillis();
-//		LOG.info("Start - " + pjp.getSignature().getDeclaringTypeName() + " / " + pjp.getSignature().getName());
+		LOG.info("Start - " + pjp.getSignature().getDeclaringTypeName() + " / " + pjp.getSignature().getName());
 		Object result = pjp.proceed();
 		long endTime = System.currentTimeMillis();
 		LOG.info("Finished - " + pjp.getSignature().getDeclaringTypeName() + " / " + pjp.getSignature().getName() + " / " + "Time : " + (endTime - startTime) + "ms");

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.kkj.board.cmn.Auth;
 import com.kkj.board.media.MediaService;
 import com.kkj.board.media.MediaVO;
 
@@ -32,6 +33,7 @@ public class MemberController {
 	@Autowired MediaService mediaService;
 	
 	// profile 이미지 수정
+	@Auth
 	@RequestMapping(value = "member/doUpdateProfileImg.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String doUpdateProfileImg(HttpServletRequest req, MultipartFile file) throws IOException {
@@ -103,6 +105,7 @@ public class MemberController {
 	}
 	
 	// 프로필 수정
+	@Auth
 	@RequestMapping(value = "member/doUpdateProfile.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String doUpdateProfile(MemberVO memberVO, HttpServletRequest req, HttpServletResponse res) {
@@ -136,6 +139,7 @@ public class MemberController {
 	}
 	
 	// 프로필 페이지 이동
+	@Auth
 	@RequestMapping(value = "member/moveToProfile.do", method = RequestMethod.GET)
 	public String moveToProfile(HttpServletRequest req) {
 		LOG.debug("===========================");
