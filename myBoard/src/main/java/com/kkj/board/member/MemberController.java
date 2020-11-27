@@ -114,9 +114,9 @@ public class MemberController {
 		sessionId.setEmail(memberVO.getEmail());
 		sessionId.setPassword(memberVO.getPassword());
 		
+		memberService.doLogin(sessionId);
 		memberService.doUpdate(sessionId);
 		session.setAttribute("sessionId", sessionId);
-		
 		
 		return null;
 	}
@@ -195,12 +195,15 @@ public class MemberController {
 				LOG.debug("==비밀번호가 틀림==");
 				return "member/login_fail";
 			}
+			
+			LOG.debug("==login success==");
 			MediaVO mediaVO = new MediaVO();
 			mediaVO.setMemberId(memberId);
 			mediaVO.setDiv("10");
 			mediaVO = mediaService.doSelectOne(mediaVO);
 			httpSession.setAttribute("sessionId", daoVO);
 			httpSession.setAttribute("sessionProfile", mediaVO.getImg());
+			memberService.doLogin(daoVO);
 			
 		} catch (NullPointerException e) {
 			LOG.debug("==login fail==");
@@ -208,7 +211,6 @@ public class MemberController {
 			return "member/login_fail";
 		}
 		
-		LOG.debug("==login success==");
 		return "workspace/channel";
 	}
 	

@@ -18,7 +18,7 @@ public class AspectLogger {
 //		LOG.info("Start - " + pjp.getSignature().getDeclaringTypeName() + " / " + pjp.getSignature().getName());
 		Object result = pjp.proceed();
 		long endTime = System.currentTimeMillis();
-		LOG.info("Finished - " + pjp.getSignature().getDeclaringTypeName() + " / " + pjp.getSignature().getName() + " / " + "time : " + (endTime - startTime) + "ms");
+		LOG.info("Finished - " + pjp.getSignature().getDeclaringTypeName() + " / " + pjp.getSignature().getName() + " / " + "Time : " + (endTime - startTime) + "ms");
 		
 		return result;
 	}

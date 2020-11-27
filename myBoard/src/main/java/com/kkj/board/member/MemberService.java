@@ -1,7 +1,11 @@
 package com.kkj.board.member;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
 	@Autowired MemberDao memberDao;
+	final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
 	public int doUpdate(MemberVO memberVO) {
 		return memberDao.doUpdate(memberVO);
@@ -28,6 +33,28 @@ public class MemberService {
 	
 	public List<MemberVO> doSelectList(){
 		return memberDao.doSelectList();
+	}
+	
+	public int doLogin(MemberVO memberVO) {
+		int flag = 0;
+		
+		String loginDay = memberVO.getLoginDt();
+		LOG.debug("loginDay : " + loginDay);
+		
+		SimpleDateFormat format2 = new SimpleDateFormat ( "MM/dd");
+		Date time = new Date();
+		String time2 = format2.format(time);
+				
+		LOG.debug("today : " + time2);
+		
+		if(!loginDay.equals(time2)) {
+			int tmp = memberVO.getLoginCount();
+			tmp = tmp + 1;
+			memberVO.setLoginCount(tmp);
+			doUpdate(memberVO);
+			flag = 1;
+		}
+		return flag;
 	}
 	
 	/**

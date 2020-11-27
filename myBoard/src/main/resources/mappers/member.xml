@@ -14,7 +14,8 @@
         recommend_count as recommendCount,
         grade,
         reg_dt as regDt,
-        mod_dt as modDt
+        mod_dt as modDt,
+        TO_CHAR(login_dt,'MM/DD') as loginDt
     </sql>
     
     <update id="doUpdate" parameterType="MemberVO">
@@ -26,7 +27,8 @@
    			login_count = #{loginCount},
    			recommend_count = #{recommendCount},
    			grade = #{grade},
-   			mod_dt = SYSDATE
+   			mod_dt = SYSDATE,
+   			login_dt = SYSDATE
 		WHERE
         	id = #{id}
     </update>
@@ -50,7 +52,8 @@
 	        recommend_count,
 	        grade,
 	        reg_dt,
-	        mod_dt
+	        mod_dt,
+	        login_dt
     	) Values (
     		#{id},
     		#{password},
@@ -62,7 +65,8 @@
     		#{recommendCount},
     		#{grade},
     		SYSDATE,
-    		TO_DATE(#{modDt},'MM/DD')
+    		SYSDATE,
+    		SYSDATE
     	)
     </insert>
     
@@ -94,6 +98,7 @@
 	  #{loginCount},
 	  #{recommendCount},
 	  #{grade},
+	  SYSDATE,
 	  SYSDATE,
 	  SYSDATE
 	FROM DUAL

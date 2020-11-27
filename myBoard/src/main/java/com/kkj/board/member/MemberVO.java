@@ -15,6 +15,7 @@ public class MemberVO {
 	private String grade;
 	private String regDt;
 	private String modDt;
+	private String loginDt;
 
 	public MemberVO(String id, String password, String name, int gender, String email, int authority, int loginCount,
 			int recommendCount, String grade, String regDt, String modDt) {
@@ -30,6 +31,14 @@ public class MemberVO {
 		this.grade = grade;
 		this.regDt = regDt;
 		this.modDt = modDt;
+	}
+
+	public String getLoginDt() {
+		return loginDt;
+	}
+
+	public void setLoginDt(String loginDt) {
+		this.loginDt = loginDt;
 	}
 
 	public MemberVO() {
@@ -128,6 +137,9 @@ public class MemberVO {
 	public String toString() {
 		return "MemberVO [id=" + id + ", password=" + password + ", name=" + name + ", gender=" + gender + ", email="
 				+ email + ", authority=" + authority + ", loginCount=" + loginCount + ", recommendCount="
-				+ recommendCount + ", grade=" + grade + ", regDt=" + regDt + ", modDt=" + modDt + "]";
+				+ recommendCount + ", grade=" + grade + ", regDt=" + regDt + ", modDt=" + modDt + ", loginDt=" + loginDt
+				+ "]";
 	}
+
+	
 }
