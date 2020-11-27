@@ -34,9 +34,9 @@
 	<br>
 			<a href="${hContext}/member/loginView.do"><img style="margin-top: 10px;" alt="" src="${hContext }/resources/img/board1.jpg" id="titleLogo"></a>
 			<br><br><br>
-	<input style="width: 180px;" class="btn btn-danger btn-lg" type="button" value="아이디 찾기" id="forgotId"><p style="margin: 17px; display: inline;"></p>
-	<input style="width: 180px;" class="btn btn-danger btn-lg" type="button" value="비밀번호 찾기" id="forgotPassword"><br><br>
-	<input style="width: 400px;" class="btn btn-default btn-lg" type="button" value="뒤로가기" id="doBackBtn"><br><br>
+	<input style="width: 180px; margin-bottom: 5px;" class="btn btn-danger btn-lg" type="button" value="아이디 찾기" id="forgotId"><p style="margin: 17px; display: inline;"></p>
+	<input style="width: 180px; margin-bottom: 5px;" class="btn btn-danger btn-lg" type="button" value="비밀번호 찾기" id="forgotPassword"><br>
+	<input style="width: 400px; margin: 5px;" class="btn btn-default btn-lg" type="button" value="뒤로가기" id="doBackBtn"><br>
 	</div>
 	</div>
 

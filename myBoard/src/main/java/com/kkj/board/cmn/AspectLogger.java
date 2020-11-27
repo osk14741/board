@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class AspectLogger {
 	final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
-	@Around("execution(* com.kkj.board..*Controller.*(..))")
+	@Around("execution(* com.kkj.board..*Service.*(..))")
 	public Object logPrint(ProceedingJoinPoint pjp) throws Throwable{
 		long startTime = System.currentTimeMillis();
 //		LOG.info("Start - " + pjp.getSignature().getDeclaringTypeName() + " / " + pjp.getSignature().getName());

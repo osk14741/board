@@ -108,22 +108,21 @@
           <div class="col-xs-6 col-md-3">
             <h3>Quick Links</h3>
             <ul class="footer-links">
-              <li style="font-size:1.5em"><a href="https://github.com/osk14741/board">
+              <li style="font-size:1.2em"><a href="https://github.com/osk14741/board">
               	<img style="display:inline;" width="25px" height="25px" src="${hContext }/resources/img/github-logo.svg"></img>  GIT-HUB</a>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="col-xs-6 col-md-3">
+            <h3>Contact Me</h3>
+            <ul class="footer-links">
+              <li>
+              	  김건희 010 - 6599 - 5182
               </li>
             </ul>
           </div>
         </div>
         <hr>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 col-sm-6 col-xs-12">
-            <p class="copyright-text">Copyright &copy; 2020 All Rights Reserved by 
-         <a href="https://github.com/osk14741">김건희</a>.
-            </p>
-          </div>
-
-        </div>
       </div>
 </footer>

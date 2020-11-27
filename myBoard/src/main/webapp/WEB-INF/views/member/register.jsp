@@ -80,8 +80,8 @@
 					</label>
 				</div>
 				
-				<input style="width: 400px;" class="btn btn-primary btn-lg" type="button" value="회원가입" id="doRegisterBtn"><br><br>
-				<input style="width: 400px;" class="btn btn-default btn-lg" type="button" value="뒤로가기" id="doBackBtn">
+				<input style="width: 400px; margin: 5px;" class="btn btn-primary btn-lg" type="button" value="회원가입" id="doRegisterBtn"><br>
+				<input style="width: 400px; margin: 5px;" class="btn btn-default btn-lg" type="button" value="뒤로가기" id="doBackBtn">
 			</form>
 		</div>	<!-- end contents -->
 	</div>	<!-- end container -->

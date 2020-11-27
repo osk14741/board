@@ -41,11 +41,11 @@
 				</div>
 				<div class="form-group">
 					<label for="inputPassword">비밀번호</label>
-					<input type="text" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호" value="${sessionScope.sessionId.password }">
+					<input type="password" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호" value="${sessionScope.sessionId.password }">
 				</div>
 				<div class="form-group">
 					<label for="inputPassword">비밀번호 확인</label>
-					<input type="text" class="form-control" name="inputPassword2" id="inputPassword2" placeholder="비밀번호">
+					<input type="password" class="form-control" name="inputPassword2" id="inputPassword2" placeholder="비밀번호">
 				</div>
 				<div class="form-group">
 					<label for="inputPassword">이름</label>
@@ -76,9 +76,12 @@
 			</div>
 		</div> <!-- end profileImg -->
 		<br><br><br>
-		<input class="btn btn-primary btn-lg btn-block" type="button" value="프로필 변경" id="doUpdateBtn">
-		<input class="btn btn-default btn-lg btn-block" type="button" value="뒤로가기" id="doBackBtn">
-		<input class="btn btn-danger btn-lg btn-block" type="button" value="회원 탈퇴" id="doDeleteBtn">
+		<div class="text-center">
+			<input style="width: 500px; margin: 5px;" class="btn btn-primary btn-lg" type="button" value="프로필 변경" id="doUpdateBtn"><br>
+			<input style="width: 500px; margin: 5px;" class="btn btn-default btn-lg" type="button" value="뒤로가기" id="doBackBtn"><br>
+			<input style="width: 500px; margin: 5px;" class="btn btn-danger btn-lg" type="button" value="회원 탈퇴" id="doDeleteBtn">
+		</div>
+		
 	</div>
 	<form name="fileUpload" method="post" action="" id="form_data_img" enctype="multipart/form-data">
 		<input style="display: none;" type="file" id="profileImgChangeHidden" name="profileImgChangeHidden" accept=".jpg" type="file">
@@ -130,6 +133,15 @@
 			if(!conf){
 					return;
 				}
+
+			var pass1 = $("#inputPassword").val();
+			var pass2 = $("#inputPassword2").val();
+			if(pass1 != pass2){
+				document.getElementById('inputPassword2').focus();
+					alert("비밀번호 확인란에 같은 비밀번호를 입력하세요!");
+					return;
+				}
+			
 			doUpdateProfileImg();
 			doUpdate();
 		});

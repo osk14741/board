@@ -42,8 +42,8 @@
 					<label for="inputEmail">이메일</label><br>
 					<input style="width: 400px; display: inline;" type="text" class="form-control" name="inputEmail" id="inputEmail" placeholder="이메일">
 				</div>
-				<input style="width: 400px;" class="btn btn-danger btn-lg" type="button" value="비밀번호 찾기" id="forgotPassword"><br><br>
-				<input style="width: 400px;" class="btn btn-default btn-lg" type="button" value="뒤로가기" id="doBackBtn"><br><br>
+				<input style="width: 400px; margin: 5px;" class="btn btn-danger btn-lg" type="button" value="비밀번호 찾기" id="forgotPassword"><br>
+				<input style="width: 400px; margin: 5px;" class="btn btn-default btn-lg" type="button" value="뒤로가기" id="doBackBtn"><br><br>
 				<a href="/board/member/moveToForgotId.do">혹시 아이디가 기억나지 않나요?</a>
 			</form>
 		</div>	<!-- end contents -->
