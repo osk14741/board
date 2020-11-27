@@ -35,7 +35,7 @@
 		<hr>
 		<div class="contents text-center">
 			<br>
-			<img style="margin-top: 10px;" alt="" src="${hContext }/resources/img/board1.jpg" id="titleLogo">
+			<a href="${hContext}/member/loginView.do"><img style="margin-top: 10px;" alt="" src="${hContext }/resources/img/board1.jpg" id="titleLogo"></a>
 			<br><br><br>
 			<form method="post" action="${hContext }/member/doLogin.do" class="" name="loginForm" id="loginForm">
 				<div class="form-group">
@@ -44,7 +44,7 @@
 				</div>
 				<div class="form-group">
 					<label for="inputPassword">비밀번호</label><br>
-					<input style="width: 400px; display: inline;" type="text" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호">
+					<input style="width: 400px; display: inline;" type="password" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호">
 				</div>
 				<input style="width: 400px;" class="btn btn-primary btn-lg" type="submit" value="로그인" id="doLoginBtn"><br><br>
 				<input style="width: 400px;" class="btn btn-default btn-lg" type="button" value="회원가입" id="doRegisterBtn" onclick="moveToRegister()"><br><br>

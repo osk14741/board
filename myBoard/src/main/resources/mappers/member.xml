@@ -81,7 +81,7 @@
     		#{gender},
     		#{email},
     		#{authority},
-    		#{loginCount},
+    		1,
     		#{recommendCount},
     		#{grade},
     		SYSDATE,
@@ -115,7 +115,7 @@
 	  #{gender},
 	  #{email},
 	  #{authority},
-	  #{loginCount},
+	  1,
 	  #{recommendCount},
 	  #{grade},
 	  SYSDATE,
@@ -129,7 +129,7 @@
 	  FROM
 	  MEMBER
 	  WHERE
-	  id = #{id} and
+	  id = #{id} or
 	  email = #{email}
 	)
     </insert>

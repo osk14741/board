@@ -31,7 +31,7 @@
 		<hr>
 		<div class="contents text-center">
 			<br>
-			<img style="margin-top: 10px;" alt="" src="${hContext }/resources/img/board1.jpg">
+			<a href="${hContext}/member/loginView.do"><img style="margin-top: 10px;" alt="" src="${hContext }/resources/img/board1.jpg"></a>
 			<br><br><br>
 			<form method="post" action="${hContext }/member/forgotPassword.do" class="" name="loginForm" id="loginForm">
 				<div class="form-group">

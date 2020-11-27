@@ -126,6 +126,10 @@
 
 		// 회원수정 버튼
 		$("#doUpdateBtn").on("click", function() {
+			var conf = confirm("회원정보를 수정하시겠습니까?");
+			if(!conf){
+					return;
+				}
 			doUpdateProfileImg();
 			doUpdate();
 		});
@@ -180,7 +184,7 @@
 					window.location.href = "${hContext}/workspace/moveToChannel.do";
 				},
 				error : function(data) {
-					alert("수정에 실패");
+					alert("이미 등록된 이메일입니다!");
 				}
 			});
 

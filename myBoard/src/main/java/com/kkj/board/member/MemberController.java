@@ -2,6 +2,7 @@ package com.kkj.board.member;
 
 import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -105,7 +105,7 @@ public class MemberController {
 	// 프로필 수정
 	@RequestMapping(value = "member/doUpdateProfile.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String doUpdateProfile(MemberVO memberVO, HttpServletRequest req) {
+	public String doUpdateProfile(MemberVO memberVO, HttpServletRequest req, HttpServletResponse res) {
 		LOG.debug("=============================");
 		LOG.debug("==member/doUpdateProfile.do==");
 		LOG.debug("=============================");
@@ -117,6 +117,18 @@ public class MemberController {
 		sessionId.setPassword(memberVO.getPassword());
 		
 		memberService.doLogin(sessionId);
+		List<MemberVO> memList = memberService.doSelectList();
+		
+		// 이메일 중복 확인
+		for(MemberVO vo : memList) {
+			if(sessionId.getEmail().equals(vo.getEmail()) && !(sessionId.getId().equals(vo.getId()))) {
+				LOG.debug("==이메일 중복==");
+				res.setStatus(404);
+				
+				return null;
+			}
+		}
+		
 		memberService.doUpdate(sessionId);
 		session.setAttribute("sessionId", sessionId);
 		

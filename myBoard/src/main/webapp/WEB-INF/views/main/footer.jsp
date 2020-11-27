@@ -101,7 +101,7 @@
         <div class="row">
           <div class="col-sm-12 col-md-6">
             <h3>About</h3>
-            <p class="text-justify">Spring, jsp, html, css, javascript, S3를 이용해서 만든 간단한 게시판 앱입니다. 회원 기능, 게시판 기능, 파일 업로드 및 다운로드 기능, 통계 기능이 있습니다.</p>
+            <p class="text-justify">Spring, jsp, html, css, javascript, S3를 이용해서 만든 게시판 앱입니다. 회원 기능, 게시판 기능, 파일 업로드 및 다운로드 기능, 통계 기능이 있습니다.</p>
           </div>
 
 

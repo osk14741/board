@@ -35,7 +35,7 @@
 		<hr>
 		<div class="contents text-center">
 			<br>
-			<img style="margin-top: 10px;" alt="" src="${hContext }/resources/img/board1.jpg" id="titleLogo">
+			<a href="${hContext}/member/loginView.do"><img style="margin-top: 10px;" alt="" src="${hContext }/resources/img/board1.jpg" id="titleLogo"></a>
 			<br><br><br>
 			<form method="post" action="doLogin.do" class="" name="loginForm" id="loginForm">
 				<div class="form-group">
@@ -44,11 +44,11 @@
 				</div>
 				<div class="form-group">
 					<label for="inputPassword">비밀번호</label><br>
-					<input style="width: 400px; display: inline;" type="text" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호">
+					<input style="width: 400px; display: inline;" type="password" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호">
 				</div>
 				<div class="form-group">
 					<label for="inputPassword">비밀번호 확인</label><br>
-					<input style="width: 400px; display: inline;" type="text" class="form-control" name="inputPassword2" id="inputPassword2" placeholder="비밀번호">
+					<input style="width: 400px; display: inline;" type="password" class="form-control" name="inputPassword2" id="inputPassword2" placeholder="비밀번호">
 				</div>
 				<div class="form-group">
 					<label for="inputPassword">이름</label><br>
@@ -70,13 +70,13 @@
 				<div class="form-group">
 					<label for="inputPassword">등급</label><br>
 					<label class="radio-inline">
-						<input type="radio" name="inlineAuthorityOptions" id="inlineRadio1" value="0"> 일반
+						<input type="radio" name="inlineAuthorityOptions" id="inlineRadio3" value="0"> 일반
 					</label>
 					<label class="radio-inline">
-						<input type="radio" name="inlineAuthorityOptions" id="inlineRadio1" value="1"> 중간관리자
+						<input type="radio" name="inlineAuthorityOptions" id="inlineRadio4" value="1"> 중간관리자
 					</label>
 					<label class="radio-inline">
-						<input type="radio" name="inlineAuthorityOptions" id="inlineRadio2" value="2"> 관리자
+						<input type="radio" name="inlineAuthorityOptions" id="inlineRadio5" value="2"> 관리자
 					</label>
 				</div>
 				
@@ -129,7 +129,7 @@
 			        		window.location.href = "${hContext}/member/loginView.do";
 			        },
 			    error:function(data){
-							alert("존재하는 아이디 혹은 이메일입니다!");
+							alert("등록된 아이디 혹은 이메일입니다!");
 				    }  
 				});
 
