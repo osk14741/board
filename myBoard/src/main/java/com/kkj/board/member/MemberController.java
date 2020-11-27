@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -136,10 +137,13 @@ public class MemberController {
 		mediaVO.setDiv("10");
 		
 		String img = mediaService.doSelectOne(mediaVO).getImg();
-		String url = mediaService.doFileDownload(img).toString();
 		
-		session.setAttribute("sessionProfile", url);
-		
+		if(img.equals("omg")) {
+			session.setAttribute("sessionProfile", "omg");
+		} else {
+			String url = mediaService.doFileDownload(img).toString();
+			session.setAttribute("sessionProfile", url);
+		}
 		return "member/memberModify";
 	}
 	
@@ -174,10 +178,12 @@ public class MemberController {
 	@RequestMapping(value = "member/doLogin.do", method = RequestMethod.POST)
 	public String doLogin(@RequestParam("inputMemberId") String memberId,
 						  @RequestParam("inputPassword") String memberPassword,
-						  HttpServletRequest req) {
+						  HttpServletRequest req, HttpServletResponse res) {
 		LOG.debug("=====================");
 		LOG.debug("==member/doLogin.do==");
 		LOG.debug("=====================");
+		
+		res.setContentType("text/css");
 		
 		HttpSession httpSession = req.getSession();
 		
