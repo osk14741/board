@@ -9,6 +9,9 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
+<meta http-equiv="Pragma" content="no-cache"/>
 <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
 <title>login Page</title>
 <!-- 부트스트랩 -->
@@ -31,9 +34,10 @@
 		<h1>Login Page</h1>
 		<hr>
 		<div class="contents text-center">
-			<img alt="" src="${hContext }/resources/img/board1.jpg">
+			<br>
+			<img style="margin-top: 10px;" alt="" src="" id="titleLogo">
 			<br><br><br>
-			<form method="post" action="doLogin.do" class="" name="loginForm" id="loginForm">
+			<form method="post" action="${hContext }/member/doLogin.do" class="" name="loginForm" id="loginForm">
 				<div class="form-group">
 					<label for="inputMemberId">아이디</label><br>
 					<input style="width: 400px; display: inline;" type="text" class="form-control" name="inputMemberId" id="inputMemberId" placeholder="아이디">
@@ -43,7 +47,8 @@
 					<input style="width: 400px; display: inline;" type="text" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호">
 				</div>
 				<input style="width: 400px;" class="btn btn-primary btn-lg" type="submit" value="로그인" id="doLoginBtn"><br><br>
-				<input style="width: 400px;" class="btn btn-default btn-lg" type="button" value="회원가입" id="doRegisterBtn" onclick="moveToRegister()">
+				<input style="width: 400px;" class="btn btn-default btn-lg" type="button" value="회원가입" id="doRegisterBtn" onclick="moveToRegister()"><br><br>
+				<input style="width: 400px;" class="btn btn-danger btn-lg" type="button" value="비밀번호 찾기" id="forgotPassword">
 			</form>
 		</div>	<!-- end contents -->
 		
@@ -55,6 +60,18 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
+	window.onload = function(){
+		onloadFunction();
+	}
+
+	function onloadFunction(){
+			var img = document.getElementById("titleLogo");
+			img.src = "${hContext }/resources/img/board1.jpg";
+		}
+	
+	$("#forgotPassword").on("click",function(){
+			window.location.href="${hContext}/member/moveToForgotPassword.do";
+		})
 	
 	// 회원 가입 페이지로 이동
 	function moveToRegister(){

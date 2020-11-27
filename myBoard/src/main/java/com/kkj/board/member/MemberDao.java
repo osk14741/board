@@ -17,6 +17,39 @@ public class MemberDao {
 	@Autowired MemberVO memberVO;
 	@Autowired SqlSessionTemplate sqlSessionTemplate;
 	
+	public MemberVO doSelectOneByNameAndEmail(MemberVO memberVO) {
+		LOG.debug("==================================================");
+        LOG.debug("==doSelectOneByNameAndEmail==");
+		
+        String statement = NAMESPACE + "doSelectOneByNameAndEmail";
+        
+        LOG.debug("==statement==" + statement);
+        LOG.debug("==memberVO==" + memberVO);
+
+        MemberVO outVO = sqlSessionTemplate.selectOne(statement, memberVO);
+        LOG.debug("==outVO==" + outVO);
+        LOG.debug("==================================================");
+
+        return outVO;
+	}
+	
+	public MemberVO doSelectOneByIdAndEmail(MemberVO memberVO) {
+		LOG.debug("==================================================");
+        LOG.debug("==doSelectOneByIdAndEmail==");
+		
+        String statement = NAMESPACE + "doSelectOneByIdAndEmail";
+
+        LOG.debug("==statement==" + statement);
+        LOG.debug("==memberVO==" + memberVO);
+
+        MemberVO outVO = sqlSessionTemplate.selectOne(statement, memberVO);
+        LOG.debug("==outVO==" + outVO);
+        LOG.debug("==================================================");
+
+        return outVO;
+		
+	}
+	
 	/**
 	 * doUpdate(회원 수정)
 	 * @param memberVO

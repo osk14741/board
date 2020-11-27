@@ -15,6 +15,14 @@ public class MemberService {
 	@Autowired MemberDao memberDao;
 	final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
+	public MemberVO doSelectOneByNameAndEmail(MemberVO memberVO) {
+		return memberDao.doSelectOneByNameAndEmail(memberVO);
+	}
+	
+	public MemberVO doSelectOneByIdAndEmail(MemberVO memberVO) {
+		return memberDao.doSelectOneByIdAndEmail(memberVO);
+	}
+	
 	public int doUpdate(MemberVO memberVO) {
 		return memberDao.doUpdate(memberVO);
 	}

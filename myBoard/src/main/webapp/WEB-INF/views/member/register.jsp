@@ -124,7 +124,7 @@
 			        		window.location.href = "${hContext}/member/loginView.do";
 			        },
 			    error:function(data){
-							alert("존재하는 아이디입니다!");
+							alert("존재하는 아이디 혹은 이메일입니다!");
 				    }  
 				});
 

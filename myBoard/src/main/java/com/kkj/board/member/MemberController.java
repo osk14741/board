@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.kkj.board.media.MediaService;
 import com.kkj.board.media.MediaVO;
 
@@ -128,13 +129,18 @@ public class MemberController {
 		LOG.debug("===========================");
 		LOG.debug("==member/moveToProfile.do==");
 		LOG.debug("===========================");
-		
-		HttpSession session = req.getSession();
-		MemberVO sessionId = (MemberVO) session.getAttribute("sessionId");
-		
+
 		MediaVO mediaVO = new MediaVO();
-		mediaVO.setMemberId(sessionId.getId());
-		mediaVO.setDiv("10");
+		HttpSession session = req.getSession();
+		
+		try {
+			MemberVO sessionId = (MemberVO) session.getAttribute("sessionId");
+			
+			mediaVO.setMemberId(sessionId.getId());
+			mediaVO.setDiv("10");
+		} catch (NullPointerException e) {
+			return "member/loginPage";
+		}
 		
 		String img = mediaService.doSelectOne(mediaVO).getImg();
 		
@@ -150,7 +156,7 @@ public class MemberController {
 	// 회원가입
 	@RequestMapping(value = "member/doRegister.do", method = RequestMethod.POST)
 	@ResponseBody
-	public void doRegister(MemberVO memberVO, HttpServletResponse res) throws SQLIntegrityConstraintViolationException {
+	public void doRegister(MemberVO memberVO, HttpServletResponse res, HttpServletRequest req) throws SQLIntegrityConstraintViolationException {
 		LOG.debug("========================");
 		LOG.debug("==member/doRegister.do==");
 		LOG.debug("========================");
@@ -222,7 +228,7 @@ public class MemberController {
 	
 	// 회원가입 페이지로 이동
 	@RequestMapping(value = "member/registerView.do", method = RequestMethod.GET)
-	public String doRegisterView() {
+	public String doRegisterView(HttpServletRequest req, HttpServletResponse res) {
 		LOG.debug("==========================");
 		LOG.debug("==member/registerView.do==");
 		LOG.debug("==========================");
@@ -232,12 +238,87 @@ public class MemberController {
 	
 	// 로그인 페이지로 이동
 	@RequestMapping(value = "member/loginView.do", method = RequestMethod.GET)
-	public String doLoginView() {
+	public String doLoginView(HttpServletRequest req, HttpServletResponse res) {
 		LOG.debug("=======================");
 		LOG.debug("==member/loginView.do==");
 		LOG.debug("=======================");
 		
+		HttpSession session = req.getSession();
+		session.invalidate();
+		
 		return "member/loginPage";
+	}
+	
+	// index 페이지 이동
+	@RequestMapping(value = "member/index.do", method = RequestMethod.GET)
+	public String index(HttpServletRequest req, HttpServletResponse res) {
+		
+		return "member/loginPage";
+	}
+	
+	// 비밀번호 찾기 페이지 이동
+	@RequestMapping(value = "member/moveToForgotPassword.do", method = RequestMethod.GET)
+	public String moveToForgotPassword(HttpServletRequest req, HttpServletResponse res) {
+		LOG.debug("==================================");
+		LOG.debug("==member/moveToForgotPassword.do==");
+		LOG.debug("==================================");
+		
+		return "member/forgotPassword";
+		
+	}
+	
+	// 아이디 찾기 페이지 이동
+	@RequestMapping(value = "member/moveToForgotId.do", method = RequestMethod.GET)
+	public String moveToForgotId() {
+		LOG.debug("============================");
+		LOG.debug("==member/moveToForgotId.do==");
+		LOG.debug("============================");
+		
+		return "member/forgotId";
+	}
+	
+	// 이름, 이메일로 아이디 찾기
+	@RequestMapping(value = "member/forgotId.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String forgotId(MemberVO memberVO, HttpServletResponse res) {
+		LOG.debug("======================");
+		LOG.debug("==member/forgotId.do==");
+		LOG.debug("======================");
+
+		MemberVO daoVO = memberService.doSelectOneByNameAndEmail(memberVO);
+
+		LOG.debug("==daoVO==" + daoVO);
+		if (daoVO == null) {
+			LOG.debug("==찾기 실패==");
+			res.setStatus(404);
+		}
+		
+		Gson gson = new Gson();
+    	String json = gson.toJson(daoVO);
+    	
+		return json;
+	}
+	
+	// 아이디, 이메일로 비밀번호 찾기
+	@RequestMapping(value = "member/forgotPassword.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String forgotPassword(MemberVO memberVO, HttpServletResponse res) {
+		LOG.debug("============================");
+		LOG.debug("==member/forgotPassword.do==");
+		LOG.debug("============================");
+
+		MemberVO daoVO = memberService.doSelectOneByIdAndEmail(memberVO);
+
+		LOG.debug("==daoVO==" + daoVO);
+		if (daoVO == null) {
+			LOG.debug("==찾기 실패==");
+			res.setStatus(404);
+		}
+		
+		Gson gson = new Gson();
+    	String json = gson.toJson(daoVO);
+    	
+		return json;
 	}
 	
 }

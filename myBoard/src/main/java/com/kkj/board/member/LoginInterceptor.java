@@ -20,12 +20,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		LOG.debug("====================");
 	 
 	        if(req.getSession().getAttribute("sessionId") == null) {
-	            res.sendRedirect("/board/member/loginView.do");
-	            
+	            res.setContentType("html/text");
 	            return false;
 	        } else {
 	        	LOG.debug("==sessionId==" + req.getSession().getAttribute("sessionId"));
 	        }
-	        return true;
+	        return false;
 	    }
 }

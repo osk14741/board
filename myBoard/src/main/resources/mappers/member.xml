@@ -18,6 +18,26 @@
         TO_CHAR(login_dt,'MM/DD') as loginDt
     </sql>
     
+    <select id="doSelectOneByIdAndEmail" parameterType="MemberVO" resultType="MemberVO">
+   		Select 
+    		<include refid="columns"/>
+    	From
+    		member
+    	Where
+    		id = #{id} And
+    		email = #{email}    
+    </select>
+    
+    <select id="doSelectOneByNameAndEmail" parameterType="MemberVO" resultType="MemberVO">
+   		Select 
+    		<include refid="columns"/>
+    	From
+    		member
+    	Where
+    		name = #{name} And
+    		email = #{email}    
+    </select>
+    
     <update id="doUpdate" parameterType="MemberVO">
     UPDATE member
 		SET
@@ -109,7 +129,8 @@
 	  FROM
 	  MEMBER
 	  WHERE
-	  id = #{id}
+	  id = #{id} and
+	  email = #{email}
 	)
     </insert>
     
