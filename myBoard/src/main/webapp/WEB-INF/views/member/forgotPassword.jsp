@@ -54,7 +54,7 @@
 
 
 
-
+<%@ include file="/WEB-INF/views/main/footer.jsp" %>
 
 
 

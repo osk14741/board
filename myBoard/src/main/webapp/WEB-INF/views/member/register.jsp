@@ -30,33 +30,36 @@
 
 	
 	
-	<div class="container">
-		<h1>member register page</h1>
+	<div style="text-align: center;" class="container">
+		<h1>Member Register Page</h1>
 		<hr>
-		<div style="width: 40%" class="contents">
+		<div class="contents text-center">
+			<br>
+			<img style="margin-top: 10px;" alt="" src="${hContext }/resources/img/board1.jpg" id="titleLogo">
+			<br><br><br>
 			<form method="post" action="doLogin.do" class="" name="loginForm" id="loginForm">
 				<div class="form-group">
-					<label for="inputMemberId">아이디</label>
-					<input type="text" class="form-control" name="inputMemberId" id="inputMemberId" placeholder="아이디">
+					<label for="inputMemberId">아이디</label><br>
+					<input style="width: 400px; display: inline;" type="text" class="form-control" name="inputMemberId" id="inputMemberId" placeholder="아이디">
 				</div>
 				<div class="form-group">
-					<label for="inputPassword">비밀번호</label>
-					<input type="text" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호">
+					<label for="inputPassword">비밀번호</label><br>
+					<input style="width: 400px; display: inline;" type="text" class="form-control" name="inputPassword" id="inputPassword" placeholder="비밀번호">
 				</div>
 				<div class="form-group">
-					<label for="inputPassword">비밀번호 확인</label>
-					<input type="text" class="form-control" name="inputPassword2" id="inputPassword2" placeholder="비밀번호">
+					<label for="inputPassword">비밀번호 확인</label><br>
+					<input style="width: 400px; display: inline;" type="text" class="form-control" name="inputPassword2" id="inputPassword2" placeholder="비밀번호">
 				</div>
 				<div class="form-group">
-					<label for="inputPassword">이름</label>
-					<input type="text" class="form-control" name="inputName" id="inputName" placeholder="이름">
+					<label for="inputPassword">이름</label><br>
+					<input style="width: 400px; display: inline;" type="text" class="form-control" name="inputName" id="inputName" placeholder="이름">
 				</div>
 				<div class="form-group">
-					<label for="inputPassword">이메일</label>
-					<input type="text" class="form-control" name="inputEmail" id="inputEmail" placeholder="이메일">
+					<label for="inputPassword">이메일</label><br>
+					<input style="width: 400px; display: inline;" type="text" class="form-control" name="inputEmail" id="inputEmail" placeholder="이메일">
 				</div>
 				<div class="form-group">
-					<label for="inputPassword">성별</label>
+					<label for="inputPassword">성별</label><br>
 					<label class="radio-inline">
 						<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1"> 남성
 					</label>
@@ -65,7 +68,7 @@
 					</label>
 				</div>
 				<div class="form-group">
-					<label for="inputPassword">등급</label>
+					<label for="inputPassword">등급</label><br>
 					<label class="radio-inline">
 						<input type="radio" name="inlineAuthorityOptions" id="inlineRadio1" value="0"> 일반
 					</label>
@@ -77,18 +80,20 @@
 					</label>
 				</div>
 				
-				<input class="btn btn-primary btn-lg btn-block" type="button" value="회원가입" id="doRegisterBtn">
-				<input class="btn btn-default btn-lg btn-block" type="button" value="뒤로가기" id="doBackBtn">
+				<input style="width: 400px;" class="btn btn-primary btn-lg" type="button" value="회원가입" id="doRegisterBtn"><br><br>
+				<input style="width: 400px;" class="btn btn-default btn-lg" type="button" value="뒤로가기" id="doBackBtn">
 			</form>
 		</div>	<!-- end contents -->
 	</div>	<!-- end container -->
 	
 	
-	
+	<%@ include file="/WEB-INF/views/main/footer.jsp" %>
 	
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
+
+		
 		// 뒤로가기 버튼
 		$("#doBackBtn").on("click",function(){
 			window.location.href = "${hContext}/member/loginView.do";

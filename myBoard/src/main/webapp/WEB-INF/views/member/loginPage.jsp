@@ -35,7 +35,7 @@
 		<hr>
 		<div class="contents text-center">
 			<br>
-			<img style="margin-top: 10px;" alt="" src="" id="titleLogo">
+			<img style="margin-top: 10px;" alt="" src="${hContext }/resources/img/board1.jpg" id="titleLogo">
 			<br><br><br>
 			<form method="post" action="${hContext }/member/doLogin.do" class="" name="loginForm" id="loginForm">
 				<div class="form-group">
@@ -55,19 +55,10 @@
 	</div>	<!-- end container -->
 	
 
-
+<%@ include file="/WEB-INF/views/main/footer.jsp" %>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
-
-	window.onload = function(){
-		onloadFunction();
-	}
-
-	function onloadFunction(){
-			var img = document.getElementById("titleLogo");
-			img.src = "${hContext }/resources/img/board1.jpg";
-		}
 	
 	$("#forgotPassword").on("click",function(){
 			window.location.href="${hContext}/member/moveToForgotPassword.do";
