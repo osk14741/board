@@ -108,7 +108,9 @@
           <div class="col-xs-6 col-md-3">
             <h3>Quick Links</h3>
             <ul class="footer-links">
-              <li><a href="https://github.com/osk14741/board">GIT-HUB</a></li>
+              <li style="font-size:1.5em"><a href="https://github.com/osk14741/board">
+              	<img style="display:inline;" width="25px" height="25px" src="${hContext }/resources/img/github-logo.svg"></img>  GIT-HUB</a>
+              </li>
             </ul>
           </div>
         </div>
