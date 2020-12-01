@@ -19,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kkj.board.board.BoardService;
+import com.kkj.board.board.BoardVO;
+import com.kkj.board.cmn.Auth;
 import com.kkj.board.member.MemberVO;
 
 @Controller
@@ -30,6 +32,7 @@ public class WorkspaceController {
 	@Autowired BoardService boardService;
 	
 	// 게시판 페이지로 이동
+	@Auth
 	@RequestMapping(value = "workspace/moveToBoardPage.do", method = RequestMethod.POST)
 	public ModelAndView moveToBoardPage(@RequestParam("whereToGo") String workspaceName) {
 		LOG.debug("================================");
@@ -73,6 +76,7 @@ public class WorkspaceController {
 	}
 	
 	// 채널 등록 페이지로 이동
+	@Auth
 	@RequestMapping(value = "workspace/moveToRegisterPage.do", method = RequestMethod.GET)
 	public String moveToRegisterPage(HttpServletRequest req) {
 		LOG.debug("===================================");
@@ -83,6 +87,7 @@ public class WorkspaceController {
 	}
 	
 	// 채널 목록 페이지로 이동
+	@Auth
 	@RequestMapping(value = "workspace/moveToChannel.do", method = RequestMethod.GET)
 	public String moveToChannel() {
 		LOG.debug("===================================");
@@ -93,6 +98,7 @@ public class WorkspaceController {
 	}
 	
 	// 채널 주제 리스트
+	@Auth
 	@RequestMapping(value = "workspace/doListingTopic.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doListingTopic() {
@@ -114,6 +120,7 @@ public class WorkspaceController {
 	}
 	
 	// 채널 리스트
+	@Auth
 	@RequestMapping(value = "workspace/doListing.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doListing() {

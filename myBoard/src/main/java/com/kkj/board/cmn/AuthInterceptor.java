@@ -25,7 +25,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		// 2.형 변환
-		HandlerMethod handlerMethod = (HandlerMethod)handler;
+		HandlerMethod handlerMethod = (HandlerMethod) handler;
 		
 		// 3. @Auth 받아오기
 		Auth auth = handlerMethod.getMethodAnnotation(Auth.class);
@@ -35,7 +35,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			return true;
 		}
 		
-		LOG.info("Auth!");
+		LOG.info("Have Auth!");
 		
 		// 5. @Auth가 있는 경우이므로, 세션이 있는지 체크
 		HttpSession session = request.getSession();
@@ -51,6 +51,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		MemberVO authUser = (MemberVO)session.getAttribute("sessionId");
 		if ( authUser == null ) {
 			response.sendRedirect(request.getContextPath() + "/member/loginView.do");
+			LOG.info("SessionId is null!");
 			return false;
 		}
 		

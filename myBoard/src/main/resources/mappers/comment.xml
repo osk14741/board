@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kkj.board.comment">
+	<insert id="doInsert" parameterType="CommentVO">
+		INSERT INTO board_comment (
+		    seq,
+		    board_seq,
+		    parent_seq,
+		    content,
+		    reg_id,
+		    reg_dt,
+		    mod_dt,
+		    is_modded,
+		    recommend
+		) VALUES (
+		    comment_seq.nextVal,
+		    #{boardSeq},
+		    #{parentSeq},
+		    #{content},
+		    #{regId},
+		    SYSDATE,
+		    SYSDATE,
+		    0,
+		    0
+		)
+	</insert>
+	<select id="doSelectOne" parameterType="CommentVO" resultType="CommentVO">
+		SELECT
+		    seq,
+		    board_seq as boardSeq,
+		    parent_seq as parentSeq,
+		    content,
+		    reg_id as regId,
+		    reg_dt as regDt,
+		    mod_dt as modDt,
+		    is_modded as isModded,
+		    recommend
+		FROM
+	  	 	board_comment
+	  	Where
+	  		seq = #{seq} 
+	</select>
+
+	<select id="doSelectListByBoardSeq" parameterType="CommentVO" resultType="CommentVO">
+		SELECT
+		    c.seq,
+		    c.board_seq as boardSeq,
+		    c.parent_seq as parentSeq,
+		    c.content,
+		    c.reg_id as regId,
+		    c.reg_dt as regDt,
+		    c.mod_dt as modDt,
+		    c.is_modded as isModded,
+		    c.recommend
+		FROM
+	  	 	board_comment c, board b
+	  	Where
+	  		#{boardSeq} = b.seq
+	</select>
+	
+	<update id="doUpdate" parameterType="CommentVO">
+		UPDATE board_comment
+		SET
+		    content = #{content},
+		    mod_dt = SYSDATE,
+		    is_modded = 1,
+		    recommend = #{recommend}
+		WHERE
+		    seq = #{seq}
+	
+	</update>
+	
+	<delete id="doDelete" parameterType="CommentVO">
+		DELETE FROM board_comment
+		WHERE
+	        seq = #{seq} And
+	        reg_id = #{regId}
+	</delete>
+</mapper>

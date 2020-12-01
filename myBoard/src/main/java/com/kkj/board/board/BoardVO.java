@@ -137,7 +137,10 @@ public class BoardVO {
 	public String toString() {
 		return "BoardVO [seq=" + seq + ", header=" + header + ", title=" + title + ", content=" + content
 				+ ", readCount=" + readCount + ", recommend=" + recommend + ", div=" + div + ", regId=" + regId
-				+ ", regDt=" + regDt + ", modDt=" + modDt + ", isModded=" + isModded + "]";
+				+ ", regDt=" + regDt + ", modDt=" + modDt + ", isModded=" + isModded + ", workspaceSeq=" + workspaceSeq
+				+ "]";
 	}
+
+	
 
 }

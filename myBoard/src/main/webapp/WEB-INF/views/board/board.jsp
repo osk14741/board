@@ -32,7 +32,29 @@
 	<div class="container">
 		<h1>Board Page</h1>
 		<hr>
+		<form name="saveData" id="saveData" action="/board/board/moveToWritePage.do" method="get">
+			<label>workspaceSeq = </label>
+			<input type="text" value="${workspaceSeq }" id="workspaceSeq" name="workspaceSeq"/>
+		</form>
+		<br>
+		<label>page</label>
+		<input type="text" value="0" id="page">
+		<hr>
 		
+		<div class="table-responsive">
+			<table id="board_table" class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th class="text-center col-md-6">title</th>
+						<th class="text-center col-md-2">regId</th>
+						<th class="text-center col-md-2">regDt</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+		
+		<input id="writeBtn" type="button" style="float: right" value="글쓰기" class="btn btn-default"/>
 		
 	</div>
 	
@@ -44,12 +66,54 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
+	// 글쓰기 페이지 이동
+	$("#writeBtn").on("click", function(){
+			var frm = document.saveData;
+			frm.submit();
+		})
+	// 글쓰기 페이지 이동
 	
-	// 회원 가입 페이지로 이동
-	function moveToRegister(){
-		window.location.href = "${hContext}/member/registerView.do";
-	}
-	// 회원 가입 페이지로 이동	
+	// 리스팅
+	window.onload = function(){
+			doSelectList();
+		}
+
+	function doSelectList(){
+		$.ajax({
+			type:"GET",
+               url:"${hContext}/board/doSelectList.do",
+               dataType:"html",
+               async: true,
+               data:{
+               		"workspaceSeq":$("#workspaceSeq").val()
+               },
+               success: function(data){
+					var parseData = JSON.parse(data);
+					$("#board_table>tbody").empty();
+					var html = "";
+					
+					$.each(parseData, function(i, value) {
+						  html += "<tr>";
+						  html += "<td style='display: none;' class='text-center'>"+value.seq+"</td>";
+						  html += "<td class='text-left col-md-6'>"+value.title+"</td>";
+						  html += "<td class='text-center col-md-2'>"+value.regId+"</td>";
+						  html += "<td class='text-center col-md-2'>"+value.regDt+"</td>";
+						  html += "</tr>";
+					  });
+					console.log(parseData.length);
+					if(parseData.length == "0"){
+							console.log(parseData.length);
+							html += "<tr>";
+							html += "<td colspan='3' class='text-center'>등록된 게시글이 없습니다.</td>";
+							html += "</tr>";
+						}
+					
+					$("#board_table>tbody").append(html);
+	               }
+			});
+
+		}
+	// 리스팅
 
 	</script>
 	
