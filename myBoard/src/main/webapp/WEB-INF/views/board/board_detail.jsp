@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
-    <title>Board Write Page</title>
+    <title>Board Page</title>
     <link rel="shortcut icon" type="image/x-icon" href="${hContext}/resources/img/favicon.ico" > 
     <!-- 부트스트랩 -->
     <link href="${hContext}/resources/css/bootstrap.min.css" rel="stylesheet">
@@ -25,57 +25,53 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
-    <!-- SmartEditor2 라이브러리 -->
-    <script type="text/javascript" src="${hContext }/resources/se2/js/HuskyEZCreator.js" charset="utf-8"></script> 
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-
-    
 </head>
 <body>
-
 	<%@ include file="/WEB-INF/views/main/nav.jsp" %>
+
 	<div class="container">
-	
-		<h1>Write Board</h1>
+		<h1>Board Detail Page</h1>
 		<hr>
-		<label>workspaceSeq</label>
 		
-		<br>
-		<form name="noticeWriteForm" id="noticeWriteForm" action="/board/board/doInsert.do" method="get">
-		<input class="form-control" type="text" value="" id="title" name="title" placeholder="제목을 입력해주세요">
-		<!-- SmartEditor2 -->
-		<label>workspaceSeq & workspaceName</label>
-		<input type="text" name="workspaceSeq" id="workspaceSeq" value="${workspaceSeq }"/>
-		<input type="text" name="workspaceName" id="workspaceName" value="${workspaceName }"/>
-		<div class="jsx-2303464893 editor">
-			<div class="fr-box fr-basic fr-top" role="application">
-				<div class="fr-wrapper show-placeholder" dir="auto"
-					style="overflow: scroll;">
-					<textarea name="notice_content" id="smartEditor"
-						style="width: 100%; height: 412px;"></textarea>
-				</div>
-			</div>
+		<h2><a id="workspaceName"><strong>${workspaceName }</strong></a></h2>
+		
+		<hr>
+		<h2><strong>${boardVO.title }</strong>
+		<small>${boardVO.regId }&nbsp;&nbsp;${boardVO.regDt }</small></h2>
+		<hr>
+		<div class="content">
+			<span>${boardVO.content }</span>
+			<hr>
 		</div>
-		</form>
-		<br>
-		<input id="savebutton" type="button" style="float: right" value="글쓰기" class="btn btn-default"/>
 	</div>
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<%@ include file="/WEB-INF/views/main/footer.jsp" %>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
+	// 게시판으로 돌아가기
+	$("#workspaceName").on("click", function(){
+			var workspaceName = document.getElementById('workspaceName').text;
+			console.log(workspaceName);
+			var gourl = "/board/workspace/moveToBoardPage.do?whereToGo=" + workspaceName;
+			console.log(gourl);
+			window.location.href = gourl;
+		});
+	// 게시판으로 돌아가기
 	
-
 	</script>
-	<!-- SmartEditor2 -->
-	<script type="text/javascript" src="${hContext }/resources/js/notice-write.js"></script>
+	
 </body>
 </html>
-
-

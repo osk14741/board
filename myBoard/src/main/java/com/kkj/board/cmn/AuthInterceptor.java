@@ -35,8 +35,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			return true;
 		}
 		
-		LOG.info("Have Auth!");
-		
 		// 5. @Auth가 있는 경우이므로, 세션이 있는지 체크
 		HttpSession session = request.getSession();
 		if( session == null ) {
@@ -45,8 +43,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			return false;
 		}
 		
-		LOG.info("Session is not null!");
-		
 		// 6. 세션이 존재하면 유효한 유저인지 확인
 		MemberVO authUser = (MemberVO)session.getAttribute("sessionId");
 		if ( authUser == null ) {
@@ -54,8 +50,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			LOG.info("SessionId is null!");
 			return false;
 		}
-		
-		LOG.info("SessionId is not null!");
 		
 		// 8. 접근허가, 즉 메서드를 실행하도록 함
 		return true;

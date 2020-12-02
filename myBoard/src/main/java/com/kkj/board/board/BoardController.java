@@ -1,5 +1,7 @@
 package com.kkj.board.board;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,12 +28,38 @@ public class BoardController {
 	
 	@Autowired BoardService boardService;
 	
+	// 보드 요소 하나 클릭하기
+	@Auth
+	@RequestMapping(value = "board/moveToBoardElement.do", method = RequestMethod.GET)
+	public ModelAndView moveToBoardElement(@RequestParam("whereToGo") int boardSeq,
+										@RequestParam("workspaceName") String workspaceName) {
+		
+		LOG.debug("==board/moveToBoardElement.do==");
+		
+		BoardVO boardVO = new BoardVO();
+		boardVO.setSeq(boardSeq);
+		
+		boardVO = boardService.doSelectOne(boardVO);
+		LOG.debug("==boardVO==" + boardVO);
+		LOG.debug("workspaceName" + workspaceName);
+		
+		ModelAndView mav = new ModelAndView();
+				
+		mav.setViewName("board/board_detail");
+		mav.addObject("boardVO", boardVO);
+		mav.addObject("workspaceName", workspaceName);
+		
+		return mav;
+	}
+	
+	
 	// 보드 글쓰기
 	@Auth
 	@RequestMapping(value = "board/doInsert.do", method = RequestMethod.GET)
 	public ModelAndView doInsert(@RequestParam("notice_content") String content,
 						@RequestParam("workspaceSeq") int workspaceSeq,
 						@RequestParam("title") String title,
+						@RequestParam("workspaceName") String workspaceName,
 						HttpServletRequest req) {
 		
 		LOG.debug("content : " + content);
@@ -51,8 +79,15 @@ public class BoardController {
 		
 		boardService.doInsert(boardVO);
 		
+		try {
+			workspaceName = URLEncoder.encode(workspaceName, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("board/board");
+				
+		mav.setViewName("redirect:/workspace/moveToBoardPage.do?whereToGo="+workspaceName);
 		mav.addObject("workspaceSeq", workspaceSeq);
 				
 		return mav;
@@ -78,7 +113,8 @@ public class BoardController {
 	// 글쓰는 페이지로 이동
 	@Auth
 	@RequestMapping(value = "board/moveToWritePage.do", method = RequestMethod.GET)
-	public ModelAndView moveToWritePage(@RequestParam("workspaceSeq") String workspaceSeq) {
+	public ModelAndView moveToWritePage(@RequestParam("workspaceSeq") String workspaceSeq,
+										@RequestParam("workspaceName") String workspaceName) {
 		LOG.debug("==board/moveToWritePage.do==");
 
 		LOG.debug("workspaceSeq : " + workspaceSeq);
@@ -86,6 +122,7 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("board/write_board");
 		mav.addObject("workspaceSeq", workspaceSeq);
+		mav.addObject("workspaceName", workspaceName);
 		
 		return mav;
 	}

@@ -33,7 +33,7 @@ public class WorkspaceController {
 	
 	// 게시판 페이지로 이동
 	@Auth
-	@RequestMapping(value = "workspace/moveToBoardPage.do", method = RequestMethod.POST)
+	@RequestMapping(value = "workspace/moveToBoardPage.do", method = RequestMethod.GET)
 	public ModelAndView moveToBoardPage(@RequestParam("whereToGo") String workspaceName) {
 		LOG.debug("================================");
 		LOG.debug("==workspace/moveToBoardPage.do==");
@@ -49,6 +49,7 @@ public class WorkspaceController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("board/board");
 		mav.addObject("workspaceSeq", workspaceVO.getSeq());
+		mav.addObject("workspaceName", workspaceName);
 		
 		return mav;
 	}

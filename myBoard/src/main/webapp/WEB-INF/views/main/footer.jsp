@@ -114,14 +114,7 @@
             </ul>
           </div>
           
-          <div class="col-xs-6 col-md-3">
-            <h3>Contact Me</h3>
-            <ul class="footer-links">
-              <li>
-              	  김건희 010 - 6599 - 5182
-              </li>
-            </ul>
-          </div>
+         
         </div>
         <hr>
       </div>

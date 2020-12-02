@@ -33,28 +33,36 @@
 		<h1>Board Page</h1>
 		<hr>
 		<form name="saveData" id="saveData" action="/board/board/moveToWritePage.do" method="get">
-			<label>workspaceSeq = </label>
-			<input type="text" value="${workspaceSeq }" id="workspaceSeq" name="workspaceSeq"/>
+			<label>workspaceSeq & Name </label>
+			<input type="text" value="${workspaceSeq }"  id="workspaceSeq"  name="workspaceSeq"/>
+			<input type="text" value="${workspaceName }" id="workspaceName" name="workspaceName" >
 		</form>
 		<br>
 		<label>page</label>
 		<input type="text" value="0" id="page">
 		<hr>
+		<h2><a id="workspaceName2"><strong>${workspaceName }</strong></a></h2>
+		<hr>
+		<form name="board_table_form" id="board_table_form" action="/board/board/moveToBoardElement.do" method="get">
+			<div class="table-responsive">
+				<table id="board_table" class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th class="text-center col-md-6">title</th>
+							<th class="text-center col-md-2">regId</th>
+							<th class="text-center col-md-2">regDt</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+			<input type="text" id="whereToGo" name="whereToGo">
+			<input type="text" name="workspaceName" value="${workspaceName }"/>
+		</form>
 		
-		<div class="table-responsive">
-			<table id="board_table" class="table table-striped table-hover">
-				<thead>
-					<tr>
-						<th class="text-center col-md-6">title</th>
-						<th class="text-center col-md-2">regId</th>
-						<th class="text-center col-md-2">regDt</th>
-					</tr>
-				</thead>
-				<tbody></tbody>
-			</table>
-		</div>
 		
-		<input id="writeBtn" type="button" style="float: right" value="글쓰기" class="btn btn-default"/>
+		<hr>
+		<input id="writeBtn" type="button" style="float: right" value="글쓰기" class="btn btn-default btn-lg"/>
 		
 	</div>
 	
@@ -62,10 +70,32 @@
 
 
 
-
+	<%@ include file="/WEB-INF/views/main/footer.jsp" %>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
+	// 게시판으로 돌아가기
+	$("#workspaceName2").on("click", function(){
+			var workspaceName = document.getElementById('workspaceName2').text;
+			var gourl = "/board/workspace/moveToBoardPage.do?whereToGo=" + workspaceName;
+			window.location.href = gourl;
+		});
+	// 게시판으로 돌아가기
+	
+	// 게시판 요소 클릭
+	$("#board_table tbody").on("click", "tr", function(){
+		var tmp = $(this).find("td:eq(0)").text();
+		var tmp2 = $(this).find("td");
+
+		console.log("tmp : " + tmp);
+		document.getElementById('whereToGo').value = tmp;
+		
+		var frm = document.board_table_form;
+		frm.submit();
+		
+	});
+	// 게시판 요소 클릭
+	
 	// 글쓰기 페이지 이동
 	$("#writeBtn").on("click", function(){
 			var frm = document.saveData;
@@ -94,7 +124,7 @@
 					
 					$.each(parseData, function(i, value) {
 						  html += "<tr>";
-						  html += "<td style='display: none;' class='text-center'>"+value.seq+"</td>";
+						  html += "<td name='board_seq' style='display: none;' class='text-center'>"+value.seq+"</td>";
 						  html += "<td class='text-left col-md-6'>"+value.title+"</td>";
 						  html += "<td class='text-center col-md-2'>"+value.regId+"</td>";
 						  html += "<td class='text-center col-md-2'>"+value.regDt+"</td>";

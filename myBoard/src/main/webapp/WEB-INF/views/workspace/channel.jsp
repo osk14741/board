@@ -44,7 +44,7 @@
 		<hr>
 		<div class="form-group" id="channelList">
 		</div>
-		<form method="post" name="moveToBoardPage" id="moveToBoardPage" action="/board/workspace/moveToBoardPage.do">
+		<form method="get" name="moveToBoardPage" id="moveToBoardPage" action="/board/workspace/moveToBoardPage.do">
 			<input type="hidden" id="whereToGo" name="whereToGo">
 		</form>
 		<form action="/board/workspace/moveToRegisterPage.do">
@@ -55,7 +55,7 @@
 	
 
 
-
+	<%@ include file="/WEB-INF/views/main/footer.jsp" %>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 	// 채널 리스트 불러오기
