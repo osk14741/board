@@ -36,27 +36,28 @@
 
 	<%@ include file="/WEB-INF/views/main/nav.jsp" %>
 	<div class="container">
-		<label>workspaceSeq</label>
-		
-		<br>
-		<form name="noticeWriteForm" id="noticeWriteForm" action="/board/board/doInsert.do" method="get">
-		<input class="form-control" type="text" value="" id="title" name="title" placeholder="제목을 입력해주세요">
+		<form name="noticeWriteForm" id="noticeWriteForm" action="/board/board/doUpdate.do" method="get">
+		<input class="form-control" type="text" value="${boardVO.title }" id="title" name="title" placeholder="제목을 입력해주세요">
 		<!-- SmartEditor2 -->
-		<label>workspaceSeq & workspaceName</label>
-		<input type="text" name="workspaceSeq" id="workspaceSeq" value="${workspaceSeq }"/>
-		<input type="text" name="workspaceName" id="workspaceName" value="${workspaceName }"/>
+		<br>
 		<div class="jsx-2303464893 editor">
 			<div class="fr-box fr-basic fr-top" role="application">
 				<div class="fr-wrapper show-placeholder" dir="auto"
 					style="overflow: scroll;">
 					<textarea name="notice_content" id="smartEditor"
-						style="width: 100%; height: 412px;"></textarea>
+						style="width: 100%; height: 412px;">${boardVO.content }</textarea>
 				</div>
 			</div>
 		</div>
+			<input type="text" name="board_seq" id="board_seq" value="${boardVO.seq }"/>
+			<input type="text" name="board_header" id="board_header" value="temp_header">
+			<input type="text" name="board_content" id="board_content" value="${boardVO.content }">
+			<input type="text" name="board_readCnt" id="board_readCnt" value="${boardVO.readCount }">
+			<input type="text" name="board_recommend" id="board_recommend" value="${boardVO.recommend }">
+			<input type="text" name="workspace_name" id="workspace_name" value="${workspaceName }">
 		</form>
 		<br>
-		<input id="savebutton" type="button" style="float: right" value="글쓰기" class="btn btn-default"/>
+		<input id="savebutton" type="button" style="float: right" value="수정하기" class="btn btn-default"/>
 	</div>
 	
 	

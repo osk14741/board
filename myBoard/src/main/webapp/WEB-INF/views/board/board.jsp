@@ -30,8 +30,6 @@
 
 	<%@ include file="/WEB-INF/views/main/nav.jsp" %>
 	<div class="container">
-		<h1>Board Page</h1>
-		<hr>
 		<form name="saveData" id="saveData" action="/board/board/moveToWritePage.do" method="get">
 			<label>workspaceSeq & Name </label>
 			<input type="text" value="${workspaceSeq }"  id="workspaceSeq"  name="workspaceSeq"/>
@@ -87,6 +85,10 @@
 		var tmp = $(this).find("td:eq(0)").text();
 		var tmp2 = $(this).find("td");
 
+		if(tmp == "a"){
+				return;
+			}
+		
 		console.log("tmp : " + tmp);
 		document.getElementById('whereToGo').value = tmp;
 		
@@ -134,6 +136,7 @@
 					if(parseData.length == "0"){
 							console.log(parseData.length);
 							html += "<tr>";
+							html += "<td style='display: none;'>a</td>";
 							html += "<td colspan='3' class='text-center'>등록된 게시글이 없습니다.</td>";
 							html += "</tr>";
 						}

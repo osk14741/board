@@ -28,6 +28,81 @@ public class BoardController {
 	
 	@Autowired BoardService boardService;
 	
+	// 보드 수정하기
+	@Auth
+	@RequestMapping(value = "board/doUpdate.do", method = RequestMethod.GET)
+	public ModelAndView doUpdate(@RequestParam("notice_content") String content,
+			@RequestParam("board_seq") int boardSeq, 
+			@RequestParam("title") String title,
+			@RequestParam("board_header") String header,
+			@RequestParam("board_readCnt") int readCount,
+			@RequestParam("board_recommend") int recommend,
+			@RequestParam("workspace_name") String workspaceName,
+			HttpServletRequest req) {
+
+		LOG.debug("content : " + content);
+
+		HttpSession session = req.getSession();
+		MemberVO sessionId = (MemberVO) session.getAttribute("sessionId");
+		
+		BoardVO boardVO = new BoardVO();
+
+		boardVO.setHeader(header);
+		boardVO.setTitle(title);
+		boardVO.setContent(content);
+		boardVO.setReadCount(readCount);
+		boardVO.setRecommend(recommend);
+		boardVO.setSeq(boardSeq);
+		boardVO.setRegId(sessionId.getId());
+
+		LOG.debug("==boardVO==" + boardVO);
+
+		boardService.doUpdate(boardVO);
+
+		ModelAndView mav = new ModelAndView();
+
+		try {
+			workspaceName = URLEncoder.encode(workspaceName, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		mav.setViewName("redirect:/board/moveToBoardElement.do?whereToGo="+boardSeq+"&workspaceName=" + workspaceName);
+//		mav.addObject("workspaceSeq", workspaceSeq);
+		
+		return mav;
+	}
+	
+	// 수정 페이지로 이동
+	@Auth
+	@RequestMapping(value = "board/moveToUpdatePage.do", method = RequestMethod.POST)
+	public ModelAndView moveToUpdatePage(@RequestParam("board_header") String boardHeader,
+										@RequestParam("board_title") String boardTitle,
+										@RequestParam("board_content") String boardContent,
+										@RequestParam("board_readCnt") int boardReadCnt,
+										@RequestParam("board_recommend") int boardRecommend,
+										@RequestParam("board_seq") int boardSeq,
+										@RequestParam("workspace_name") String workspaceName) {
+		
+		LOG.debug("==board/moveToUpdatePage.do==");
+		
+		BoardVO boardVO = new BoardVO();
+		boardVO.setHeader(boardHeader);
+		boardVO.setTitle(boardTitle);
+		boardVO.setContent(boardContent);
+		boardVO.setReadCount(boardReadCnt);
+		boardVO.setRecommend(boardRecommend);
+		boardVO.setSeq(boardSeq);
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("board/update_board");
+		mav.addObject("boardVO", boardVO);
+		mav.addObject("workspaceName", workspaceName);
+		
+		return mav;
+	}
+	
 	// 보드 요소 하나 클릭하기
 	@Auth
 	@RequestMapping(value = "board/moveToBoardElement.do", method = RequestMethod.GET)

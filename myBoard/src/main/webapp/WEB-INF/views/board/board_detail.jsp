@@ -30,8 +30,6 @@
 	<%@ include file="/WEB-INF/views/main/nav.jsp" %>
 
 	<div class="container">
-		<h1>Board Detail Page</h1>
-		<hr>
 		
 		<h2><a id="workspaceName"><strong>${workspaceName }</strong></a></h2>
 		
@@ -41,8 +39,25 @@
 		<hr>
 		<div class="content">
 			<span>${boardVO.content }</span>
-			<hr>
+			
 		</div>
+		<hr>
+		<c:set var="name" value="${boardVO.regId }"/>
+		<c:set var="sessionName" value="${sessionScope.sessionId.id }"/>
+		<c:if test="${name eq sessionName }">
+			<input id="updateBtn" type="button" style="float: right" value="수정하기" class="btn btn-default btn-lg"/>
+		</c:if>
+		
+		<form name="updateData" id="updateData" action="/board/board/moveToUpdatePage.do" method="post">
+			<input type="text" name="board_header" id="board_header" value="temp_header">
+			<input type="text" name="board_title" id="board_title" value="${boardVO.title }">
+			<input type="text" name="board_content" id="board_content" value="${boardVO.content }">
+			<input type="text" name="board_readCnt" id="board_readCnt" value="${boardVO.readCount }">
+			<input type="text" name="board_recommend" id="board_recommend" value="${boardVO.recommend }">
+			<input type="text" name="board_seq" id="board_seq" value="${boardVO.seq }">
+			<input type="text" name="workspace_name" id="workspace_name" value="${workspaceName }">
+		</form>
+		
 	</div>
 
 
@@ -61,6 +76,18 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
+	// 수정하기 버튼 클릭
+	$("#updateBtn").on("click", function(){
+			doUpdate();
+		})
+	
+	function doUpdate(){
+			var frm = document.updateData;
+			frm.submit();
+
+		}
+	// 수정하기 버튼 클릭
+	
 	// 게시판으로 돌아가기
 	$("#workspaceName").on("click", function(){
 			var workspaceName = document.getElementById('workspaceName').text;
