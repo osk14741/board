@@ -5,7 +5,7 @@
 <configuration>
 	<settings>
 		<!-- 데이터베이스 컬럼명 A_COLUMN을 CamelCase형태의 자바 프로퍼트로 매핑 aColumn -->
-		<setting name="mapUnderscoreToCamelCase" value="false"/>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
 	<typeAliases>
 		<!-- type별칭 VO이름을 간략히 사용 -->
@@ -15,5 +15,6 @@
 		<typeAlias type="com.kkj.board.board.BoardVO" alias="BoardVO"/>
 		<typeAlias type="com.kkj.board.file.FileVO" alias="FileVO"/>
 		<typeAlias type="com.kkj.board.workspace.WorkspaceVO" alias="WorkspaceVO"/>
+		<typeAlias type="com.kkj.board.cmn.PageVO" alias="PageVO"/>
 	</typeAliases>
 </configuration>

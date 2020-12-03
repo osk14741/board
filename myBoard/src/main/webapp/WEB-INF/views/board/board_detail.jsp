@@ -46,6 +46,7 @@
 		<c:set var="sessionName" value="${sessionScope.sessionId.id }"/>
 		<c:if test="${name eq sessionName }">
 			<input id="updateBtn" type="button" style="float: right" value="수정하기" class="btn btn-default btn-lg"/>
+			<input id="deleteBtn" type="button" style="float: right" value="삭제하기" class="btn btn-default btn-lg"/>
 		</c:if>
 		
 		<form name="updateData" id="updateData" action="/board/board/moveToUpdatePage.do" method="post">
@@ -54,6 +55,7 @@
 			<input type="text" name="board_content" id="board_content" value="${boardVO.content }">
 			<input type="text" name="board_readCnt" id="board_readCnt" value="${boardVO.readCount }">
 			<input type="text" name="board_recommend" id="board_recommend" value="${boardVO.recommend }">
+			<input type="text" name="regII" id="regII" value="${boardVO.regId }"/>
 			<input type="text" name="board_seq" id="board_seq" value="${boardVO.seq }">
 			<input type="text" name="workspace_name" id="workspace_name" value="${workspaceName }">
 		</form>
@@ -76,6 +78,42 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
+	// 삭제하기 버튼 클릭
+	$("#deleteBtn").on("click", function(){
+		var result = confirm("정말 삭제하시겠습니까?");
+		if(!result){
+			return;
+		}
+		
+		console.log("clicked");
+			doDelete();
+		});
+	
+	function doDelete(){
+		$.ajax({
+			type:'POST',
+			url:'${hContext}/board/doDelete.do',
+			dataType:"html",
+            async: true,
+            data:{
+				"seq" : $("#board_seq").val(),
+				"regId" : $("#regII").val()
+	            },
+	        success:function(data){
+		       		alert("삭제 성공");
+		       		var workspaceName = document.getElementById('workspaceName').text;
+					console.log(workspaceName);
+					var gourl = "/board/workspace/moveToBoardPage.do?whereToGo=" + workspaceName;
+					window.location.href = gourl;
+		        },
+		    error:function(){
+					alert("실패했습니다. 다시 시도해주세요.");
+			    }  
+			});
+		}
+	
+	// 삭제하기 버튼 클릭
+	
 	// 수정하기 버튼 클릭
 	$("#updateBtn").on("click", function(){
 			doUpdate();

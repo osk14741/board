@@ -57,7 +57,7 @@
 			<input type="text" name="workspace_name" id="workspace_name" value="${workspaceName }">
 		</form>
 		<br>
-		<input id="savebutton" type="button" style="float: right" value="수정하기" class="btn btn-default"/>
+		<input id="savebutton" type="button" style="float: right" value="수정하기" class="btn btn-default btn-lg"/>
 	</div>
 	
 	

@@ -35,9 +35,6 @@
 			<input type="text" value="${workspaceSeq }"  id="workspaceSeq"  name="workspaceSeq"/>
 			<input type="text" value="${workspaceName }" id="workspaceName" name="workspaceName" >
 		</form>
-		<br>
-		<label>page</label>
-		<input type="text" value="0" id="page">
 		<hr>
 		<h2><a id="workspaceName2"><strong>${workspaceName }</strong></a></h2>
 		<hr>
@@ -54,12 +51,37 @@
 					<tbody></tbody>
 				</table>
 			</div>
-			<input type="text" id="whereToGo" name="whereToGo">
-			<input type="text" name="workspaceName" value="${workspaceName }"/>
+			<input type="hidden" id="whereToGo" name="whereToGo">
+			<input type="hidden" name="workspaceName" value="${workspaceName }"/>
 		</form>
 		
 		
 		<hr>
+		<div id="pagenation_box" class="text-center">
+			<nav>
+			  <ul class="pagination">
+			    
+			    <c:set var="page" value="${totalBoardCount/10 }"/>
+			    
+			    <c:choose>
+			    	<c:when test="${page lt 5 }">
+			    		<c:set var="pageNum" value="${page+(1-(page%1))%1 }"/>
+			    	</c:when>
+			    	<c:when test="${page gt 5 }">
+			    		<c:set var="pageNum" value="${startPageSet * 5 }"/>
+			    	</c:when>
+			    </c:choose>
+			    <c:forEach var="i" begin="${1+(startPageSet-1)*5 }" end="${pageNum }">
+			    	<li><a>${i }</a></li>
+			    </c:forEach>
+			  </ul>
+			</nav>
+		</div>
+		<input type="text" id="search_div" name="search_div" value="" placeholder="searchDiv">
+		<input type="text" id="search_word" name="search_word" value="" placeholder="searchWord">
+		<input type="text" id="page_num" name="page_num" value="1" placeholder="pageNum">
+		<input type="text" id="page_size" name="page_size" value="10" placeholder="pageSize">
+		<input type="text" id="start_page_set" name="start_page_set" value="${startPageSet }"> 
 		<input id="writeBtn" type="button" style="float: right" value="글쓰기" class="btn btn-default btn-lg"/>
 		
 	</div>
@@ -72,6 +94,16 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
+	// 페이징 클릭
+	$("#pagenation_box li a").on("click", function(){
+			var tmp = $(this).text();
+			
+ 			document.getElementById('page_num').value = tmp;
+ 			doSelectList();
+			
+		})
+	// 페이징 클릭
+	
 	// 게시판으로 돌아가기
 	$("#workspaceName2").on("click", function(){
 			var workspaceName = document.getElementById('workspaceName2').text;
@@ -109,7 +141,7 @@
 	window.onload = function(){
 			doSelectList();
 		}
-
+	
 	function doSelectList(){
 		$.ajax({
 			type:"GET",
@@ -117,7 +149,11 @@
                dataType:"html",
                async: true,
                data:{
-               		"workspaceSeq":$("#workspaceSeq").val()
+               		"workspaceSeq":$("#workspaceSeq").val(),
+               		"searchWord":$("#search_word").val(),
+               		"searchDiv":$("#search_div").val(),
+               		"pageNum":$("#page_num").val(),
+               		"pageSize":$("#page_size").val()
                },
                success: function(data){
 					var parseData = JSON.parse(data);

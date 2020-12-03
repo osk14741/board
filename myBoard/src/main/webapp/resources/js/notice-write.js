@@ -38,9 +38,9 @@ $(function() {
 			oEditors.getById["smartEditor"].exec("FOCUS"); //포커싱 return; 
 		} //이 부분은 스마트에디터 유효성 검사 부분이니 참고하시길 바랍니다. 
 			
-		var result = confirm("발행 하시겠습니까?"); 
+		var result = confirm("확인 하시겠습니까?"); 
 		if(result){ 
-			alert("발행 완료!"); 
+			alert("완료!"); 
 			$("#noticeWriteForm").submit(); 
 		} else { 
 			return; 

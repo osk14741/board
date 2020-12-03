@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kkj.board.cmn.Auth;
+import com.kkj.board.cmn.PageVO;
 import com.kkj.board.member.MemberVO;
 
 @Controller
@@ -27,6 +28,21 @@ public class BoardController {
 	final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired BoardService boardService;
+	
+	// 보드 삭제하기
+	@Auth
+	@RequestMapping(value = "board/doDelete.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String doDelete(BoardVO boardVO) {
+		 
+		LOG.debug("==board/doDelete.do==");
+		
+		LOG.debug("boardVO : "+boardVO);
+		
+		boardService.doDelete(boardVO);
+		
+		return null;
+	}
 	
 	// 보드 수정하기
 	@Auth
@@ -172,12 +188,12 @@ public class BoardController {
 	@Auth
 	@RequestMapping(value = "board/doSelectList.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doSelectList(BoardVO boardVO) {
+	public String doSelectList(PageVO pageVO) {
 		LOG.debug("=========================");
 		LOG.debug("==board/doSelectList.do==");
 		LOG.debug("=========================");
 		
-		List<BoardVO> outList = boardService.doSelectList(boardVO);
+		List<BoardVO> outList = boardService.doSelectListWithPaging(pageVO);
 		
 		Gson gson = new Gson();
 		String json = gson.toJson(outList);

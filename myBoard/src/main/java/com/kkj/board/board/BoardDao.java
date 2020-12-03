@@ -8,17 +8,52 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kkj.board.cmn.PageVO;
 import com.kkj.board.member.MemberDao;
-import com.kkj.board.member.MemberVO;
 
 @Repository
 public class BoardDao {
 	
 	@Autowired SqlSessionTemplate sqlSessionTemplate;
 	@Autowired BoardVO boardVO;
+	@Autowired PageVO pageVO;
 	final static Logger LOG = LoggerFactory.getLogger(MemberDao.class);
 	private final String NAMESPACE = "com.kkj.board.board.";
 
+	public int doCountTotalVO(PageVO pageVO) {
+		LOG.debug("==================================================");
+        LOG.debug("==doSelectListWithPaging==");
+        
+        String statement = NAMESPACE + "doCountTotalVO";
+        
+        LOG.debug("==statement==" + statement);
+        LOG.debug("==pageVO==" + pageVO);
+
+        int count = sqlSessionTemplate.selectOne(statement, pageVO);
+        LOG.debug("==count==" + count);
+        LOG.debug("==================================================");
+
+        return count;
+	}
+	
+	public List<BoardVO> doSelectListWithPaging(PageVO pageVO){
+		LOG.debug("==================================================");
+        LOG.debug("==doSelectListWithPaging==");
+		
+        String statement = NAMESPACE + "doSelectListWithPaging";
+        
+        LOG.debug("==statement==" + statement);
+        
+        List<BoardVO> outList = sqlSessionTemplate.selectList(statement, pageVO);
+        for(BoardVO vo : outList) {
+        	LOG.debug("==outVO==" + vo);
+        }
+        
+        LOG.debug("==================================================");
+        
+        return outList;
+	}
+	
 	/**
 	 * 
 	 * @param boardVO

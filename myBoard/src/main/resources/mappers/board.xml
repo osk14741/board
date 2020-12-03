@@ -72,6 +72,59 @@
 			workspace_seq = #{workspaceSeq}
 	</select>
 
+	<select id="doCountTotalVO" parameterType="pageVO" resultType="int">
+		Select count(*)
+		From board
+		Where workspace_seq=#{workspaceSeq}
+		<trim prefix="AND (" suffix=")" prefixOverrides="OR">
+			<foreach item='searchDiv' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="searchDiv == 'T'.toString()">
+							title like '%'||#{searchWord}||'%'
+						</when>
+						<when test="searchDiv == 'C'.toString()">
+							content like '%'||#{searchWord}||'%'
+						</when>
+						<when test="searchDiv == 'W'.toString()">
+							reg_id like '%'||#{searchWord}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>		        
+        </trim>
+	</select>
+
+	<select id="doSelectListWithPaging" parameterType="PageVO" resultType="BoardVO">
+	Select B.*
+		From
+		    (Select ROWNUM as RNUM, A.*
+		    From
+		        (Select *
+		        From board
+		        Where workspace_seq = #{workspaceSeq}
+		        <trim prefix="AND (" suffix=")" prefixOverrides="OR">
+					<foreach item='searchDiv' collection="typeArr">
+						<trim prefix="OR">
+							<choose>
+								<when test="searchDiv == 'T'.toString()">
+									title like '%'||#{searchWord}||'%'
+								</when>
+								<when test="searchDiv == 'C'.toString()">
+									content like '%'||#{searchWord}||'%'
+								</when>
+								<when test="searchDiv == 'W'.toString()">
+									reg_id like '%'||#{searchWord}||'%'
+								</when>
+							</choose>
+						</trim>
+					</foreach>		        
+		        </trim>
+		        Order By reg_dt DESC)A
+		<![CDATA[Where ROWNUM <= #{pageNum} * #{pageSize})B]]>
+	<![CDATA[Where 1 + (#{pageNum} - 1) * #{pageSize} <= RNUM]]>
+	</select>
+
 	<update id="doUpdate" parameterType="BoardVO">
 		UPDATE board
 		SET

@@ -19,8 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kkj.board.board.BoardService;
-import com.kkj.board.board.BoardVO;
 import com.kkj.board.cmn.Auth;
+import com.kkj.board.cmn.PageVO;
 import com.kkj.board.member.MemberVO;
 
 @Controller
@@ -44,12 +44,22 @@ public class WorkspaceController {
 		workspaceVO.setName(workspaceName);
 		
 		workspaceVO = workspaceService.doSelectOneByName(workspaceVO);
+		
+		PageVO pageVO = new PageVO();
+		pageVO.setPageSize(10);
+		pageVO.setWorkspaceSeq(workspaceVO.getSeq());
+		pageVO.setPageNum(1);
+		
+		int count = boardService.doCountTotalVO(pageVO);
+		
 		LOG.debug("==workspaceVO==" + workspaceVO);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("board/board");
 		mav.addObject("workspaceSeq", workspaceVO.getSeq());
 		mav.addObject("workspaceName", workspaceName);
+		mav.addObject("totalBoardCount", count);
+		mav.addObject("startPageSet", 1);
 		
 		return mav;
 	}
