@@ -60,9 +60,8 @@
 		<div id="pagenation_box" class="text-center">
 			<nav>
 			  <ul class="pagination">
-			    
 			    <c:set var="page" value="${totalBoardCount/10 }"/>
-			    
+			    <!-- page: 페이지 숫자.x -->
 			    <c:choose>
 			    	<c:when test="${page lt 5 }">
 			    		<c:set var="pageNum" value="${page+(1-(page%1))%1 }"/>
@@ -81,6 +80,7 @@
 		<input type="text" id="search_word" name="search_word" value="" placeholder="searchWord">
 		<input type="text" id="page_num" name="page_num" value="1" placeholder="pageNum">
 		<input type="text" id="page_size" name="page_size" value="10" placeholder="pageSize">
+		<input type="text" id="total_page_num" name="total_page_num" value="${totalBoardCount/10 }">
 		<input type="text" id="start_page_set" name="start_page_set" value="${startPageSet }"> 
 		<input id="writeBtn" type="button" style="float: right" value="글쓰기" class="btn btn-default btn-lg"/>
 		
@@ -95,12 +95,8 @@
 	<script type="text/javascript">
 
 	// 페이징 클릭
-	$("#pagenation_box li a").on("click", function(){
-			var tmp = $(this).text();
-			
- 			document.getElementById('page_num').value = tmp;
- 			doSelectList();
-			
+	$("#pagenation_box li").on("click", function(){
+			// get으로(submit()) -> 뒤로가기가 되도록!
 		})
 	// 페이징 클릭
 	
