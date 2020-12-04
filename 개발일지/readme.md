@@ -33,3 +33,37 @@
 
   - 게시글 클릭 시 상세보기 기능
   - 게시글 수정하기
+
+2020-12-03
+
+- 배운 점
+
+  - mybatis
+
+    - ```sql
+      <trim prefix="AND (" suffix=")" prefixOverrides="OR">
+      					<foreach item='searchDiv' collection="typeArr">
+      						<trim prefix="OR">
+      							<choose>
+      								<when test="searchDiv == 'T'.toString()">
+      									title like '%'||#{searchWord}||'%'
+      								</when>
+      								<when test="searchDiv == 'C'.toString()">
+      									content like '%'||#{searchWord}||'%'
+      								</when>
+      								<when test="searchDiv == 'W'.toString()">
+      									reg_id like '%'||#{searchWord}||'%'
+      								</when>
+      							</choose>
+      						</trim>
+      					</foreach>		        
+      		        </trim>
+      ```
+
+    - 페이징 mysql은 더욱 간단하게 <limit> 등으로 하고 성능도 rownum으로 한것보다 성능이 좋다더라.
+
+    - rownum을 between으로 하면 쭉 다 돌고 거기서 골라냄. 그래서 rownum 시작 끝으로 구분해서 하면 거기만 뽑아옴. 근데 Count를 한번 더 날려야 하지만 board DB 갯수가 늘어나면 첫번째가 더 오래걸릴 수 있을 것 같다.
+
+- 한 것
+  - 게시글 삭제
+  - 페이징 시작
