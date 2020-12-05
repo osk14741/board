@@ -34,10 +34,13 @@ public class WorkspaceController {
 	// 게시판 페이지로 이동
 	@Auth
 	@RequestMapping(value = "workspace/moveToBoardPage.do", method = RequestMethod.GET)
-	public ModelAndView moveToBoardPage(@RequestParam("whereToGo") String workspaceName) {
+	public ModelAndView moveToBoardPage(@RequestParam("whereToGo") String workspaceName,
+									HttpServletRequest req) {
 		LOG.debug("================================");
 		LOG.debug("==workspace/moveToBoardPage.do==");
 		LOG.debug("================================");
+		
+		int activePage;
 		
 		LOG.debug("==workspaceName==" + workspaceName);
 		WorkspaceVO workspaceVO = new WorkspaceVO();
@@ -59,9 +62,45 @@ public class WorkspaceController {
 		mav.addObject("workspaceSeq", workspaceVO.getSeq());
 		mav.addObject("workspaceName", workspaceName);
 		mav.addObject("totalBoardCount", count);
-		mav.addObject("startPageSet", 1);
+		mav.addObject("whereToGo", workspaceName);
 		
-		return mav;
+		
+		// 페이지 넘버
+		try {
+			String pageNum = req.getParameter("page_num");
+			LOG.debug("pageNum : " + pageNum);
+			activePage = Integer.parseInt(pageNum);
+			LOG.debug("pageNum is not null");
+			mav.addObject("pageNumFromC", activePage);
+		} catch (NumberFormatException e) {
+			LOG.debug("pageNum is null");
+			activePage = 1;
+			mav.addObject("pageNumFromC", activePage);
+		}
+		
+		// active Page -> pageNumFromC
+		// 시작페이지(minPage), 끝페이지(maxPage), 총 페이지(pageSize) 구하기
+		// 총 갯수(count), pageSize(default:10), minPage(), maxPage() 
+		double tmp = (double) count / (double) 10;
+		int maxPage = (int) Math.ceil(tmp);
+		
+		if ((activePage == 1 || activePage == 2) && maxPage <= 5) {
+			mav.addObject("minPage", 1);
+			mav.addObject("maxPage", maxPage);
+			return mav;
+		} else if ((activePage == 1 || activePage == 2) && maxPage > 5) {
+			mav.addObject("minPage", 1);
+			mav.addObject("maxPage", 5);
+			return mav;
+		} else if (activePage + 1 == maxPage || activePage == maxPage) {
+			mav.addObject("minPage", maxPage - 4);
+			mav.addObject("maxPage", maxPage);
+			return mav;
+		} else {
+			mav.addObject("minPage", activePage - 2);
+			mav.addObject("maxPage", activePage + 2);
+			return mav;
+		}
 	}
 	
 	// 채널 등록

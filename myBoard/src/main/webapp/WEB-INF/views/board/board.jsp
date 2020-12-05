@@ -31,11 +31,10 @@
 	<%@ include file="/WEB-INF/views/main/nav.jsp" %>
 	<div class="container">
 		<form name="saveData" id="saveData" action="/board/board/moveToWritePage.do" method="get">
-			<label>workspaceSeq & Name </label>
-			<input type="text" value="${workspaceSeq }"  id="workspaceSeq"  name="workspaceSeq"/>
-			<input type="text" value="${workspaceName }" id="workspaceName" name="workspaceName" >
+			
+			<input type="hidden" value="${workspaceSeq }"  id="workspaceSeq"  name="workspaceSeq"/>
+			<input type="hidden" value="${workspaceName }" id="workspaceName" name="workspaceName" >
 		</form>
-		<hr>
 		<h2><a id="workspaceName2"><strong>${workspaceName }</strong></a></h2>
 		<hr>
 		<form name="board_table_form" id="board_table_form" action="/board/board/moveToBoardElement.do" method="get">
@@ -51,38 +50,38 @@
 					<tbody></tbody>
 				</table>
 			</div>
-			<input type="hidden" id="whereToGo" name="whereToGo">
+			<input type="hidden" id="whereToGo" name="whereToGo" value="${whereToGo }">
 			<input type="hidden" name="workspaceName" value="${workspaceName }"/>
+			
+			<input type="hidden" id="page_num_move" name="page_num_move" value="${pageNumFromC }">
 		</form>
 		
-		
-		<hr>
+		<input id="writeBtn" type="button" style="float: right" value="글쓰기" class="btn btn-default btn-lg"/>
 		<div id="pagenation_box" class="text-center">
 			<nav>
 			  <ul class="pagination">
-			    <c:set var="page" value="${totalBoardCount/10 }"/>
-			    <!-- page: 페이지 숫자.x -->
-			    <c:choose>
-			    	<c:when test="${page lt 5 }">
-			    		<c:set var="pageNum" value="${page+(1-(page%1))%1 }"/>
-			    	</c:when>
-			    	<c:when test="${page gt 5 }">
-			    		<c:set var="pageNum" value="${startPageSet * 5 }"/>
-			    	</c:when>
-			    </c:choose>
-			    <c:forEach var="i" begin="${1+(startPageSet-1)*5 }" end="${pageNum }">
-			    	<li><a>${i }</a></li>
+			    <c:forEach var="i" begin="${minPage }" end="${maxPage }">
+			    	<c:choose>
+			    		<c:when test="${i eq pageNumFromC }">
+			    			<li class="active"><a>${i }</a></li>
+			    		</c:when>
+			    		<c:otherwise>
+			    			<li><a>${i }</a></li>
+			    		</c:otherwise>
+			    	</c:choose>
 			    </c:forEach>
 			  </ul>
 			</nav>
 		</div>
-		<input type="text" id="search_div" name="search_div" value="" placeholder="searchDiv">
-		<input type="text" id="search_word" name="search_word" value="" placeholder="searchWord">
-		<input type="text" id="page_num" name="page_num" value="1" placeholder="pageNum">
-		<input type="text" id="page_size" name="page_size" value="10" placeholder="pageSize">
-		<input type="text" id="total_page_num" name="total_page_num" value="${totalBoardCount/10 }">
-		<input type="text" id="start_page_set" name="start_page_set" value="${startPageSet }"> 
-		<input id="writeBtn" type="button" style="float: right" value="글쓰기" class="btn btn-default btn-lg"/>
+		<form name="search_form" id="search_form" action="/board/workspace/moveToBoardPage.do" method="get">
+			<input type="hidden" id="search_div" name="search_div" value="" placeholder="searchDiv">
+			<input type="hidden" id="search_word" name="search_word" value="" placeholder="searchWord">
+			<input type="hidden" id="page_num" name="page_num" value="${pageNumFromC }" placeholder="pageNum">
+			<input type="hidden" id="page_size" name="page_size" value="10" placeholder="pageSize">
+			<input type="hidden" id="whereToGo2" name="whereToGo" value="${whereToGo }"> 
+		</form>
+		
+		
 		
 	</div>
 	
@@ -96,7 +95,14 @@
 
 	// 페이징 클릭
 	$("#pagenation_box li").on("click", function(){
-			// get으로(submit()) -> 뒤로가기가 되도록!
+			var tmp = $(this).text();
+			console.log(tmp);
+
+			document.getElementById('page_num').value = tmp;
+			document.getElementById('page_num_move').value = tmp;
+			
+			var frm = document.search_form;
+			frm.submit();
 		})
 	// 페이징 클릭
 	

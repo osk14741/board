@@ -49,12 +49,12 @@
 				</div>
 			</div>
 		</div>
-			<input type="text" name="board_seq" id="board_seq" value="${boardVO.seq }"/>
-			<input type="text" name="board_header" id="board_header" value="temp_header">
-			<input type="text" name="board_content" id="board_content" value="${boardVO.content }">
-			<input type="text" name="board_readCnt" id="board_readCnt" value="${boardVO.readCount }">
-			<input type="text" name="board_recommend" id="board_recommend" value="${boardVO.recommend }">
-			<input type="text" name="workspace_name" id="workspace_name" value="${workspaceName }">
+			<input type="hidden" name="board_seq" id="board_seq" value="${boardVO.seq }"/>
+			<input type="hidden" name="board_header" id="board_header" value="temp_header">
+			<input type="hidden" name="board_content" id="board_content" value="${boardVO.content }">
+			<input type="hidden" name="board_readCnt" id="board_readCnt" value="${boardVO.readCount }">
+			<input type="hidden" name="board_recommend" id="board_recommend" value="${boardVO.recommend }">
+			<input type="hidden" name="workspace_name" id="workspace_name" value="${workspaceName }">
 		</form>
 		<br>
 		<input id="savebutton" type="button" style="float: right" value="수정하기" class="btn btn-default btn-lg"/>

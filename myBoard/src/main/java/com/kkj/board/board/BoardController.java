@@ -98,7 +98,8 @@ public class BoardController {
 										@RequestParam("board_readCnt") int boardReadCnt,
 										@RequestParam("board_recommend") int boardRecommend,
 										@RequestParam("board_seq") int boardSeq,
-										@RequestParam("workspace_name") String workspaceName) {
+										@RequestParam("workspace_name") String workspaceName,
+										@RequestParam("page_num") int pageNum) {
 		
 		LOG.debug("==board/moveToUpdatePage.do==");
 		
@@ -115,6 +116,7 @@ public class BoardController {
 		mav.setViewName("board/update_board");
 		mav.addObject("boardVO", boardVO);
 		mav.addObject("workspaceName", workspaceName);
+		mav.addObject("pageNum", pageNum);
 		
 		return mav;
 	}
@@ -123,7 +125,8 @@ public class BoardController {
 	@Auth
 	@RequestMapping(value = "board/moveToBoardElement.do", method = RequestMethod.GET)
 	public ModelAndView moveToBoardElement(@RequestParam("whereToGo") int boardSeq,
-										@RequestParam("workspaceName") String workspaceName) {
+										@RequestParam("workspaceName") String workspaceName,
+										@RequestParam("page_num_move") int pageNum) {
 		
 		LOG.debug("==board/moveToBoardElement.do==");
 		
@@ -139,6 +142,7 @@ public class BoardController {
 		mav.setViewName("board/board_detail");
 		mav.addObject("boardVO", boardVO);
 		mav.addObject("workspaceName", workspaceName);
+		mav.addObject("pageNum", pageNum);
 		
 		return mav;
 	}

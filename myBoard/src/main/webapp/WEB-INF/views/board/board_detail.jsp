@@ -44,28 +44,25 @@
 		<hr>
 		<c:set var="name" value="${boardVO.regId }"/>
 		<c:set var="sessionName" value="${sessionScope.sessionId.id }"/>
+			<input type="button" style="float: right; margin-right: 10px;" value="뒤로가기" class="btn btn-default btn-lg" onclick="goBack();">
 		<c:if test="${name eq sessionName }">
-			<input id="updateBtn" type="button" style="float: right" value="수정하기" class="btn btn-default btn-lg"/>
-			<input id="deleteBtn" type="button" style="float: right" value="삭제하기" class="btn btn-default btn-lg"/>
+			<input id="updateBtn" type="button" style="float: right; margin-right: 10px;" value="수정하기" class="btn btn-default btn-lg"/>
+			<input id="deleteBtn" type="button" style="float: right; margin-right: 10px;" value="삭제하기" class="btn btn-default btn-lg"/>
 		</c:if>
 		
 		<form name="updateData" id="updateData" action="/board/board/moveToUpdatePage.do" method="post">
-			<input type="text" name="board_header" id="board_header" value="temp_header">
-			<input type="text" name="board_title" id="board_title" value="${boardVO.title }">
-			<input type="text" name="board_content" id="board_content" value="${boardVO.content }">
-			<input type="text" name="board_readCnt" id="board_readCnt" value="${boardVO.readCount }">
-			<input type="text" name="board_recommend" id="board_recommend" value="${boardVO.recommend }">
-			<input type="text" name="regII" id="regII" value="${boardVO.regId }"/>
-			<input type="text" name="board_seq" id="board_seq" value="${boardVO.seq }">
-			<input type="text" name="workspace_name" id="workspace_name" value="${workspaceName }">
+			<input type="hidden" name="board_header" id="board_header" value="temp_header">
+			<input type="hidden" name="board_title" id="board_title" value="${boardVO.title }">
+			<input type="hidden" name="board_content" id="board_content" value="${boardVO.content }">
+			<input type="hidden" name="board_readCnt" id="board_readCnt" value="${boardVO.readCount }">
+			<input type="hidden" name="board_recommend" id="board_recommend" value="${boardVO.recommend }">
+			<input type="hidden" name="regII" id="regII" value="${boardVO.regId }"/>
+			<input type="hidden" name="board_seq" id="board_seq" value="${boardVO.seq }">
+			<input type="hidden" name="workspace_name" id="workspace_name" value="${workspaceName }">
+			<input type="hidden" name="page_num" id="page_num" value="${pageNum }"/>
 		</form>
 		
 	</div>
-
-
-
-
-
 
 
 
@@ -78,6 +75,13 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
+	function goBack(){
+	   		var workspaceName = document.getElementById('workspaceName').text;
+	   		var pageNum = document.getElementById('page_num').value;
+			var gourl = "/board/workspace/moveToBoardPage.do?search_div=&search_word=&page_num="+pageNum+"&page_size=10&whereToGo=" + workspaceName;
+			window.location.href = gourl;
+		}
+	
 	// 삭제하기 버튼 클릭
 	$("#deleteBtn").on("click", function(){
 		var result = confirm("정말 삭제하시겠습니까?");
