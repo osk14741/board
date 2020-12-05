@@ -25,6 +25,25 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+    	.iwantbg{
+    		background-color: #F5F5F5;
+    		border-radius: 5px;
+    		padding: 5px;
+    		padding-top:10px;
+    		margin-top : 10px;
+    		padding-left:8px;
+    	}
+    	
+    	.iwantcontent{
+    		padding: 3px;
+    		padding-top: 8px;
+    	}
+    	
+    	.childcomment{
+    		margin-left:40px;
+    	}
+    </style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/main/nav.jsp" %>
@@ -49,6 +68,12 @@
 			<input id="updateBtn" type="button" style="float: right; margin-right: 10px;" value="수정하기" class="btn btn-default btn-lg"/>
 			<input id="deleteBtn" type="button" style="float: right; margin-right: 10px;" value="삭제하기" class="btn btn-default btn-lg"/>
 		</c:if>
+		<br><br><br><br>
+		<hr>
+		<!-- 한 셋트 -->
+		<div id="countBox"></div>
+		<br>
+		<div id="comment_box"></div>
 		
 		<form name="updateData" id="updateData" action="/board/board/moveToUpdatePage.do" method="post">
 			<input type="hidden" name="board_header" id="board_header" value="temp_header">
@@ -65,22 +90,85 @@
 	</div>
 
 
-
-
-
-
-
-
 	<%@ include file="/WEB-INF/views/main/footer.jsp" %>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
+	// 댓글 불러오기
+	window.onload = function(){
+			doSelectListComment();
+		}
+
+	function doSelectListComment(){
+		$.ajax({
+			type:'POST',
+			url:'${hContext}/comment/doSelectListComment.do',
+			dataType:"json",
+            async: true,
+            data:{
+				"boardSeq" : $("#board_seq").val()
+	            },
+	        success:function(data){
+		        	console.log("가져왔당");
+		        	console.log(data);
+		        	var html = "";
+					var html2 = "";
+					var countComment = data.length;
+					html += "<h3>"+countComment+"개의 댓글</h3>";
+					$("#countBox").append(html);
+					
+					$.each(data, function(i, value){
+							if(value.parentSeq == 0){
+									html = "";
+									html += "<div class='parentcomment' id='"+value.seq+"'>";
+									html += "<div class='iwantbg'>";
+									html += value.regId+" "+value.regDt;
+									html += "</div>";
+									html += "<div class='iwantcontent'>";
+									html += "<span>"+ value.content +"<span>";
+									html += "</div>";
+									html += "<div class='text-right'>";
+									html += "추천버튼 추천수 댓글";
+									html += "</div>";
+									html += "</div>";
+									$("#comment_box").append(html);
+								} else if(value.parentSeq != 0) {
+									html2 = "";
+									html2 += "<div class='childcomment'>";
+									html2 += "<div class='iwantbg'>";
+									html2 += value.regId+" "+value.regDt;
+									html2 += "</div>";
+									html2 += "<div class='iwantcontent'>";
+									html2 += "<span>"+ value.content +"<span>";
+									html2 += "</div>";
+									html2 += "<div class='text-right'>";
+									html2 += "추천버튼 추천수 댓글";
+									html2 += "</div>";
+									html2 += "</div>";
+									$("#"+value.parentSeq).after(html2);
+									
+									}
+
+							
+						});
+		        	
+		        },
+		    error:function(){
+					alert("실패했습니다. 다시 시도해주세요.");
+			    }  
+			});
+
+		}
+	// 댓글 불러오기
+	
+	// 뒤로가기 버튼
 	function goBack(){
 	   		var workspaceName = document.getElementById('workspaceName').text;
 	   		var pageNum = document.getElementById('page_num').value;
 			var gourl = "/board/workspace/moveToBoardPage.do?search_div=&search_word=&page_num="+pageNum+"&page_size=10&whereToGo=" + workspaceName;
 			window.location.href = gourl;
 		}
+	// 뒤로가기 버튼
 	
 	// 삭제하기 버튼 클릭
 	$("#deleteBtn").on("click", function(){

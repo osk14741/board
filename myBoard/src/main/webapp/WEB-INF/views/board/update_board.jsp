@@ -55,6 +55,7 @@
 			<input type="hidden" name="board_readCnt" id="board_readCnt" value="${boardVO.readCount }">
 			<input type="hidden" name="board_recommend" id="board_recommend" value="${boardVO.recommend }">
 			<input type="hidden" name="workspace_name" id="workspace_name" value="${workspaceName }">
+			<input type="hidden" name="page_num" id="page_num" value="${pageNum }"/>
 		</form>
 		<br>
 		<input id="savebutton" type="button" style="float: right" value="수정하기" class="btn btn-default btn-lg"/>

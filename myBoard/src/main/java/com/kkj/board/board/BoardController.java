@@ -54,6 +54,7 @@ public class BoardController {
 			@RequestParam("board_readCnt") int readCount,
 			@RequestParam("board_recommend") int recommend,
 			@RequestParam("workspace_name") String workspaceName,
+			@RequestParam("page_num") int pageNum,
 			HttpServletRequest req) {
 
 		LOG.debug("content : " + content);
@@ -83,8 +84,8 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		
-		mav.setViewName("redirect:/board/moveToBoardElement.do?whereToGo="+boardSeq+"&workspaceName=" + workspaceName);
-//		mav.addObject("workspaceSeq", workspaceSeq);
+		mav.setViewName("redirect:/board/moveToBoardElement.do?whereToGo="+boardSeq+"&workspaceName=" + workspaceName+"&page_num_move=" + pageNum);
+		
 		
 		return mav;
 	}

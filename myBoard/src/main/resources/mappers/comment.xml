@@ -57,7 +57,8 @@
 		FROM
 	  	 	board_comment c, board b
 	  	Where
-	  		#{boardSeq} = b.seq
+	  		#{boardSeq} = b.seq And
+	  		c.board_seq = b.seq
 	</select>
 	
 	<update id="doUpdate" parameterType="CommentVO">
