@@ -70,7 +70,7 @@
   
 - 알아볼 것
 
-  - seq가 index로 잡혀있는데 왜 중간중간에 insert가 들어가지?
+  - seq가 index로 잡혀있는데 insert 하면 왜 중간중간에 들어가지?
   - order by를 해결할 방법을 찾아야 할 것 같다.
 
 2020-12-05
@@ -84,7 +84,18 @@
 2020-12-06
 
 - 배운 점
+
   - 아무리 써봐도 반복문 대단한 기능이다.
 
+  - ```sql
+    <selectKey keyProperty="seq" resultType="Integer" order="AFTER">
+    	SELECT comment_seq.currval FROM dual
+    </selectKey>
+    ```
+
+    하면 parameterType으로 들어왔던 그 객체의 getter/setter를 이용해서 그 객체에 포함시켜 준다.
+
 - 한 것
-  - 코멘트 리스트
+  
+  - 댓글 리스트
+  - 댓글 쓰기
