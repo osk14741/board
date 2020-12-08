@@ -39,24 +39,36 @@
 		<hr>
 		<form name="board_table_form" id="board_table_form" action="/board/board/moveToBoardElement.do" method="get">
 			<div class="table-responsive">
-				<table id="board_table" class="table table-striped table-hover">
+				<table id="board_table" class="table table-striped table-hover ">
 					<thead>
 						<tr>
-							<th class="text-center col-md-6">title</th>
-							<th class="text-center col-md-2">regId</th>
-							<th class="text-center col-md-2">regDt</th>
+							<th class="text-center col-md-6">제목</th>
+							<th class="text-center col-md-2">글쓴이</th>
+							<th class="text-center col-md-2">날짜</th>
 						</tr>
 					</thead>
-					<tbody></tbody>
+					<tbody>
+						<c:forEach var="i" begin="1" end="10">
+						<tr>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+						</c:forEach>
+					</tbody>
 				</table>
 			</div>
 			<input type="hidden" id="whereToGo" name="whereToGo" value="${whereToGo }">
 			<input type="hidden" name="workspaceName" value="${workspaceName }"/>
-			
+			<input type="hidden" id="search_div2" name="search_div" value="${searchDiv }" placeholder="searchDiv">
+			<input type="hidden" id="search_word2" name="search_word" value="${searchWord }" placeholder="searchWord">
 			<input type="hidden" id="page_num_move" name="page_num_move" value="${pageNumFromC }">
 		</form>
+		<div class="text-right">
 		
-		<input id="writeBtn" type="button" style="float: right" value="글쓰기" class="btn btn-default btn-lg"/>
+			<input id="writeBtn" style="float: right;" type="button" value="글쓰기" class="btn btn-default btn-lg"/>
+		</div>
+		
 		<div id="pagenation_box" class="text-center">
 			<nav>
 			  <ul class="pagination">
@@ -73,9 +85,24 @@
 			  </ul>
 			</nav>
 		</div>
+		<form class="form-inline text-center">
+			<div class="form-group" style="padding-right: 50px;">
+				<select id="search_div_select" class="form-control">
+					<option value="T">제목</option>
+					<option value="C">내용</option>
+					<option value="TC">제목+내용</option>
+					<option value="W">글쓴이</option>
+				</select>
+				<input id="search_word_input" type="text" value="" class="form-control">
+				<input id="search_btn" type="button" value="검색" class="btn btn-default">
+			</div>
+		</form>
+		
+	  
+	  
 		<form name="search_form" id="search_form" action="/board/workspace/moveToBoardPage.do" method="get">
-			<input type="hidden" id="search_div" name="search_div" value="" placeholder="searchDiv">
-			<input type="hidden" id="search_word" name="search_word" value="" placeholder="searchWord">
+			<input type="hidden" id="search_div" name="search_div" value="${searchDiv }" placeholder="searchDiv">
+			<input type="hidden" id="search_word" name="search_word" value="${searchWord }" placeholder="searchWord">
 			<input type="hidden" id="page_num" name="page_num" value="${pageNumFromC }" placeholder="pageNum">
 			<input type="hidden" id="page_size" name="page_size" value="10" placeholder="pageSize">
 			<input type="hidden" id="whereToGo2" name="whereToGo" value="${whereToGo }"> 
@@ -93,6 +120,22 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
+	// 검색
+	$("#search_btn").on("click", function(){
+			var searchDiv = document.getElementById('search_div_select').value;
+			document.getElementById('search_div').value = searchDiv;
+			document.getElementById('search_div2').value = searchDiv;
+			var searchWord = document.getElementById('search_word_input').value;
+			document.getElementById('search_word').value = searchWord;
+			document.getElementById('search_word2').value = searchWord;
+			document.getElementById('page_num').value = 1;
+
+			
+			var frm = document.search_form;
+			frm.submit();
+		})
+	// 검색
+	
 	// 페이징 클릭
 	$("#pagenation_box li").on("click", function(){
 			var tmp = $(this).text();
@@ -109,7 +152,7 @@
 	// 게시판으로 돌아가기
 	$("#workspaceName2").on("click", function(){
 			var workspaceName = document.getElementById('workspaceName2').text;
-			var gourl = "/board/workspace/moveToBoardPage.do?whereToGo=" + workspaceName;
+			var gourl = "/board/workspace/moveToBoardPage.do?whereToGo=" + workspaceName + "&search_div=&search_word=";
 			window.location.href = gourl;
 		});
 	// 게시판으로 돌아가기

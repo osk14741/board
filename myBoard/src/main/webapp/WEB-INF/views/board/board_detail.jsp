@@ -38,6 +38,7 @@
     	.iwantcontent{
     		padding: 3px;
     		padding-top: 8px;
+    		padding-left:10px;
     	}
     	
     	.childcomment{
@@ -74,6 +75,13 @@
 		<div id="countBox"></div>
 		<br>
 		<div id="comment_box"></div>
+		<br>
+		<div id="comment_insert_box">
+			<textarea id="comment_content" class="form-control" rows="4"></textarea>
+			<input id="comment_insert_btn" type="button" value="댓글 등록" class="btn btn-default btn-lg" style="float: right; margin-top: 10px;"/>
+			<input type="hidden" id="comment_parent_seq" value="0">
+		</div>
+		
 		
 		<form name="updateData" id="updateData" action="/board/board/moveToUpdatePage.do" method="post">
 			<input type="hidden" name="board_header" id="board_header" value="temp_header">
@@ -85,6 +93,8 @@
 			<input type="hidden" name="board_seq" id="board_seq" value="${boardVO.seq }">
 			<input type="hidden" name="workspace_name" id="workspace_name" value="${workspaceName }">
 			<input type="hidden" name="page_num" id="page_num" value="${pageNum }"/>
+			<input type="hidden" name="search_div" id="search_div" value="${searchDiv }">
+			<input type="hidden" name="search_word" id="search_word" value="${searchWord }">
 		</form>
 		
 	</div>
@@ -94,6 +104,37 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
+	// 댓글 등록하기
+	$("#comment_insert_btn").on("click", function(){
+			doInsertComment();
+		})
+		
+	function doInsertComment(){
+		$.ajax({
+			type:'POST',
+			url:'${hContext}/comment/doInsertComment.do',
+			dataType:"json",
+            async: true,
+            data:{
+				"boardSeq" : $("#board_seq").val(),
+				"parentSeq" : $("#comment_parent_seq").val(),
+				"content" : $("#comment_content").val()
+	            },
+	        success:function(data){
+					doSelectListComment();
+					document.getElementById('comment_content').value = "";
+	        	},
+		    error:function(){
+					alert("실패했습니다. 다시 시도해주세요.");
+			    },
+			complete:function(data){
+				
+				}  
+			});
+
+		}
+	// 댓글 등록하기
+	
 	// 댓글 불러오기
 	window.onload = function(){
 			doSelectListComment();
@@ -109,11 +150,12 @@
 				"boardSeq" : $("#board_seq").val()
 	            },
 	        success:function(data){
-		        	console.log("가져왔당");
 		        	console.log(data);
 		        	var html = "";
 					var html2 = "";
 					var countComment = data.length;
+					$("#countBox").empty();
+					$("#comment_box").empty();
 					html += "<h3>"+countComment+"개의 댓글</h3>";
 					$("#countBox").append(html);
 					
@@ -122,7 +164,7 @@
 									html = "";
 									html += "<div class='parentcomment' id='"+value.seq+"'>";
 									html += "<div class='iwantbg'>";
-									html += value.regId+" "+value.regDt;
+									html += "<strong>"+value.regId+"</strong> "+value.regDt;
 									html += "</div>";
 									html += "<div class='iwantcontent'>";
 									html += "<span>"+ value.content +"<span>";
@@ -134,9 +176,9 @@
 									$("#comment_box").append(html);
 								} else if(value.parentSeq != 0) {
 									html2 = "";
-									html2 += "<div class='childcomment'>";
+									html2 += "<div class='childcomment' name='parent_"+value.parentSeq+"'>";
 									html2 += "<div class='iwantbg'>";
-									html2 += value.regId+" "+value.regDt;
+									html2 += "<strong>"+value.regId+"</strong> "+value.regDt;
 									html2 += "</div>";
 									html2 += "<div class='iwantcontent'>";
 									html2 += "<span>"+ value.content +"<span>";
@@ -165,7 +207,9 @@
 	function goBack(){
 	   		var workspaceName = document.getElementById('workspaceName').text;
 	   		var pageNum = document.getElementById('page_num').value;
-			var gourl = "/board/workspace/moveToBoardPage.do?search_div=&search_word=&page_num="+pageNum+"&page_size=10&whereToGo=" + workspaceName;
+	   		var searchWord = document.getElementById('search_word').value;
+	   		var searchDiv = document.getElementById('search_div').value;
+			var gourl = "/board/workspace/moveToBoardPage.do?search_div="+ searchDiv  +"&search_word="+ searchWord +"&page_num="+pageNum+"&page_size=10&whereToGo=" + workspaceName;
 			window.location.href = gourl;
 		}
 	// 뒤로가기 버튼
@@ -195,7 +239,7 @@
 		       		alert("삭제 성공");
 		       		var workspaceName = document.getElementById('workspaceName').text;
 					console.log(workspaceName);
-					var gourl = "/board/workspace/moveToBoardPage.do?whereToGo=" + workspaceName;
+					var gourl = "/board/workspace/moveToBoardPage.do?whereToGo=" + workspaceName+"&search_div=&search_word=";
 					window.location.href = gourl;
 		        },
 		    error:function(){
@@ -222,7 +266,7 @@
 	$("#workspaceName").on("click", function(){
 			var workspaceName = document.getElementById('workspaceName').text;
 			console.log(workspaceName);
-			var gourl = "/board/workspace/moveToBoardPage.do?whereToGo=" + workspaceName;
+			var gourl = "/board/workspace/moveToBoardPage.do?whereToGo=" + workspaceName + "&search_div=&search_word=";
 			console.log(gourl);
 			window.location.href = gourl;
 		});

@@ -46,6 +46,8 @@
 		</div>
 		<form method="get" name="moveToBoardPage" id="moveToBoardPage" action="/board/workspace/moveToBoardPage.do">
 			<input type="hidden" id="whereToGo" name="whereToGo">
+			<input type="hidden" name="search_div" value="">
+			<input type="hidden" name="search_word" value="">
 		</form>
 		<form action="/board/workspace/moveToRegisterPage.do">
 		

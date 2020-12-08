@@ -55,6 +55,8 @@ public class BoardController {
 			@RequestParam("board_recommend") int recommend,
 			@RequestParam("workspace_name") String workspaceName,
 			@RequestParam("page_num") int pageNum,
+			@RequestParam("search_div") String searchDiv,
+			@RequestParam("search_word") String searchWord,
 			HttpServletRequest req) {
 
 		LOG.debug("content : " + content);
@@ -83,8 +85,13 @@ public class BoardController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		try {
+			searchWord = URLEncoder.encode(searchWord, "UTF-8");
+		} catch(UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
-		mav.setViewName("redirect:/board/moveToBoardElement.do?whereToGo="+boardSeq+"&workspaceName=" + workspaceName+"&page_num_move=" + pageNum);
+		mav.setViewName("redirect:/board/moveToBoardElement.do?whereToGo="+boardSeq+"&workspaceName=" + workspaceName+"&page_num_move=" + pageNum + "&search_div="+ searchDiv+"&search_word="+searchWord);
 		
 		
 		return mav;
@@ -100,7 +107,9 @@ public class BoardController {
 										@RequestParam("board_recommend") int boardRecommend,
 										@RequestParam("board_seq") int boardSeq,
 										@RequestParam("workspace_name") String workspaceName,
-										@RequestParam("page_num") int pageNum) {
+										@RequestParam("page_num") int pageNum,
+										@RequestParam("search_div") String searchDiv,
+										@RequestParam("search_word") String searchWord) {
 		
 		LOG.debug("==board/moveToUpdatePage.do==");
 		
@@ -118,6 +127,9 @@ public class BoardController {
 		mav.addObject("boardVO", boardVO);
 		mav.addObject("workspaceName", workspaceName);
 		mav.addObject("pageNum", pageNum);
+		mav.addObject("searchWord", searchWord);
+		mav.addObject("searchDiv", searchDiv);
+		
 		
 		return mav;
 	}
@@ -127,7 +139,9 @@ public class BoardController {
 	@RequestMapping(value = "board/moveToBoardElement.do", method = RequestMethod.GET)
 	public ModelAndView moveToBoardElement(@RequestParam("whereToGo") int boardSeq,
 										@RequestParam("workspaceName") String workspaceName,
-										@RequestParam("page_num_move") int pageNum) {
+										@RequestParam("page_num_move") int pageNum,
+										@RequestParam("search_word") String searchWord,
+										@RequestParam("search_div") String searchDiv) {
 		
 		LOG.debug("==board/moveToBoardElement.do==");
 		
@@ -144,6 +158,8 @@ public class BoardController {
 		mav.addObject("boardVO", boardVO);
 		mav.addObject("workspaceName", workspaceName);
 		mav.addObject("pageNum", pageNum);
+		mav.addObject("searchWord", searchWord);
+		mav.addObject("searchDiv", searchDiv);
 		
 		return mav;
 	}
@@ -183,7 +199,7 @@ public class BoardController {
 		
 		ModelAndView mav = new ModelAndView();
 				
-		mav.setViewName("redirect:/workspace/moveToBoardPage.do?whereToGo="+workspaceName);
+		mav.setViewName("redirect:/workspace/moveToBoardPage.do?whereToGo="+workspaceName+"&search_div=&search_word=");
 		mav.addObject("workspaceSeq", workspaceSeq);
 				
 		return mav;

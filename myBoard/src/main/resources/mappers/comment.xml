@@ -25,6 +25,11 @@
 		    0,
 		    0
 		)
+		<selectKey keyProperty="seq" resultType="Integer" order="AFTER">
+
+			SELECT comment_seq.currval FROM dual
+
+		</selectKey>
 	</insert>
 	<select id="doSelectOne" parameterType="CommentVO" resultType="CommentVO">
 		SELECT
@@ -59,6 +64,7 @@
 	  	Where
 	  		#{boardSeq} = b.seq And
 	  		c.board_seq = b.seq
+	  	Order By c.reg_dt 
 	</select>
 	
 	<update id="doUpdate" parameterType="CommentVO">

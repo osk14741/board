@@ -35,6 +35,8 @@ public class WorkspaceController {
 	@Auth
 	@RequestMapping(value = "workspace/moveToBoardPage.do", method = RequestMethod.GET)
 	public ModelAndView moveToBoardPage(@RequestParam("whereToGo") String workspaceName,
+									@RequestParam("search_div") String searchDiv,
+									@RequestParam("search_word") String searchWord,
 									HttpServletRequest req) {
 		LOG.debug("================================");
 		LOG.debug("==workspace/moveToBoardPage.do==");
@@ -52,6 +54,9 @@ public class WorkspaceController {
 		pageVO.setPageSize(10);
 		pageVO.setWorkspaceSeq(workspaceVO.getSeq());
 		pageVO.setPageNum(1);
+		pageVO.setSearchDiv(searchDiv);
+		pageVO.setSearchWord(searchWord);
+		
 		
 		int count = boardService.doCountTotalVO(pageVO);
 		
@@ -63,18 +68,21 @@ public class WorkspaceController {
 		mav.addObject("workspaceName", workspaceName);
 		mav.addObject("totalBoardCount", count);
 		mav.addObject("whereToGo", workspaceName);
-		
+		mav.addObject("searchDiv", searchDiv);
+		mav.addObject("searchWord", searchWord);
 		
 		// 페이지 넘버
 		try {
 			String pageNum = req.getParameter("page_num");
 			LOG.debug("pageNum : " + pageNum);
 			activePage = Integer.parseInt(pageNum);
+			LOG.debug("activePage : " + activePage);
 			LOG.debug("pageNum is not null");
 			mav.addObject("pageNumFromC", activePage);
 		} catch (NumberFormatException e) {
 			LOG.debug("pageNum is null");
 			activePage = 1;
+			LOG.debug("activePage : " + activePage);
 			mav.addObject("pageNumFromC", activePage);
 		}
 		
@@ -83,22 +91,31 @@ public class WorkspaceController {
 		// 총 갯수(count), pageSize(default:10), minPage(), maxPage() 
 		double tmp = (double) count / (double) 10;
 		int maxPage = (int) Math.ceil(tmp);
+		LOG.debug("activePage : " + activePage);
 		
 		if ((activePage == 1 || activePage == 2) && maxPage <= 5) {
 			mav.addObject("minPage", 1);
 			mav.addObject("maxPage", maxPage);
+			LOG.debug("minPage : " + 1 + ", maxPage : " + maxPage);
 			return mav;
 		} else if ((activePage == 1 || activePage == 2) && maxPage > 5) {
 			mav.addObject("minPage", 1);
 			mav.addObject("maxPage", 5);
+			LOG.debug("minPage : " + 1 + ", maxPage : " + 5);
 			return mav;
-		} else if (activePage + 1 == maxPage || activePage == maxPage) {
-			mav.addObject("minPage", maxPage - 4);
+		} else if ((activePage + 1) == maxPage || activePage == maxPage) {
+			if(activePage == 3 || activePage == 4 || activePage == 5) {
+				mav.addObject("minPage", 1);
+			} else {
+				mav.addObject("minPage", (maxPage - 4));
+			}
 			mav.addObject("maxPage", maxPage);
+			LOG.debug("minPage : " + (maxPage - 4) + ", maxPage : " + maxPage);
 			return mav;
 		} else {
-			mav.addObject("minPage", activePage - 2);
-			mav.addObject("maxPage", activePage + 2);
+			mav.addObject("minPage", (activePage - 2));
+			mav.addObject("maxPage", (activePage + 2));
+			LOG.debug("minPage : " + (activePage - 2) + ", maxPage : " + (activePage + 2));
 			return mav;
 		}
 	}

@@ -33,6 +33,9 @@ public class CommentVO {
 		this.recommend = recommend;
 	}
 
+	
+	
+
 	public int getSeq() {
 		return seq;
 	}

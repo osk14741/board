@@ -36,6 +36,9 @@
 
 	<%@ include file="/WEB-INF/views/main/nav.jsp" %>
 	<div class="container">
+	
+		<h2><a id="workspaceName"><strong>${workspaceName }</strong></a></h2>
+		<hr>
 		<form name="noticeWriteForm" id="noticeWriteForm" action="/board/board/doUpdate.do" method="get">
 		<input class="form-control" type="text" value="${boardVO.title }" id="title" name="title" placeholder="제목을 입력해주세요">
 		<!-- SmartEditor2 -->
@@ -56,6 +59,8 @@
 			<input type="hidden" name="board_recommend" id="board_recommend" value="${boardVO.recommend }">
 			<input type="hidden" name="workspace_name" id="workspace_name" value="${workspaceName }">
 			<input type="hidden" name="page_num" id="page_num" value="${pageNum }"/>
+			<input type="hidden" name="search_div" id="search_div" value="${searchDiv }"/>
+			<input type="hidden" name="search_word" id="search_word" value="${searchWord }"/>
 		</form>
 		<br>
 		<input id="savebutton" type="button" style="float: right" value="수정하기" class="btn btn-default btn-lg"/>
@@ -68,7 +73,15 @@
 	<%@ include file="/WEB-INF/views/main/footer.jsp" %>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
-
+	// 게시판으로 돌아가기
+	$("#workspaceName").on("click", function(){
+			var workspaceName = document.getElementById('workspaceName').text;
+			console.log(workspaceName);
+			var gourl = "/board/workspace/moveToBoardPage.do?whereToGo=" + workspaceName;
+			console.log(gourl);
+			window.location.href = gourl;
+		});
+	// 게시판으로 돌아가기
 	
 
 	</script>
