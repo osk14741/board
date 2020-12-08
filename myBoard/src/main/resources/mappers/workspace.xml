@@ -3,6 +3,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kkj.board.workspace">
+
+	<select id="doSelectListForMng" resultType="WorkspaceMngVO">
+		Select w.seq, w.name, w.topic, w.reg_dt, NVL(B.boardCount, 0) As boardCount, NVL(c.regboardcount, 0) As regBoardCount
+		From workspace w,
+			(Select b.workspace_seq As seq, count(*) As boardCount
+			 From workspace w, board b
+			 Where workspace_seq = w.seq
+			 Group by b.workspace_seq) B,
+            (Select b.workspace_seq As seq, count(*) As regBoardCount 
+             From board b, workspace w 
+             Where b.workspace_seq = w.seq 
+             And b.reg_dt Between SYSDATE -1 And SYSDATE 
+             Group by b.workspace_seq) C
+		Where B.seq(+) = w.seq and
+        C.seq(+) = B.seq
+        order by reg_dt Desc
+	</select>
+
 	<insert id="doInsert" parameterType="WorkspaceVO">
 		INSERT INTO workspace (
 		    seq,

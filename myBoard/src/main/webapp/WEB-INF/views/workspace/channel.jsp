@@ -32,6 +32,12 @@
     	
     	dl{
     		width:20%;
+    		float: left;
+    	}
+    	
+    	dt{
+    		font-size: large;
+    	
     	}
     </style>
 </head>
@@ -44,14 +50,19 @@
 		<hr>
 		<div class="form-group" id="channelList">
 		</div>
+		<div style="clear: both;"></div>
 		<form method="get" name="moveToBoardPage" id="moveToBoardPage" action="/board/workspace/moveToBoardPage.do">
 			<input type="hidden" id="whereToGo" name="whereToGo">
 			<input type="hidden" name="search_div" value="">
 			<input type="hidden" name="search_word" value="">
 		</form>
 		<form action="/board/workspace/moveToRegisterPage.do">
-		
-			<input class="btn btn-primary" type="submit" value="채널 등록">
+			<c:choose>
+				<c:when test="${sessionScope.sessionId.authority eq 2 }">
+					<input class="btn btn-primary" type="button" value="채널 관리" onclick="channelMng();">	
+				</c:when>
+			</c:choose>
+			
 		</form>
 	</div>	<!-- end container -->
 	
@@ -60,6 +71,13 @@
 	<%@ include file="/WEB-INF/views/main/footer.jsp" %>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
+	// 채널 관리 페이지
+	function channelMng(){
+			window.location.href = "/board/workspace/moveToMngPage.do";
+
+		}
+	// 채널 관리 페이지
+	
 	// 채널 리스트 불러오기
 	window.onload = function(){
 		onloadFunction();
@@ -113,11 +131,7 @@
 	})
 	// 채널 클릭 시 게시판으로 이동
 	
-	// 채널 등록 페이지로 이동
-	function moveToRegister(){
-		window.location.href = "${hContext}/member/registerView.do";
-	}
-	// 채널 등록 페이지로 이동	
+	
 
 	</script>
 	

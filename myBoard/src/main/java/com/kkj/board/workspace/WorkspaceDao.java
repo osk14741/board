@@ -18,6 +18,25 @@ public class WorkspaceDao {
 	
 	@Autowired WorkspaceVO workspaceVO;
 	@Autowired SqlSessionTemplate sqlSessionTemplate;
+	@Autowired WorkspaceMngVO workspaceMngVO;
+	
+	public List<WorkspaceMngVO> doSelectListForMng(){
+		LOG.debug("==================================================");
+        LOG.debug("==doSelectListForMng==");
+		
+        String statement = NAMESPACE + "doSelectListForMng";
+
+		LOG.debug("==statement==" + statement);
+
+		List<WorkspaceMngVO> outList = sqlSessionTemplate.selectList(statement);
+		for (WorkspaceMngVO vo : outList) {
+			LOG.debug("==outVO==" + vo);
+        }
+        
+        LOG.debug("==================================================");
+        
+        return outList;
+	}
 	
 	public WorkspaceVO doSelectOneByName(WorkspaceVO workspaceVO) {
 		LOG.debug("==================================================");

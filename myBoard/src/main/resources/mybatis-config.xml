@@ -16,5 +16,6 @@
 		<typeAlias type="com.kkj.board.file.FileVO" alias="FileVO"/>
 		<typeAlias type="com.kkj.board.workspace.WorkspaceVO" alias="WorkspaceVO"/>
 		<typeAlias type="com.kkj.board.cmn.PageVO" alias="PageVO"/>
+		<typeAlias type="com.kkj.board.workspace.WorkspaceMngVO" alias="WorkspaceMngVO"/>
 	</typeAliases>
 </configuration>

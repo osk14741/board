@@ -60,7 +60,11 @@
 		window.onload = function(){
 			onloadFunction();
 		}
-
+		
+		function changeThis(){
+				$("input[name='inlineRadioOptions']:checked").attr('checked', false);
+			}
+		
 		// 뒤로가기
 		$("#doBackBtn").on("click",function(){
 			window.location.href = "${hContext}/workspace/moveToChannel.do";
@@ -90,6 +94,12 @@
 							html += "<input type='radio' name='inlineRadioOptions' value='"+value.topic+"'>"+value.topic;
 							html += "</label>"
 						  });
+						html += "<form class='form-inline'>";
+						html += "<div class='form-group'>";
+						html += "<label class='radio-inline'>주제 추가 :</label>";
+						html += "<input id='another_topic' style='width:200px;' class='form-control' type='text' placeholder='주제' onchange='changeThis();'> ";
+						html += "</div>";
+						html += "</form>";
 						$("#topicList").append(html);
 			        },
 			    error:function(data){
@@ -102,6 +112,15 @@
 		
 		// 채널 등록
 		function doRegister(){
+
+			var topic = $("input[name='inlineRadioOptions']:checked").val();
+			var anotherTopic = $("#another_topic").val();
+			
+			if(anotherTopic != ""){
+					topic = anotherTopic;
+					console.log("topic : " + topic);
+				}
+			
 			$.ajax({
 				type:'POST',
 				url:'${hContext}/workspace/doRegister.do',
@@ -109,7 +128,7 @@
 	            async: true,
 	            data:{
 					"name":$("#inputWorkspaceName").val(),
-					"topic":$("input[name='inlineRadioOptions']:checked").val()
+					"topic": topic
 		            },
 		        success:function(data){
 			        		alert("등록 성공!");

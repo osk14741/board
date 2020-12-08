@@ -48,6 +48,7 @@ public class WorkspaceTest {
 		
 		workspaceDao.doDelete(workspaceVO);
 		
+		workspaceDao.doSelectListForMng();
 	}
 
 }

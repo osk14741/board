@@ -31,6 +31,44 @@ public class WorkspaceController {
 	@Autowired WorkspaceService workspaceService;
 	@Autowired BoardService boardService;
 	
+	// 채널 지우기
+	@Auth
+	@RequestMapping(value = "workspace/doDelete.do", method = RequestMethod.GET)
+	@ResponseBody
+	public String doDelete(WorkspaceVO workspaceVO) {
+		LOG.debug("==workspace/doDelete.do==");
+		workspaceService.doDelete(workspaceVO);
+		return null;
+	}
+	
+	// 채널 관리 페이지 리스트 뽑기
+	@Auth
+	@RequestMapping(value = "workspace/doSelectListForMng.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doSelectListForMng() {
+		LOG.debug("==workspace/doSelectListForMng.do==");
+		
+		List<WorkspaceMngVO> outList = workspaceService.doSelectListForMng();
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(outList);
+		
+		return json;
+	}
+	
+	// 채널 관리 페이지로 이동
+	@Auth
+	@RequestMapping(value = "workspace/moveToMngPage.do", method = RequestMethod.GET)
+	public ModelAndView moveToDeletePage() {
+		LOG.debug("==workspace/moveToMngPage.do==");
+		
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("workspace/channel_mng");
+		
+		return mav;
+	}
+	
 	// 게시판 페이지로 이동
 	@Auth
 	@RequestMapping(value = "workspace/moveToBoardPage.do", method = RequestMethod.GET)
@@ -175,10 +213,6 @@ public class WorkspaceController {
 		
 		List<WorkspaceVO> outList = workspaceService.doSelectListTopic();
 		
-		for(WorkspaceVO vo : outList) {
-			LOG.debug("==outVO==" + vo);
-		}
-		
 		Gson gson = new Gson();
     	String json = gson.toJson(outList);
 		
@@ -196,10 +230,6 @@ public class WorkspaceController {
 		LOG.debug("==========================");
 		
 		List<WorkspaceVO> outList = workspaceService.doSelectList();
-		
-		for(WorkspaceVO vo : outList) {
-			LOG.debug("==outVO==" + vo);
-		}
 		
 		Gson gson = new Gson();
     	String json = gson.toJson(outList);

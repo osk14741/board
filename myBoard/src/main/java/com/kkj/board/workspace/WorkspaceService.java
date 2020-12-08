@@ -10,6 +10,10 @@ public class WorkspaceService {
 
 	@Autowired WorkspaceDao workspaceDao;
 
+	public List<WorkspaceMngVO> doSelectListForMng(){
+		return workspaceDao.doSelectListForMng();
+	}
+	
 	public WorkspaceVO doSelectOneByName(WorkspaceVO workspaceVO) {
 		return workspaceDao.doSelectOneByName(workspaceVO);
 	}
