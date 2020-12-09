@@ -12,6 +12,14 @@ public class BoardService {
 
 	@Autowired BoardDao boardDao;
 	
+	public int doDeleteRecommendUser(BoardRecommendVO boardRecommendVO) {
+		return boardDao.doDeleteRecommendUser(boardRecommendVO);
+	}
+	
+	public int doInsertRecommendUser(BoardRecommendVO boardRecommendVO) {
+		return boardDao.doInsertRecommendUser(boardRecommendVO);
+	}
+	
 	public int doCountTotalVO(PageVO pageVO) {
 		return boardDao.doCountTotalVO(pageVO);
 	}

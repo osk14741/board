@@ -60,16 +60,18 @@
 
 	// 삭제 버튼 클릭
 	$("#channel_table tbody").on("click", "td", function(){
+		var here = $(this).children().val();
+
+		if(here != '삭제'){
+			return;
+			}
+		
 		var tmp = $(this).parent().find("td:eq(0)").text();
 		var tmp2 = $(this).find("td");
-
-		console.log(tmp);
-		
 		var result = confirm("정말 삭제하시겠습니까?");
 		if(!result){
 			return;
 		}
-		
 		$.ajax({
 			type:"GET",
                url:"${hContext}/workspace/doDelete.do",

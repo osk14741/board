@@ -146,8 +146,26 @@
 			reg_id = #{regId}
 	</delete>
 
+	<insert id="doInsertRecommendUser" parameterType="BoardRecommendVO">
+		INSERT INTO board_recommend_cnt
+		Select
+			board_recommend_cnt_seq.nextVal,
+			#{boardSeq},
+			#{recommendId}
+		From DUAL
+		Where not exists
+		(
+			Select RECOMMEND_ID 
+			From board_recommend_cnt
+			Where RECOMMEND_ID = #{recommendId} And
+				board_seq = #{boardSeq}
+		)
+	</insert>
 
-
-
-
+	<delete id="doDeleteRecommendUser" parameterType="BoardRecommendVO">
+		DELETE FROM board_recommend_cnt
+		WHERE
+     		board_seq = #{boardSeq}
+    		AND recommend_id = #{recommendId}
+	</delete>
 </mapper>

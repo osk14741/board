@@ -17,9 +17,42 @@ public class BoardDao {
 	@Autowired SqlSessionTemplate sqlSessionTemplate;
 	@Autowired BoardVO boardVO;
 	@Autowired PageVO pageVO;
+	@Autowired BoardRecommendVO boardRecommendVO;
 	final static Logger LOG = LoggerFactory.getLogger(MemberDao.class);
 	private final String NAMESPACE = "com.kkj.board.board.";
 
+	public int doDeleteRecommendUser(BoardRecommendVO boardRecommendVO) {
+		LOG.debug("==================================================");
+        LOG.debug("==doDeleteRecommendUser==");
+        String statement = NAMESPACE + "doDeleteRecommendUser";
+        
+        LOG.debug("==statement==" + statement);
+        LOG.debug("==boardRecommendVO==" + boardRecommendVO);
+        
+        int flag = sqlSessionTemplate.delete(statement, boardRecommendVO);
+        
+        LOG.debug("==flag==" + flag);
+        LOG.debug("==================================================");
+        
+        return flag;
+	}
+	
+	public int doInsertRecommendUser(BoardRecommendVO boardRecommendVO) {
+		LOG.debug("==================================================");
+        LOG.debug("==doInsertRecommendUser==");
+        String statement = NAMESPACE + "doInsertRecommendUser";
+        
+        LOG.debug("==statement==" + statement);
+        LOG.debug("==boardRecommendVO==" + boardRecommendVO);
+        
+        int flag = sqlSessionTemplate.insert(statement, boardRecommendVO);
+        
+        LOG.debug("==flag==" + flag);
+        LOG.debug("==================================================");
+        
+        return flag;
+	}
+	
 	public int doCountTotalVO(PageVO pageVO) {
 		LOG.debug("==================================================");
         LOG.debug("==doSelectListWithPaging==");

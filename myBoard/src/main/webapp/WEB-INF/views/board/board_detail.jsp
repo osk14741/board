@@ -60,6 +60,13 @@
 		<div class="content">
 			<span>${boardVO.content }</span>
 			
+			<br><br>
+			<div class="text-center">
+				<button id="board_recommend_btn" style="padding-left:6px;" class="btn btn-default btn-sm">
+				<img width="25px" height="25px" alt="" src="${hContext }/resources/img/up.png">
+				추천<strong><span id="recommend_count"> ${boardVO.recommend }</span></strong></button>
+			</div>
+			
 		</div>
 		<hr>
 		<c:set var="name" value="${boardVO.regId }"/>
@@ -104,6 +111,40 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
+	// 추천하기
+	$("#board_recommend_btn").on("click", function(){
+			doRecommend();
+		})
+		
+	function doRecommend(){
+		$.ajax({
+			type:'POST',
+			url:'${hContext}/board/doRecommend.do',
+			dataType:"json",
+            async: true,
+            data:{
+				"seq" : $("#board_seq").val(),
+				"header" : $("#board_header").val(),
+				"title" : $("#board_title").val(),
+				"content" : $("#board_content").val(),
+				"readCount" : $("#board_readCnt").val(),
+				"recommend" : $("#board_recommend").val()
+	            },
+	        success:function(data){
+		        	console.log("암튼 성공!");
+		        	location.reload();
+	        	},
+		    error:function(){
+					alert("실패했습니다. 다시 시도해주세요.");
+			    },
+			complete:function(data){
+				
+				}  
+			});
+
+		}
+	// 추천하기
+	
 	// 댓글 등록하기
 	$("#comment_insert_btn").on("click", function(){
 			doInsertComment();

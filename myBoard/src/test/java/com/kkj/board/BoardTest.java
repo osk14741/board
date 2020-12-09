@@ -1,6 +1,7 @@
 package com.kkj.board;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -11,6 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kkj.board.board.BoardDao;
+import com.kkj.board.board.BoardRecommendVO;
 import com.kkj.board.cmn.PageVO;
 
 @Transactional
@@ -24,6 +26,18 @@ public class BoardTest {
 	@Autowired BoardDao boardDao;
 	
 	@Test
+	public void test2() {
+		BoardRecommendVO boardRecommendVO = new BoardRecommendVO();
+		
+		boardRecommendVO.setBoardSeq(2);
+		boardRecommendVO.setRecommendId("hello1");
+		
+		boardDao.doInsertRecommendUser(boardRecommendVO);
+		boardDao.doInsertRecommendUser(boardRecommendVO);
+	}
+	
+	@Test
+	@Ignore
 	public void test() {
 		
 		PageVO pageVO = new PageVO();

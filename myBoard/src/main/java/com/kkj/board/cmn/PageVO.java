@@ -15,6 +15,15 @@ public class PageVO {
 	private String searchDiv;
 	private int totalBoardVO;
 	private int workspaceSeq;
+	private int boardSeq;
+
+	public int getBoardSeq() {
+		return boardSeq;
+	}
+
+	public void setBoardSeq(int boardSeq) {
+		this.boardSeq = boardSeq;
+	}
 
 	public int getWorkspaceSeq() {
 		return workspaceSeq;

@@ -29,6 +29,46 @@ public class BoardController {
 	
 	@Autowired BoardService boardService;
 	
+	// 보드 추천하기
+	@Auth
+	@RequestMapping(value = "board/doRecommend.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doRecommend(BoardVO boardVO, HttpServletRequest req) {
+		LOG.debug("==board/doRecommend.do==");
+		Gson gson = new Gson();
+		String json = "";
+		
+		HttpSession session = req.getSession();
+		MemberVO sessionId = (MemberVO) session.getAttribute("sessionId");
+		String recommendId = sessionId.getId();
+		
+		BoardRecommendVO boardRecommendVO = new BoardRecommendVO();
+		boardRecommendVO.setBoardSeq(boardVO.getSeq());
+		boardRecommendVO.setRecommendId(recommendId);
+		
+		int flag = boardService.doInsertRecommendUser(boardRecommendVO);
+		
+		if(flag == 1) {
+			// 아이디가 없다(추천하지 않은 상태!)
+			// 1. 이미 인서트가 된 상태이므로 받아야 할 것을 받은 뒤 board에 recommend 숫자 업데이트
+			boardVO.setRecommend(boardVO.getRecommend()+1);
+			boardService.doUpdate(boardVO);
+			// json 반납 후 카운트 숫자 변동
+			json = gson.toJson(boardVO);
+		}else if(flag == 0) {
+			// 아이디가 있다(추천한 상태!)
+			// 1. 인서트에 실패 -> 받아야 할 것을 받은 뒤 board에 recommend 숫자 업데이트
+			boardVO.setRecommend(boardVO.getRecommend()-1);
+			boardService.doUpdate(boardVO);
+			// 2. recommendCnt 테이블의 그 행 삭제.
+			boardService.doDeleteRecommendUser(boardRecommendVO);
+			// json 반납 후 카운트 숫자 변동
+			json = gson.toJson(boardVO);
+		}
+		
+		return json;
+	}
+	
 	// 보드 삭제하기
 	@Auth
 	@RequestMapping(value = "board/doDelete.do", method = RequestMethod.POST)

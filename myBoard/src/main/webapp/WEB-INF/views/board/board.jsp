@@ -44,12 +44,14 @@
 						<tr>
 							<th class="text-center col-md-6">제목</th>
 							<th class="text-center col-md-2">글쓴이</th>
+							<th class="text-center clo-md-1">추천수</th>
 							<th class="text-center col-md-2">날짜</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="i" begin="1" end="10">
 						<tr>
+							<td>&nbsp;</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
@@ -210,6 +212,7 @@
 						  html += "<td name='board_seq' style='display: none;' class='text-center'>"+value.seq+"</td>";
 						  html += "<td class='text-left col-md-6'>"+value.title+"</td>";
 						  html += "<td class='text-center col-md-2'>"+value.regId+"</td>";
+						  html += "<td class='text-center col-md-1'>"+value.recommend+"</td>";
 						  html += "<td class='text-center col-md-2'>"+value.regDt+"</td>";
 						  html += "</tr>";
 					  });
@@ -218,7 +221,7 @@
 							console.log(parseData.length);
 							html += "<tr>";
 							html += "<td style='display: none;'>a</td>";
-							html += "<td colspan='3' class='text-center'>등록된 게시글이 없습니다.</td>";
+							html += "<td colspan='4' class='text-center'>등록된 게시글이 없습니다.</td>";
 							html += "</tr>";
 						}
 					
