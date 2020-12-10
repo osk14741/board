@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kkj.board.board.BoardRecommendVO;
 import com.kkj.board.member.MemberVO;
 
 @Repository
@@ -18,6 +19,54 @@ public class CommentDao {
 	
 	final static Logger LOG = LoggerFactory.getLogger(CommentDao.class);
 	private final String NAMESPACE = "com.kkj.board.comment.";
+	
+	public int doDeleteRecommendUser(CommentRecommendVO commentRecommendVO) {
+		LOG.debug("==================================================");
+        LOG.debug("==doDeleteRecommendUser==");
+        String statement = NAMESPACE + "doDeleteRecommendUser";
+        
+        LOG.debug("==statement==" + statement);
+        LOG.debug("==boardRecommendVO==" + commentRecommendVO);
+        
+        int flag = sqlSessionTemplate.delete(statement, commentRecommendVO);
+        
+        LOG.debug("==flag==" + flag);
+        LOG.debug("==================================================");
+        
+        return flag;
+	}
+	
+	public int doInsertRecommendUser(CommentRecommendVO commentRecommendVO) {
+		LOG.debug("==================================================");
+        LOG.debug("==doInsertRecommendUser==");
+        String statement = NAMESPACE + "doInsertRecommendUser";
+        
+        LOG.debug("==statement==" + statement);
+        LOG.debug("==commentRecommendVO==" + commentRecommendVO);
+        
+        int flag = sqlSessionTemplate.insert(statement, commentRecommendVO);
+        
+        LOG.debug("==flag==" + flag);
+        LOG.debug("==================================================");
+        
+        return flag;
+	}
+	
+	public int doDeleteChildren(CommentVO commentVO) {
+		LOG.debug("==================================================");
+        LOG.debug("==doDeleteChildren==");
+        String statement = NAMESPACE + "doDeleteChildren";
+        
+        LOG.debug("==statement==" + statement);
+        LOG.debug("==commentVO==" + commentVO);
+        
+        int flag = sqlSessionTemplate.delete(statement, commentVO);
+        
+        LOG.debug("==flag==" + flag);
+        LOG.debug("==================================================");
+        
+        return flag;
+	}
 	
 	public int doInsert(CommentVO commentVO) {
 		LOG.debug("==================================================");

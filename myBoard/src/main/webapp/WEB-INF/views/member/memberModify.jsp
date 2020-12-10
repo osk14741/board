@@ -30,7 +30,7 @@
 <body>
 	<%@ include file="/WEB-INF/views/main/nav.jsp" %>
 	<div class="container">
-		<h1>member modify</h1>
+		<h1>회원정보 수정</h1>
 		<hr>
 		
 		<div style="width: 40%; float: left; margin-right: 100px;" class="contents">

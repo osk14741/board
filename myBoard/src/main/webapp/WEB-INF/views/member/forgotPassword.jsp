@@ -27,7 +27,7 @@
 </head>
 <body>
 	<div style="text-align: center;" class="container">
-		<h1>Forgot Password</h1>
+		<h1>비밀번호 찾기</h1>
 		<hr>
 		<div class="contents text-center">
 			<br>

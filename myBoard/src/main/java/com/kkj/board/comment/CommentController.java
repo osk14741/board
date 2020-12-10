@@ -25,6 +25,48 @@ public class CommentController {
 	
 	@Autowired CommentService commentService;
 	
+	// 코멘트 추천
+	@Auth
+	@RequestMapping(value = "comment/doRecommend.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String doRecommend(CommentVO commentVO, HttpServletRequest req) {
+		LOG.debug("==comment/doRecommend.do==");
+		// content, recommend, seq
+		HttpSession session = req.getSession();
+		MemberVO sessionId = (MemberVO) session.getAttribute("sessionId");
+		String recommendId = sessionId.getId();
+		
+		CommentRecommendVO commentRecommendVO = new CommentRecommendVO();
+		commentRecommendVO.setCommentSeq(commentVO.getSeq());
+		commentRecommendVO.setRecommendId(recommendId);
+		
+		int flag = commentService.doInsertRecommendUser(commentRecommendVO);
+		
+		if(flag == 1) {
+			commentVO.setRecommend(commentVO.getRecommend()+1);
+			commentService.doUpdate(commentVO);
+		} else if(flag == 0) {
+			commentVO.setRecommend(commentVO.getRecommend()-1);
+			commentService.doUpdate(commentVO);
+			commentService.doDeleteRecommendUser(commentRecommendVO);
+		}
+		
+		return null;
+	}
+	
+	// 코멘트 삭제
+	@Auth
+	@RequestMapping(value = "comment/doDeleteComment.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String doDeleteComment(CommentVO commentVO) {
+		LOG.debug("==comment/doDeleteComment.do==");
+		
+		commentService.doDelete(commentVO);
+		commentService.doDeleteChildren(commentVO);
+		
+		return null;
+	}
+	
 	// 코멘트 등록 
 	@Auth
 	@RequestMapping(value = "comment/doInsertComment.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

@@ -18,5 +18,6 @@
 		<typeAlias type="com.kkj.board.cmn.PageVO" alias="PageVO"/>
 		<typeAlias type="com.kkj.board.workspace.WorkspaceMngVO" alias="WorkspaceMngVO"/>
 		<typeAlias type="com.kkj.board.board.BoardRecommendVO" alias="BoardRecommendVO"/>
+		<typeAlias type="com.kkj.board.comment.CommentRecommendVO" alias="CommentRecommendVO"/>
 	</typeAliases>
 </configuration>

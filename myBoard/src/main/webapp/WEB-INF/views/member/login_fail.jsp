@@ -27,7 +27,7 @@
 </head>
 <body>
 	<div style="text-align: center;" class="container">
-	<h1>Wrong Id or Password</h1>
+	<h1>아이디 혹은 비밀번호가 틀렸습니다!</h1>
 	<hr>
 	<div class="contents text-center">
 	

@@ -46,7 +46,7 @@
 	<%@ include file="/WEB-INF/views/main/nav.jsp" %>
 	
 	<div class="container">
-		<h1>Channel View</h1>
+		<h1>게시판</h1>
 		<hr>
 		<div class="form-group" id="channelList">
 		</div>
@@ -59,7 +59,7 @@
 		<form action="/board/workspace/moveToRegisterPage.do">
 			<c:choose>
 				<c:when test="${sessionScope.sessionId.authority eq 2 }">
-					<input class="btn btn-primary" type="button" value="채널 관리" onclick="channelMng();">	
+					<input class="btn btn-default btn-lg" type="button" value="채널 관리" onclick="channelMng();">	
 				</c:when>
 			</c:choose>
 			

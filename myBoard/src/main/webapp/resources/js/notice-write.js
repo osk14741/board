@@ -35,7 +35,8 @@ $(function() {
 		} 
 		if(content == "" || content == null || content == '&nbsp;' || content == '<br>' || content == '<br/>' || content == '<p>&nbsp;</p>'){ 
 			alert("본문을 작성해주세요."); 
-			oEditors.getById["smartEditor"].exec("FOCUS"); //포커싱 return; 
+			oEditors.getById["smartEditor"].exec("FOCUS"); //포커싱 
+			return; 
 		} //이 부분은 스마트에디터 유효성 검사 부분이니 참고하시길 바랍니다. 
 			
 		var result = confirm("확인 하시겠습니까?"); 

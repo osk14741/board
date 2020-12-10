@@ -80,10 +80,39 @@
 	
 	</update>
 	
+	<delete id="doDeleteChildren" parameterType="CommentVO">
+		Delete From board_comment
+		Where
+			parent_seq = #{seq}
+	</delete>
+	
 	<delete id="doDelete" parameterType="CommentVO">
 		DELETE FROM board_comment
 		WHERE
 	        seq = #{seq} And
 	        reg_id = #{regId}
+	</delete>
+	
+	<insert id="doInsertRecommendUser" parameterType="CommentRecommendVO">
+		INSERT INTO comment_recommend_cnt
+		Select
+			comment_recommend_cnt_seq.nextVal,
+			#{commentSeq},
+			#{recommendId}
+		From DUAL
+		Where not exists
+		(
+			Select RECOMMEND_ID 
+			From comment_recommend_cnt
+			Where RECOMMEND_ID = #{recommendId} And
+				comment_seq = #{commentSeq}
+		)
+	</insert>
+	
+	<delete id="doDeleteRecommendUser" parameterType="BoardRecommendVO">
+		DELETE FROM comment_recommend_cnt
+		WHERE
+     		comment_seq = #{commentSeq}
+    		AND recommend_id = #{recommendId}
 	</delete>
 </mapper>

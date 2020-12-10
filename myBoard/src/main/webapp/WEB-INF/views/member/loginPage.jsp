@@ -31,7 +31,7 @@
 <body>
 
 	<div style="text-align: center;" class="container">
-		<h1>Login Page</h1>
+		<h1>로그인</h1>
 		<hr>
 		<div class="contents text-center">
 			<br>

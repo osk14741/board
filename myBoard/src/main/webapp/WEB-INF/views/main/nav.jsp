@@ -5,14 +5,9 @@
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/board/workspace/moveToChannel.do">BOARD</a>
+			<a class="navbar-brand" href="/board/workspace/moveToChannel.do">B O A R D</a>
 		</div>
-		<form class="navbar-form navbar-left" role="search">
-			<div class="form-group">
-				<input type="text" class="form-control" placeholder="Search">
-			</div>
-			<button type="submit" class="btn btn-default">Submit</button>
-		</form>
+		
 
 		<ul class="nav navbar-nav navbar-right">
 				<c:choose>

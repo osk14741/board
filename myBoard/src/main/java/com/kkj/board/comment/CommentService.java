@@ -13,6 +13,18 @@ public class CommentService {
 	@Autowired CommentDao commentDao;
 	final static Logger LOG = LoggerFactory.getLogger(CommentService.class);
 	
+	public int doDeleteRecommendUser(CommentRecommendVO commentRecommendVO) {
+		return commentDao.doDeleteRecommendUser(commentRecommendVO);
+	}
+	
+	public int doInsertRecommendUser(CommentRecommendVO commentRecommendVO) {
+		return commentDao.doInsertRecommendUser(commentRecommendVO);
+	}
+	
+	public int doDeleteChildren(CommentVO commentVO) {
+		return commentDao.doDeleteChildren(commentVO);
+	}
+	
 	public int doInsert(CommentVO commentVO) {
 		return commentDao.doInsert(commentVO);
 	}

@@ -102,15 +102,111 @@
 			<input type="hidden" name="page_num" id="page_num" value="${pageNum }"/>
 			<input type="hidden" name="search_div" id="search_div" value="${searchDiv }">
 			<input type="hidden" name="search_word" id="search_word" value="${searchWord }">
+			<input type="hidden" name="session_id" id="session_id" value="${sessionScope.sessionId.id }">
 		</form>
 		
 	</div>
-
+	<span id=""></span>
 
 	<%@ include file="/WEB-INF/views/main/footer.jsp" %>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 
+	// 코멘트 댓글&삭제&추천 버튼 클릭
+	$("#comment_box").on("click", "span", function(){
+
+			var tmp2 = $(this).attr('name');
+			console.log(tmp2);
+			var tmp = $(this).parent().parent();
+			var tmp3 = tmp.attr("id");
+			var content = $(this).parent().parent().find('span').eq(0).text();
+			var recommend = $(this).parent().parent().find('strong').eq(1).text();
+
+			
+			if(tmp2 == 'recomment'){
+					// parentSeq
+					
+					$("#comment_insert_box").detach();
+	
+					var html = "";
+					html += "<div id='comment_insert_box'>";
+					html += "<textarea id='comment_content' class='form-control' rows='4'></textarea>";
+					html += "<input id='comment_insert_btn' type='button' value='댓글 등록' class='btn btn-default btn-lg' style='float: right; margin-top: 10px;'/>";
+					html += "<input type='hidden' id='comment_parent_seq' value='"+tmp3+"'>";
+					html += "<br><br><br></div>";
+	
+					$("#"+tmp3).after(html);
+	
+					$("#comment_content").focus();
+
+				} else if(tmp2 == 'comment_delete'){
+					var result = confirm("댓글에 대한 정보(추천 수, 대댓글)가 모두 지워집니다. 정말 삭제하시겠습니까?");
+					if(!result){
+						return;
+					}
+					doDeleteComment(tmp3);
+				} else if(tmp2 == 'recommend'){
+					console.log("commentSeq : "+tmp3);
+					console.log("content : "+content);
+					console.log("recommend : " + recommend);
+					doRecommendComment(tmp3, recommend, content);
+				}
+			
+			
+		});
+
+	function doRecommendComment(seq, recommend, content){
+		
+		$.ajax({
+			type:'POST',
+			url:'${hContext}/comment/doRecommend.do',
+			dataType:"html",
+            async: true,
+            data:{
+				"seq" : seq,
+				"recommend" : recommend,
+				"content" : content
+	            },
+	        success:function(data){
+		        	location.reload();
+	        	},
+		    error:function(){
+					console.log("실패..");
+			    },
+			complete:function(data){
+				
+				}  
+			});
+
+
+		}
+	
+	function doDeleteComment(seq){
+		$.ajax({
+			type:'POST',
+			url:'${hContext}/comment/doDeleteComment.do',
+			dataType:"html",
+            async: true,
+            data:{
+				"seq" : seq,
+				"regId" : $("#session_id").val()
+	            },
+	        success:function(data){
+		        	location.reload();
+	        	},
+		    error:function(){
+					console.log("실패..");
+			    },
+			complete:function(data){
+				
+				}  
+			});
+
+		}
+		
+		
+	// 코멘트 댓글&삭제&추천 버튼 클릭
+	
 	// 추천하기
 	$("#board_recommend_btn").on("click", function(){
 			doRecommend();
@@ -146,11 +242,12 @@
 	// 추천하기
 	
 	// 댓글 등록하기
-	$("#comment_insert_btn").on("click", function(){
+	$(document).on("click",'#comment_insert_btn' ,function(){
 			doInsertComment();
 		})
 		
 	function doInsertComment(){
+		var tmp = $("#comment_parent_seq").val();
 		$.ajax({
 			type:'POST',
 			url:'${hContext}/comment/doInsertComment.do',
@@ -164,6 +261,16 @@
 	        success:function(data){
 					doSelectListComment();
 					document.getElementById('comment_content').value = "";
+					if(tmp != 0){
+							var html = '';
+							html += "<br><div id='comment_insert_box'>";
+							html += "<textarea id='comment_content' class='form-control' rows='4'></textarea>";
+							html += "<input id='comment_insert_btn' type='button' value='댓글 등록' class='btn btn-default btn-lg' style='float: right; margin-top: 10px;'/>";
+							html += "<input type='hidden' id='comment_parent_seq' value='0'>";
+							html += "</div>";
+
+							$("#comment_box").after(html);
+						}
 	        	},
 		    error:function(){
 					alert("실패했습니다. 다시 시도해주세요.");
@@ -194,6 +301,7 @@
 		        	console.log(data);
 		        	var html = "";
 					var html2 = "";
+					var sessionId = document.getElementById('session_id').value;
 					var countComment = data.length;
 					$("#countBox").empty();
 					$("#comment_box").empty();
@@ -211,13 +319,16 @@
 									html += "<span>"+ value.content +"<span>";
 									html += "</div>";
 									html += "<div class='text-right'>";
-									html += "추천버튼 추천수 댓글";
+									html += "<span name='recommend'>추천</span>&nbsp;<strong>"+value.recommend+"</strong>&nbsp;&nbsp;<span name='recomment'>댓글</span>";
+									if(value.regId == sessionId){
+										html += "<span name='comment_delete'>&nbsp;&nbsp;삭제</span>";
+										}
 									html += "</div>";
 									html += "</div>";
 									$("#comment_box").append(html);
 								} else if(value.parentSeq != 0) {
 									html2 = "";
-									html2 += "<div class='childcomment' name='parent_"+value.parentSeq+"'>";
+									html2 += "<div class='childcomment' id='"+value.seq+"' name='parent_"+value.parentSeq+"'>";
 									html2 += "<div class='iwantbg'>";
 									html2 += "<strong>"+value.regId+"</strong> "+value.regDt;
 									html2 += "</div>";
@@ -225,7 +336,10 @@
 									html2 += "<span>"+ value.content +"<span>";
 									html2 += "</div>";
 									html2 += "<div class='text-right'>";
-									html2 += "추천버튼 추천수 댓글";
+									html2 += "<span name='recommend'>추천</span>&nbsp;<strong>"+value.recommend+"</strong>&nbsp;&nbsp;";
+									if(value.regId == sessionId){
+										html2 += "<span name='comment_delete'>삭제</span>";
+										}
 									html2 += "</div>";
 									html2 += "</div>";
 									$("#"+value.parentSeq).after(html2);
@@ -277,7 +391,6 @@
 				"regId" : $("#regII").val()
 	            },
 	        success:function(data){
-		       		alert("삭제 성공");
 		       		var workspaceName = document.getElementById('workspaceName').text;
 					console.log(workspaceName);
 					var gourl = "/board/workspace/moveToBoardPage.do?whereToGo=" + workspaceName+"&search_div=&search_word=";

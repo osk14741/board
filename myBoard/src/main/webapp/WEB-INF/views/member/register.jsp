@@ -31,7 +31,7 @@
 	
 	
 	<div style="text-align: center;" class="container">
-		<h1>Member Register Page</h1>
+		<h1>회원 가입</h1>
 		<hr>
 		<div class="contents text-center">
 			<br>
