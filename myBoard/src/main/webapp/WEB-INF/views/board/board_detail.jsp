@@ -93,7 +93,7 @@
 		<form name="updateData" id="updateData" action="/board/board/moveToUpdatePage.do" method="post">
 			<input type="hidden" name="board_header" id="board_header" value="temp_header">
 			<input type="hidden" name="board_title" id="board_title" value="${boardVO.title }">
-			<input type="hidden" name="board_content" id="board_content" value="${boardVO.content }">
+			<input type="hidden" name="board_content" id="board_content" value='${boardVO.content }'>
 			<input type="hidden" name="board_readCnt" id="board_readCnt" value="${boardVO.readCount }">
 			<input type="hidden" name="board_recommend" id="board_recommend" value="${boardVO.recommend }">
 			<input type="hidden" name="regII" id="regII" value="${boardVO.regId }"/>
