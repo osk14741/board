@@ -25,6 +25,18 @@ public class CommentController {
 	
 	@Autowired CommentService commentService;
 	
+	// 코멘트 수정
+	@Auth
+	@RequestMapping(value = "comment/doUpdateComment.do", method= RequestMethod.POST)
+	@ResponseBody
+	public String doUpdate(CommentVO commentVO) {
+		LOG.debug("==comment/doUpdate.do==");
+		
+		commentService.doUpdate(commentVO);		
+		
+		return null;
+	}
+	
 	// 코멘트 추천
 	@Auth
 	@RequestMapping(value = "comment/doRecommend.do", method = RequestMethod.POST)

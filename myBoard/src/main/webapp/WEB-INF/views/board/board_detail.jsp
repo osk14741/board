@@ -119,9 +119,11 @@
 			console.log(tmp2);
 			var tmp = $(this).parent().parent();
 			var tmp3 = tmp.attr("id");
-			var content = $(this).parent().parent().find('span').eq(0).text();
+			var content = $(this).parent().parent().find('span').eq(1).text();
 			var recommend = $(this).parent().parent().find('strong').eq(1).text();
-
+			var regId = $(this).parent().parent().find('strong').eq(0).text();
+			var regDt = $(this).parent().parent().find('span').eq(0).text();
+			
 			
 			if(tmp2 == 'recomment'){
 					// parentSeq
@@ -150,6 +152,22 @@
 					console.log("content : "+content);
 					console.log("recommend : " + recommend);
 					doRecommendComment(tmp3, recommend, content);
+				} else if(tmp2 == 'comment_update'){
+					$("#comment_insert_box").detach();
+					$("#"+tmp3).empty();
+					var html = '';
+					html += "<div id='comment_insert_box'>";
+					html += "<div class='iwantbg'>";
+					html += "<strong>"+regId+"</strong> "+regDt;
+					html += "</div>";
+					html += "<br><textarea id='comment_content' class='form-control' rows='4'>"+content+"</textarea>";
+					html += "<input id='comment_update_btn' type='button' value='댓글 수정' class='btn btn-default btn-lg' style='float: right; margin-top: 10px;'/>";
+					html += "<input type='hidden' id='comment_parent_seq' value='"+tmp3+"'>";
+					html += "<input type='hidden' id='comment_update_recommend' value='"+recommend+"'";
+					html += "<br><br><br><br></div>";
+	
+					$("#"+tmp3).append(html);
+					
 				}
 			
 			
@@ -241,6 +259,57 @@
 		}
 	// 추천하기
 	
+	// 댓글 수정하기
+	$(document).on("click",'#comment_update_btn', function(){
+			var id = $(this).parent().parent().attr('id');
+			console.log(id);
+
+			doUpdateComment(id);
+		})
+	
+	function doUpdateComment(id){
+		$.ajax({
+			type:'POST',
+			url:'${hContext}/comment/doUpdateComment.do',
+			dataType:"html",
+            async: true,
+            data:{
+				"seq" : id,
+				"recommend" : $("#comment_update_recommend").val(),
+				"content" : $("#comment_content").val()
+	            },
+	        success:function(data){
+					doSelectListComment();
+					document.getElementById('comment_content').value = "";
+					
+					var html = '';
+					html += "<br><div id='comment_insert_box'>";
+					html += "<textarea id='comment_content' class='form-control' rows='4'></textarea>";
+					html += "<input id='comment_insert_btn' type='button' value='댓글 등록' class='btn btn-default btn-lg' style='float: right; margin-top: 10px;'/>";
+					html += "<input type='hidden' id='comment_parent_seq' value='0'>";
+					html += "</div>";
+
+					$("#comment_box").after(html);
+						
+	        	},
+		    error:function(){
+					alert("실패했습니다. 다시 시도해주세요.");
+			    },
+			complete:function(data){
+				
+				}  
+			});
+
+
+
+
+
+
+
+
+		}
+	// 댓글 수정하기
+	
 	// 댓글 등록하기
 	$(document).on("click",'#comment_insert_btn' ,function(){
 			doInsertComment();
@@ -313,7 +382,7 @@
 									html = "";
 									html += "<div class='parentcomment' id='"+value.seq+"'>";
 									html += "<div class='iwantbg'>";
-									html += "<strong>"+value.regId+"</strong> "+value.regDt;
+									html += "<strong>"+value.regId+"</strong> "+"<span>"+value.regDt+"</span>";
 									html += "</div>";
 									html += "<div class='iwantcontent'>";
 									html += "<span>"+ value.content +"<span>";
@@ -321,6 +390,7 @@
 									html += "<div class='text-right'>";
 									html += "<span name='recommend'>추천</span>&nbsp;<strong>"+value.recommend+"</strong>&nbsp;&nbsp;<span name='recomment'>댓글</span>";
 									if(value.regId == sessionId){
+										html += "<span name='comment_update'>&nbsp;&nbsp;수정</span>";
 										html += "<span name='comment_delete'>&nbsp;&nbsp;삭제</span>";
 										}
 									html += "</div>";
@@ -330,7 +400,7 @@
 									html2 = "";
 									html2 += "<div class='childcomment' id='"+value.seq+"' name='parent_"+value.parentSeq+"'>";
 									html2 += "<div class='iwantbg'>";
-									html2 += "<strong>"+value.regId+"</strong> "+value.regDt;
+									html2 += "<strong>"+value.regId+"</strong> "+"<span>"+value.regDt+"</span>";
 									html2 += "</div>";
 									html2 += "<div class='iwantcontent'>";
 									html2 += "<span>"+ value.content +"<span>";
@@ -338,7 +408,8 @@
 									html2 += "<div class='text-right'>";
 									html2 += "<span name='recommend'>추천</span>&nbsp;<strong>"+value.recommend+"</strong>&nbsp;&nbsp;";
 									if(value.regId == sessionId){
-										html2 += "<span name='comment_delete'>삭제</span>";
+										html2 += "<span name='comment_update'>수정</span>";
+										html2 += "<span name='comment_delete'>&nbsp;&nbsp;삭제</span>";
 										}
 									html2 += "</div>";
 									html2 += "</div>";
